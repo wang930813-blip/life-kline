@@ -5,7 +5,6 @@ import {
   Home,
   BookOpen,
   FolderOpen,
-  Send,
   User,
   Coins,
   LogIn,
@@ -19,6 +18,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { LifeDestinyResult, UserInput } from '../../types';
+import { useSiteConfig } from '../../utils/siteConfig';
 
 interface HistoryItem {
   id: string;
@@ -69,6 +69,7 @@ const LeftNav: React.FC<LeftNavProps> = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const siteConfig = useSiteConfig();
 
   // History state
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -162,12 +163,12 @@ const LeftNav: React.FC<LeftNavProps> = ({
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-serif-sc font-bold text-gray-900 tracking-wide">人生K线</h1>
+            <h1 className="text-xl font-serif-sc font-bold text-gray-900 tracking-wide">{siteConfig.name}</h1>
             <span className="px-2 py-0.5 text-[10px] font-bold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-white rounded-full shadow-sm">
               Pro
             </span>
           </div>
-          <p className="text-[10px] text-gray-500 tracking-wide mt-0.5">命理加强版 | Life Kline Pro</p>
+          <p className="text-[10px] text-gray-500 tracking-wide mt-0.5">命理加强版</p>
         </div>
       </NavLink>
 
@@ -231,17 +232,6 @@ const LeftNav: React.FC<LeftNavProps> = ({
             <span className="text-lg">控制面板</span>
           </NavLink>
         )}
-
-        {/* Telegram Link */}
-        <a
-          href="https://t.me/+HmqljTJNwaIxZDJl"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-4 px-4 py-3 rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-white hover:shadow-lg hover:shadow-amber-300/50 transition-all shadow-md mt-4 font-medium"
-        >
-          <Send className="w-6 h-6" />
-          <span className="text-lg font-medium">Telegram社群</span>
-        </a>
 
         {/* History Section - Only on homepage */}
         {isHomePage && history.length > 0 && (

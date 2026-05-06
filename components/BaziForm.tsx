@@ -172,7 +172,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
       return;
     }
 
-    onSubmit(formData);
+    onSubmit({ ...formData, modelName: '', apiBaseUrl: '', apiKey: '', useCustomApi: false });
   };
 
   // Calculate direction for UI feedback
@@ -407,7 +407,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
         </div>
 
         {/* API Configuration Section */}
-        <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+        <div className="hidden bg-gray-50 p-4 rounded-xl border border-gray-200">
           <div className="flex items-center gap-2 mb-3 text-gray-700 text-sm font-bold">
             <Settings className="w-4 h-4" />
             <span>模型接口设置</span>

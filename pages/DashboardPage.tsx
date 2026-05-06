@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   User,
@@ -20,11 +20,10 @@ import {
   LogOut,
   Ticket,
   Check,
-  X,
-  Mail
+  X
 } from 'lucide-react';
 import ProfileManager from '../components/profile/ProfileManager';
-import EmailSubscriptionManager from '../components/email/EmailSubscriptionManager';
+import PointsRechargePanel from '../components/payment/PointsRechargePanel';
 import { UserInput, Gender, LifeDestinyResult, HistoryListItem, UserProfile } from '../types';
 
 interface DashboardStats {
@@ -61,7 +60,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<'overview' | 'profiles' | 'fortune' | 'history' | 'email'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'profiles' | 'fortune' | 'history' | 'recharge'>('overview');
   const [stats, setStats] = useState<DashboardStats>({
     profileCount: 0,
     totalAnalyses: 0,
@@ -84,7 +83,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   // Handle tab from URL
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab && ['overview', 'profiles', 'fortune', 'history', 'email'].includes(tab)) {
+    if (tab && ['overview', 'profiles', 'fortune', 'history', 'recharge'].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, [searchParams]);
@@ -296,7 +295,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             </button>
           </div>
 
-          {/* Points Balance with Animation - 用户档案卡片：紫色渐变背景 */}
+          {/* Points Balance with Animation */}
           <div className="bg-gradient-mystic rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-glow-purple">
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0">
@@ -433,7 +432,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               { id: 'profiles', label: '我的档案', icon: User },
               { id: 'fortune', label: '运势', icon: Star },
               { id: 'history', label: '历史', icon: History },
-              { id: 'email', label: '邮件设置', icon: Mail }
+              { id: 'recharge', label: '充值', icon: Coins },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -534,7 +533,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                       </div>
                     </div>
 
-                    {/* Fortune Preview - 今日运势卡片：白色背景，金色边框 */}
+                    {/* Fortune Preview */}
                     <div className="bg-white border-2 border-golden-400 p-4 sm:p-6 rounded-xl shadow-glow-golden">
                       <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                         <span className="text-golden-500">🌟</span>
@@ -615,7 +614,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                                 </span>
                                 <span className="flex items-center whitespace-nowrap">
                                   <Coins className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
-                                  {analysis.cost} points
+                                  {analysis.cost} 点
                                 </span>
                               </div>
                             </div>
@@ -640,12 +639,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                   </div>
                 )}
 
-                {/* Email Settings Tab */}
-                {activeTab === 'email' && (
-                  <EmailSubscriptionManager
-                    userPoints={userInfo?.points || 0}
-                    onPointsChange={refreshUserInfo}
-                  />
+                {activeTab === 'recharge' && (
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">积分充值</h3>
+                      <p className="mt-1 text-sm text-gray-500">PC 端支持微信扫码支付，移动端支持微信 H5 支付。</p>
+                    </div>
+                    <PointsRechargePanel onPaid={refreshUserInfo} />
+                  </div>
                 )}
               </>
             )}

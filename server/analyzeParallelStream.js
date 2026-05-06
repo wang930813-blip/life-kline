@@ -35,7 +35,7 @@ export const handleParallelAnalyzeStream = async (req, res) => {
   res.setHeader('X-Accel-Buffering', 'no');
 
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
   const skipCache = Boolean(body.skipCache); // 是否跳过缓存
 
   let authedInfo = req.__authedInfo || null;

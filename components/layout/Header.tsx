@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Sparkles, Twitter, User, Coins, LogOut, LogIn, UserPlus, Send, LayoutDashboard } from 'lucide-react';
+import { User, Coins, LogOut, LogIn, UserPlus, LayoutDashboard } from 'lucide-react';
 import ProfileSelector from '../profile/ProfileSelector';
+import { useSiteConfig } from '../../utils/siteConfig';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -25,6 +26,7 @@ const Header: React.FC<HeaderProps> = ({
   const [showProfileSelector, setShowProfileSelector] = useState(false);
   const profileSelectorRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const siteConfig = useSiteConfig();
 
   // Close profile selector when clicking outside
   useEffect(() => {
@@ -64,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         {/* Logo with Pro Badge */}
         <NavLink to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img src="/logo-full.png" alt="人生K线" className="h-10 w-auto" />
+          <span className="text-xl font-serif-sc font-bold text-gray-900 tracking-wide">{siteConfig.name}</span>
           <span className="px-2.5 py-0.5 text-xs font-bold bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full shadow-sm">
             Pro
           </span>
@@ -117,17 +119,6 @@ const Header: React.FC<HeaderProps> = ({
               </NavLink>
             )}
           </nav>
-
-          {/* Telegram Link */}
-          <a
-            href="https://t.me/+HmqljTJNwaIxZDJl"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium bg-[#0088cc] text-white rounded-full hover:bg-[#0077b3] transition-all shadow-sm"
-          >
-            <Send className="w-4 h-4" />
-            Telegram社群
-          </a>
 
           {/* User Status Display */}
           {isLoggedIn && userInfo ? (
@@ -218,16 +209,6 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           )}
 
-          {/* Twitter Link */}
-          <a
-            href="https://x.com/laoshiline"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium bg-gray-100 hover:bg-gray-200 hover:text-indigo-600 px-3 py-1.5 rounded-full transition-all"
-          >
-            <Twitter className="w-4 h-4" />
-            @laoshiline
-          </a>
         </div>
       </div>
     </header>

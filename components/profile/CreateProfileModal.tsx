@@ -18,7 +18,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
   onSave,
   initialData
 }) => {
-  const [useSmartInput, setUseSmartInput] = useState(true);
+  const [useSmartInput, setUseSmartInput] = useState(() => !initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -83,7 +83,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
     // Name is required
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = '请输入档案名称';
     }
 
     // Check if Bazi data is complete
@@ -92,7 +92,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                            formData.dayPillar && formData.hourPillar;
 
     if (!hasBasicInfo && !hasCompleteBazi) {
-      newErrors.bazi = 'Please provide either birth details or complete Bazi pillars';
+      newErrors.bazi = '请填写出生信息，或完整输入四柱八字';
     }
 
     setErrors(newErrors);
@@ -112,7 +112,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       await onSave(formData);
     } catch (error) {
       console.error('Failed to save profile:', error);
-      setErrors({ submit: 'Failed to save profile. Please try again.' });
+      setErrors({ submit: '保存档案失败，请重试。' });
     } finally {
       setIsSubmitting(false);
     }
@@ -132,7 +132,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
-            {initialData ? 'Edit Profile' : 'Create New Profile'}
+            {initialData ? '编辑档案' : '创建新档案'}
           </h2>
           <button
             onClick={onClose}
@@ -146,20 +146,20 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">Basic Information</h3>
+            <h3 className="text-lg font-medium text-gray-900">基本信息</h3>
 
             {/* Name */}
             <div>
               <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
                 <User className="w-4 h-4" />
-                <span>Profile Name</span>
+                <span>档案名称</span>
               </label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleBasicInputChange}
-                placeholder="Enter a name for this profile"
+                placeholder="输入档案名称"
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   errors.name ? 'border-red-300' : 'border-gray-300'
                 }`}
@@ -171,7 +171,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
             {/* Gender */}
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Gender</label>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">性别</label>
               <div className="flex space-x-4">
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
@@ -182,7 +182,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     onChange={handleBasicInputChange}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span className="text-sm text-gray-700">Male</span>
+                  <span className="text-sm text-gray-700">男</span>
                 </label>
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
@@ -193,7 +193,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     onChange={handleBasicInputChange}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span className="text-sm text-gray-700">Female</span>
+                  <span className="text-sm text-gray-700">女</span>
                 </label>
               </div>
             </div>
@@ -202,13 +202,13 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
           {/* Bazi Information */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium text-gray-900">Birth Information</h3>
+              <h3 className="text-lg font-medium text-gray-900">出生信息</h3>
               <button
                 type="button"
                 onClick={toggleInputMode}
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium"
               >
-                {useSmartInput ? 'Switch to Manual Input' : 'Use Smart Calculator'}
+                {useSmartInput ? '切换为手动输入' : '使用智能排盘'}
               </button>
             </div>
 
@@ -220,21 +220,8 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
             {useSmartInput ? (
               <SmartBaziInput
-                initialData={{
-                  birthYear: formData.birthYear,
-                  yearPillar: formData.yearPillar,
-                  monthPillar: formData.monthPillar,
-                  dayPillar: formData.dayPillar,
-                  hourPillar: formData.hourPillar,
-                  startAge: formData.startAge,
-                  firstDaYun: formData.firstDaYun,
-                  birthPlace: formData.birthPlace,
-                  gender: formData.gender
-                }}
-                onCalculate={handleBaziCalculated}
-                initialMode={
-                  formData.birthYear || formData.birthPlace ? 'smart' : 'manual'
-                }
+                onBaziCalculated={handleBaziCalculated}
+                gender={formData.gender}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -242,14 +229,14 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 <div>
                   <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
                     <Calendar className="w-4 h-4" />
-                    <span>Birth Year</span>
+                    <span>出生年份</span>
                   </label>
                   <input
                     type="text"
                     name="birthYear"
                     value={formData.birthYear}
                     onChange={handleBasicInputChange}
-                    placeholder="e.g., 1990"
+                    placeholder="例如：1990"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -257,21 +244,21 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 <div>
                   <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
                     <MapPin className="w-4 h-4" />
-                    <span>Birth Place</span>
+                    <span>出生地点</span>
                   </label>
                   <input
                     type="text"
                     name="birthPlace"
                     value={formData.birthPlace}
                     onChange={handleBasicInputChange}
-                    placeholder="City, Country"
+                    placeholder="例如：北京市"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
                 {/* Bazi Pillars */}
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Year Pillar</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">年柱</label>
                   <input
                     type="text"
                     name="yearPillar"
@@ -283,7 +270,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Month Pillar</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">月柱</label>
                   <input
                     type="text"
                     name="monthPillar"
@@ -295,7 +282,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Day Pillar</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">日柱</label>
                   <input
                     type="text"
                     name="dayPillar"
@@ -307,7 +294,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Hour Pillar</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">时柱</label>
                   <input
                     type="text"
                     name="hourPillar"
@@ -319,7 +306,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">Start Age</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">起运年龄</label>
                   <input
                     type="text"
                     name="startAge"
@@ -331,7 +318,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">First Da Yun</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">第一步大运</label>
                   <input
                     type="text"
                     name="firstDaYun"
@@ -360,7 +347,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
               disabled={isSubmitting}
               className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Cancel
+              取消
             </button>
             <button
               type="submit"
@@ -370,12 +357,12 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Saving...</span>
+                  <span>保存中...</span>
                 </>
               ) : (
                 <>
                   <Save className="w-4 h-4" />
-                  <span>{initialData ? 'Update' : 'Create'} Profile</span>
+                  <span>{initialData ? '更新档案' : '创建档案'}</span>
                 </>
               )}
             </button>

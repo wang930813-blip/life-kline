@@ -18,6 +18,7 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const AdminVoucherPage = lazy(() => import('./pages/AdminVoucherPage'));
 const AdminPricingPage = lazy(() => import('./pages/AdminPricingPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 // Loading fallback
 const PageLoadingFallback = () => (
@@ -331,6 +332,22 @@ const App: React.FC = () => {
 
       <Routes>
         <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<PageLoadingFallback />}>
+              <AdminPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/*"
+          element={
+            <Suspense fallback={<PageLoadingFallback />}>
+              <AdminPage />
+            </Suspense>
+          }
+        />
+        <Route
           element={
             <AppShell
               isLoggedIn={isLoggedIn}
@@ -462,23 +479,6 @@ const App: React.FC = () => {
             element={
               <Suspense fallback={<PageLoadingFallback />}>
                 <SearchPage />
-              </Suspense>
-            }
-          />
-          {/* Admin Voucher Route */}
-          <Route
-            path="/admin/voucher"
-            element={
-              <Suspense fallback={<PageLoadingFallback />}>
-                <AdminVoucherPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/admin/pricing"
-            element={
-              <Suspense fallback={<PageLoadingFallback />}>
-                <AdminPricingPage />
               </Suspense>
             }
           />

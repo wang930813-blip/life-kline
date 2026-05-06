@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, TrendingUp, Star, ChevronRight, Save, User, AlertCircle, Check, X } from 'lucide-react';
 import { CTACard } from '../widgets/CTACard';
 import { TrendingCard } from '../widgets/TrendingCard';
-import { CommunityCard } from '../widgets/CommunityCard';
 import { DailyFortuneCard } from '../fortune/DailyFortuneCard';
 import { ProfileInfo } from '../fortune/ProfileQuickSwitch';
 
@@ -892,9 +891,6 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
         onCaseClick={handleCaseClick}
         onCategoryClick={handleCategoryClick}
       />
-
-      {/* Community */}
-      <CommunityCard />
 
       {/* Disclaimer */}
       <div className="text-xs text-gray-400 text-center px-4 py-2">

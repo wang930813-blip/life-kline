@@ -121,7 +121,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           {profile.isDefault && (
             <div className="flex items-center space-x-1 text-amber-600 text-xs font-medium">
               <Star className="w-3 h-3 fill-current" />
-              <span>Default Profile</span>
+              <span>默认档案</span>
             </div>
           )}
           <div className={profile.isDefault ? '' : 'ml-auto'}>
@@ -138,10 +138,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">
-                  {profile.name || 'Unnamed Profile'}
+                  {profile.name || '未命名档案'}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Created {formatDate(profile.createdAt)}
+                  创建于 {formatDate(profile.createdAt)}
                 </p>
               </div>
             </div>
@@ -152,33 +152,33 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="space-y-2">
             <div className="flex items-center space-x-2 text-xs text-gray-600">
               <Calendar className="w-3 h-3" />
-              <span>Year: {profile.birthYear}</span>
+              <span>出生年份：{profile.birthYear}</span>
             </div>
 
             {(profile.birthPlace) && (
               <div className="flex items-center space-x-2 text-xs text-gray-600">
-                <MapPin className="w-3 h-3" />
-                <span>{profile.birthPlace}</span>
-              </div>
+                  <MapPin className="w-3 h-3" />
+                  <span>{profile.birthPlace}</span>
+                </div>
             )}
 
             <div className="bg-gray-50 rounded p-2">
-              <p className="text-xs font-medium text-gray-700 mb-1">Bazi Pillars:</p>
+              <p className="text-xs font-medium text-gray-700 mb-1">八字四柱：</p>
               <div className="grid grid-cols-4 gap-1 text-xs">
                 <div className="text-center">
-                  <div className="text-gray-500">Year</div>
+                  <div className="text-gray-500">年柱</div>
                   <div className="font-mono font-bold">{profile.yearPillar || '--'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-gray-500">Month</div>
+                  <div className="text-gray-500">月柱</div>
                   <div className="font-mono font-bold">{profile.monthPillar || '--'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-gray-500">Day</div>
+                  <div className="text-gray-500">日柱</div>
                   <div className="font-mono font-bold">{profile.dayPillar || '--'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-gray-500">Hour</div>
+                  <div className="text-gray-500">时柱</div>
                   <div className="font-mono font-bold">{profile.hourPillar || '--'}</div>
                 </div>
               </div>
@@ -190,7 +190,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <div className="bg-gray-50 rounded-lg p-3 mb-4">
           <div className="flex items-center space-x-1 mb-2">
             <TrendingUp className="w-3 h-3 text-gray-600" />
-            <p className="text-xs text-gray-600">Life Destiny Preview</p>
+            <p className="text-xs text-gray-600">人生走势预览</p>
           </div>
           {renderMiniChart()}
         </div>
@@ -219,10 +219,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             {isCurrent ? (
               <>
                 <Check className="w-4 h-4 inline mr-1" />
-                Currently Selected
+                当前已选中
               </>
             ) : (
-              'View Analysis'
+              '查看分析'
             )}
           </button>
 
@@ -232,7 +232,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               className="flex-1 py-2 px-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium flex items-center justify-center"
             >
               <Edit className="w-4 h-4 mr-1" />
-              Edit
+              编辑
             </button>
 
             {!profile.isDefault ? (
@@ -241,7 +241,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 className="flex-1 py-2 px-3 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors text-sm font-medium flex items-center justify-center"
               >
                 <Star className="w-4 h-4 mr-1" />
-                Set Default
+                设为默认
               </button>
             ) : (
               <div className="flex-1" />
@@ -262,23 +262,23 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Delete Profile?
+              删除档案？
             </h3>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to delete "{profile.name || 'Unnamed Profile'}"? This action cannot be undone.
+              确认删除“{profile.name || '未命名档案'}”吗？删除后将无法恢复。
             </p>
             <div className="flex space-x-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
                 className="flex-1 py-2 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Cancel
+                取消
               </button>
               <button
                 onClick={handleDelete}
                 className="flex-1 py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                Delete
+                删除
               </button>
             </div>
           </div>

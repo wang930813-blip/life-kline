@@ -413,6 +413,37 @@ const initDatabase = () => {
     )
   `);
 
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS admin_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT,
+      updated_at TEXT
+    )
+  `);
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS payment_orders (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      package_id TEXT NOT NULL,
+      package_name TEXT NOT NULL,
+      points INTEGER NOT NULL,
+      bonus_points INTEGER DEFAULT 0,
+      total_points INTEGER NOT NULL,
+      amount_cents INTEGER NOT NULL,
+      currency TEXT DEFAULT 'CNY',
+      provider TEXT DEFAULT 'wechat',
+      status TEXT DEFAULT 'pending',
+      code_url TEXT,
+      transaction_id TEXT,
+      paid_at TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT,
+      raw_notify TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+  `);
+
   // 创建索引
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
@@ -466,6 +497,9 @@ const initDatabase = () => {
 
     -- 积分套餐索引
     CREATE INDEX IF NOT EXISTS idx_packages_order ON point_packages(display_order);
+    CREATE INDEX IF NOT EXISTS idx_payment_orders_user_id ON payment_orders(user_id);
+    CREATE INDEX IF NOT EXISTS idx_payment_orders_status ON payment_orders(status);
+    CREATE INDEX IF NOT EXISTS idx_payment_orders_created_at ON payment_orders(created_at);
   `);
 
   // 名人案例表新增字段 (Schema Migration)
@@ -726,6 +760,7 @@ export const getAllAnalyses = (limit = 100, offset = 0) => {
     userEmail: row.user_email,
     cost: row.cost,
     modelUsed: row.model_used,
+    summary: JSON.parse(row.analysis_data || '{}')?.summary || '',
     createdAt: row.created_at,
     status: row.status,
   }));
@@ -929,6 +964,75 @@ export const getArticles = (category, limit = 20, offset = 0) => {
   }));
 };
 
+export const getAllArticlesAdmin = (category, limit = 50, offset = 0) => {
+  let sql = 'SELECT * FROM knowledge_articles WHERE 1=1';
+  const params = [];
+
+  if (category) {
+    sql += ' AND category = ?';
+    params.push(category);
+  }
+
+  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(limit, offset);
+
+  return db.prepare(sql).all(...params).map(row => ({
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    category: row.category,
+    level: row.level,
+    tags: row.tags ? JSON.parse(row.tags) : [],
+    summary: row.summary,
+    content: row.content,
+    viewCount: row.view_count,
+    published: row.published === 1,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }));
+};
+
+export const upsertArticle = (articleData) => {
+  const now = new Date().toISOString();
+  const id = articleData.id || `article_${Date.now()}`;
+
+  db.prepare(`
+    INSERT INTO knowledge_articles (
+      id, slug, title, category, level, tags, summary, content,
+      view_count, created_at, updated_at, published
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      slug = excluded.slug,
+      title = excluded.title,
+      category = excluded.category,
+      level = excluded.level,
+      tags = excluded.tags,
+      summary = excluded.summary,
+      content = excluded.content,
+      updated_at = excluded.updated_at,
+      published = excluded.published
+  `).run(
+    id,
+    articleData.slug,
+    articleData.title,
+    articleData.category,
+    articleData.level || 1,
+    articleData.tags ? JSON.stringify(articleData.tags) : null,
+    articleData.summary,
+    articleData.content,
+    articleData.viewCount || 0,
+    articleData.createdAt || now,
+    now,
+    articleData.published === false ? 0 : 1
+  );
+
+  return id;
+};
+
+export const getKnowledgeArticleCount = () => {
+  return db.prepare('SELECT COUNT(*) as count FROM knowledge_articles').get().count;
+};
+
 export const incrementArticleView = (slug) => {
   const stmt = db.prepare('UPDATE knowledge_articles SET view_count = view_count + 1 WHERE slug = ?');
   stmt.run(slug);
@@ -1023,6 +1127,75 @@ export const getCases = (curveType, limit = 20, offset = 0) => {
     viewCount: row.view_count,
     createdAt: row.created_at,
   }));
+};
+
+export const getAllCasesAdmin = (curveType, limit = 50, offset = 0) => {
+  let sql = 'SELECT * FROM cases WHERE 1=1';
+  const params = [];
+
+  if (curveType) {
+    sql += ' AND curve_type = ?';
+    params.push(curveType);
+  }
+
+  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(limit, offset);
+
+  return db.prepare(sql).all(...params).map(row => ({
+    id: row.id,
+    title: row.title,
+    persona: row.persona,
+    curveType: row.curve_type,
+    chartData: row.chart_data ? JSON.parse(row.chart_data) : [],
+    highlights: row.highlights ? JSON.parse(row.highlights) : [],
+    narrative: row.narrative,
+    tags: row.tags ? JSON.parse(row.tags) : [],
+    viewCount: row.view_count,
+    published: row.published === 1,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }));
+};
+
+export const upsertCase = (caseData) => {
+  const now = new Date().toISOString();
+  const id = caseData.id || `case_${Date.now()}`;
+
+  db.prepare(`
+    INSERT INTO cases (
+      id, title, persona, curve_type, chart_data, highlights, narrative,
+      tags, view_count, created_at, updated_at, published
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      title = excluded.title,
+      persona = excluded.persona,
+      curve_type = excluded.curve_type,
+      chart_data = excluded.chart_data,
+      highlights = excluded.highlights,
+      narrative = excluded.narrative,
+      tags = excluded.tags,
+      updated_at = excluded.updated_at,
+      published = excluded.published
+  `).run(
+    id,
+    caseData.title,
+    caseData.persona,
+    caseData.curveType,
+    JSON.stringify(caseData.chartData || []),
+    caseData.highlights ? JSON.stringify(caseData.highlights) : null,
+    caseData.narrative,
+    caseData.tags ? JSON.stringify(caseData.tags) : null,
+    caseData.viewCount || 0,
+    caseData.createdAt || now,
+    now,
+    caseData.published === false ? 0 : 1
+  );
+
+  return id;
+};
+
+export const getCaseCount = () => {
+  return db.prepare('SELECT COUNT(*) as count FROM cases').get().count;
 };
 
 export const incrementCaseView = (id) => {
@@ -2037,5 +2210,142 @@ export const cleanupExpiredTokens = () => {
   const stmt = db.prepare('DELETE FROM password_reset_tokens WHERE expires_at <= ? OR used = 1');
   const result = stmt.run(new Date().toISOString());
   return result.changes;
+};
+
+// ============ Admin Settings ============
+
+export const getAdminSetting = (key) => {
+  const row = db.prepare('SELECT value FROM admin_settings WHERE key = ?').get(key);
+  return row ? row.value : null;
+};
+
+export const setAdminSetting = (key, value) => {
+  const now = new Date().toISOString();
+  db.prepare(`
+    INSERT INTO admin_settings (key, value, updated_at)
+    VALUES (?, ?, ?)
+    ON CONFLICT(key) DO UPDATE SET
+      value = excluded.value,
+      updated_at = excluded.updated_at
+  `).run(key, value, now);
+  return { key, value, updatedAt: now };
+};
+
+export const getAdminSettingsByPrefix = (prefix) => {
+  const rows = db.prepare('SELECT key, value, updated_at FROM admin_settings WHERE key LIKE ? ORDER BY key').all(`${prefix}%`);
+  return rows.reduce((acc, row) => {
+    acc[row.key] = { value: row.value, updatedAt: row.updated_at };
+    return acc;
+  }, {});
+};
+
+// ============ Payment Orders ============
+
+export const createPaymentOrder = (order) => {
+  const now = new Date().toISOString();
+  db.prepare(`
+    INSERT INTO payment_orders (
+      id, user_id, package_id, package_name, points, bonus_points, total_points,
+      amount_cents, currency, provider, status, code_url, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    order.id,
+    order.userId,
+    order.packageId,
+    order.packageName,
+    order.points,
+    order.bonusPoints || 0,
+    order.totalPoints,
+    order.amountCents,
+    order.currency || 'CNY',
+    order.provider || 'wechat',
+    order.status || 'pending',
+    order.codeUrl || null,
+    now,
+    now
+  );
+  return getPaymentOrder(order.id);
+};
+
+const mapPaymentOrder = (row) => row ? ({
+  id: row.id,
+  userId: row.user_id,
+  packageId: row.package_id,
+  packageName: row.package_name,
+  points: row.points,
+  bonusPoints: row.bonus_points,
+  totalPoints: row.total_points,
+  amountCents: row.amount_cents,
+  currency: row.currency,
+  provider: row.provider,
+  status: row.status,
+  codeUrl: row.code_url,
+  transactionId: row.transaction_id,
+  paidAt: row.paid_at,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+  rawNotify: row.raw_notify,
+}) : null;
+
+export const getPaymentOrder = (orderId) => {
+  const row = db.prepare('SELECT * FROM payment_orders WHERE id = ?').get(orderId);
+  return mapPaymentOrder(row);
+};
+
+export const getPaymentOrders = (limit = 50, offset = 0) => {
+  const rows = db.prepare(`
+    SELECT * FROM payment_orders
+    ORDER BY created_at DESC
+    LIMIT ? OFFSET ?
+  `).all(limit, offset);
+  return rows.map(mapPaymentOrder);
+};
+
+export const updatePaymentOrderPayInfo = (orderId, { codeUrl = null, provider = 'wechat' } = {}) => {
+  const now = new Date().toISOString();
+  db.prepare(`
+    UPDATE payment_orders
+    SET code_url = ?, provider = ?, updated_at = ?
+    WHERE id = ?
+  `).run(codeUrl, provider, now, orderId);
+  return getPaymentOrder(orderId);
+};
+
+export const markPaymentOrderPaid = ({ orderId, transactionId, rawNotify }) => {
+  const order = getPaymentOrder(orderId);
+  if (!order) return { success: false, error: 'ORDER_NOT_FOUND' };
+  if (order.status === 'paid') return { success: true, order, alreadyPaid: true };
+
+  const user = getUserById(order.userId);
+  if (!user) return { success: false, error: 'USER_NOT_FOUND' };
+
+  const now = new Date().toISOString();
+  const newBalance = user.points + order.totalPoints;
+  const tx = db.transaction(() => {
+    db.prepare(`
+      UPDATE payment_orders
+      SET status = 'paid', transaction_id = ?, paid_at = ?, updated_at = ?, raw_notify = ?
+      WHERE id = ? AND status != 'paid'
+    `).run(transactionId || null, now, now, rawNotify ? JSON.stringify(rawNotify) : null, orderId);
+    db.prepare('UPDATE users SET points = ?, updated_at = ? WHERE id = ?').run(newBalance, now, order.userId);
+  });
+  tx();
+
+  return {
+    success: true,
+    order: { ...order, status: 'paid', transactionId, paidAt: now },
+    newBalance,
+    alreadyPaid: false,
+  };
+};
+
+export const markPaymentOrderFailed = (orderId, rawNotify = null) => {
+  const now = new Date().toISOString();
+  const result = db.prepare(`
+    UPDATE payment_orders
+    SET status = 'failed', updated_at = ?, raw_notify = ?
+    WHERE id = ? AND status != 'paid'
+  `).run(now, rawNotify ? JSON.stringify(rawNotify) : null, orderId);
+  return result.changes > 0;
 };
 

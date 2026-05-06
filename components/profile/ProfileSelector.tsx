@@ -60,7 +60,7 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
   };
 
   const getDisplayName = (profile: UserProfile) => {
-    return profile.name || 'Unnamed Profile';
+    return profile.name || '未命名档案';
   };
 
   return (
@@ -78,7 +78,7 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
               <span className="text-base">{getGenderIcon(currentProfile.gender)}</span>
             </span>
           ) : (
-            'Select Profile'
+            '选择档案'
           )}
         </span>
         <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${
@@ -92,13 +92,13 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
           {/* Header */}
           <div className="px-4 py-3 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-900">Profiles</h3>
+              <h3 className="text-sm font-semibold text-gray-900">档案列表</h3>
               <button
                 onClick={onManageProfiles}
                 className="flex items-center space-x-1 text-xs text-blue-600 hover:text-blue-700 transition-colors"
               >
                 <Settings className="w-3 h-3" />
-                <span>Manage</span>
+                <span>管理</span>
               </button>
             </div>
           </div>
@@ -129,7 +129,7 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
                           )}
                         </div>
                         <p className="text-xs text-gray-500">
-                          {profile.birthYear || 'Year: --'} • {profile.birthPlace || 'Location: --'}
+                          {profile.birthYear ? `出生年份：${profile.birthYear}` : '出生年份：--'} • {profile.birthPlace || '出生地点：--'}
                         </p>
                       </div>
                     </div>
@@ -160,12 +160,12 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
             ) : (
               <div className="px-4 py-8 text-center">
                 <User className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-500 mb-3">No profiles yet</p>
+                <p className="text-sm text-gray-500 mb-3">暂无档案</p>
                 <button
                   onClick={onManageProfiles}
                   className="text-xs text-blue-600 hover:text-blue-700 font-medium"
                 >
-                  Create your first profile
+                  创建第一个档案
                 </button>
               </div>
             )}
@@ -175,7 +175,7 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
           {profiles.length > 0 && (
             <div className="px-4 py-2 border-t border-gray-200 bg-gray-50">
               <p className="text-xs text-gray-600 text-center">
-                {profiles.length} profile{profiles.length !== 1 ? 's' : ''} saved
+                已保存 {profiles.length} 个档案
               </p>
             </div>
           )}

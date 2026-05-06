@@ -95,7 +95,7 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
 
       setProfiles(updatedProfiles);
     } catch (err) {
-      setError('Failed to save profiles');
+      setError('保存档案失败');
       console.error('Error saving profiles:', err);
     }
   };
@@ -131,7 +131,7 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
 
     // Don't allow deletion if it's the only profile
     if (profiles.length <= 1) {
-      setError('Cannot delete the only profile');
+      setError('不能删除唯一的档案');
       return;
     }
 
@@ -240,8 +240,8 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
                 <User className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Profile Management</h1>
-                <p className="text-gray-600">Manage your Bazi profiles and life destiny analysis</p>
+                <h1 className="text-2xl font-bold text-gray-900">档案管理</h1>
+                <p className="text-gray-600">管理你的八字档案与命理分析记录</p>
               </div>
             </div>
 
@@ -251,13 +251,13 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
               className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               <Plus className="w-5 h-5" />
-              <span>Add Profile</span>
+              <span>添加档案</span>
             </button>
           </div>
 
           {profiles.length >= 10 && (
             <p className="mt-3 text-sm text-amber-600">
-              Maximum of 10 profiles reached. Delete an existing profile to add a new one.
+              最多可创建 10 个档案。请删除已有档案后再添加新档案。
             </p>
           )}
         </div>
@@ -291,14 +291,14 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
             <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
               <User className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No profiles yet</h3>
-            <p className="text-gray-600 mb-6">Create your first profile to start analyzing your life destiny</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">暂无档案</h3>
+            <p className="text-gray-600 mb-6">创建第一个档案，开始进行命理分析</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Plus className="w-5 h-5" />
-              <span>Create First Profile</span>
+              <span>创建第一个档案</span>
             </button>
           </div>
         )}

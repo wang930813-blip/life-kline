@@ -50,7 +50,7 @@ const HelpGuide: React.FC<HelpGuideProps> = ({ defaultOpen = false }) => {
             </button>
             <button
               onClick={() => setActiveTab('api')}
-              className={`flex-1 px-4 py-3 text-sm font-bold flex items-center justify-center gap-2 transition-colors ${
+              className={`hidden flex-1 px-4 py-3 text-sm font-bold items-center justify-center gap-2 transition-colors ${
                 activeTab === 'api'
                   ? 'text-emerald-600 border-b-2 border-emerald-600 bg-emerald-50/50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'

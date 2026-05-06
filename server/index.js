@@ -29,11 +29,17 @@ import {
   createArticle,
   getArticleBySlug,
   getArticles,
+  getAllArticlesAdmin,
+  upsertArticle,
+  getKnowledgeArticleCount,
   incrementArticleView,
   searchArticles,
   createCase,
   getCaseById,
   getCases,
+  getAllCasesAdmin,
+  upsertCase,
+  getCaseCount,
   incrementCaseView,
   getDb,
   createShareReward,
@@ -69,6 +75,12 @@ import {
   createPasswordResetToken,
   getPasswordResetToken,
   markPasswordResetTokenUsed,
+  createPaymentOrder,
+  getPaymentOrder,
+  getPaymentOrders,
+  markPaymentOrderPaid,
+  markPaymentOrderFailed,
+  updatePaymentOrderPayInfo,
 } from './database.js';
 import { hashPassword, verifyPassword, signToken, requireAuth, getTokenFromReq, verifyToken } from './auth.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from './emailService.js';
@@ -93,6 +105,16 @@ import {
   batchUpdatePointPackages,
   getPublicPricing,
 } from './pricingManager.js';
+import {
+  createWechatNativeOrder,
+  createWechatH5Order,
+  decryptWechatResource,
+  getWechatPayAdminConfig,
+  getWechatPayPublicConfig,
+  saveWechatPayConfig,
+  queryWechatOrder,
+  verifyWechatNotifySignature,
+} from './wechatPay.js';
 
 dotenv.config();
 
@@ -115,7 +137,14 @@ const EMAIL_SUBSCRIPTION_REWARD = process.env.EMAIL_SUBSCRIPTION_REWARD ? parseI
 
 const app = express();
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({
+  limit: '2mb',
+  verify: (req, _res, buf) => {
+    if (req.originalUrl === '/api/payment/wechat/notify') {
+      req.rawBody = buf.toString('utf8');
+    }
+  },
+}));
 app.use(cookieParser());
 
 const authCookieOptions = {
@@ -125,7 +154,31 @@ const authCookieOptions = {
   maxAge: 30 * 24 * 60 * 60 * 1000,
 };
 
+const adminCookieOptions = {
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production',
+  maxAge: 12 * 60 * 60 * 1000,
+};
+
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || process.env.ADMIN_VOUCHER_PASSWORD || 'admin123';
+const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || `${JWT_SECRET}:admin`;
+
 const sanitizeEmail = (email) => String(email || '').trim().toLowerCase();
+
+const requireAdmin = (req, res, next) => {
+  const token = req.cookies?.admin_token;
+  if (!token) return res.status(401).json({ error: 'ADMIN_AUTH_REQUIRED' });
+  try {
+    const decoded = verifyToken(token, ADMIN_TOKEN_SECRET);
+    if (decoded?.role !== 'admin') return res.status(403).json({ error: 'ADMIN_FORBIDDEN' });
+    req.admin = decoded;
+    return next();
+  } catch {
+    return res.status(401).json({ error: 'ADMIN_AUTH_REQUIRED' });
+  }
+};
 
 const getAuthedUser = (req) => {
   const token = getTokenFromReq(req);
@@ -145,6 +198,27 @@ app.get('/api/health', (_req, res) => res.json({ ok: true }));
 // 站点配置 API - 返回前端可用的站点配置
 app.get('/api/site-config', (_req, res) => {
   res.json(getPublicSiteConfig());
+});
+
+app.post('/api/admin/login', (req, res) => {
+  const username = String(req.body?.username || '').trim();
+  const password = String(req.body?.password || '');
+  if (!ADMIN_USERNAME || username !== ADMIN_USERNAME || !ADMIN_PASSWORD || password !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'INVALID_ADMIN_CREDENTIALS' });
+  }
+
+  const token = signToken({ role: 'admin', username: ADMIN_USERNAME }, ADMIN_TOKEN_SECRET);
+  res.cookie('admin_token', token, adminCookieOptions);
+  return res.json({ ok: true, username: ADMIN_USERNAME });
+});
+
+app.post('/api/admin/logout', (_req, res) => {
+  res.clearCookie('admin_token');
+  return res.json({ ok: true });
+});
+
+app.get('/api/admin/me', requireAdmin, (_req, res) => {
+  return res.json({ admin: true });
 });
 
 app.post('/api/auth/register', async (req, res) => {
@@ -230,7 +304,7 @@ app.get('/api/history/:id', requireAuth(JWT_SECRET), (req, res) => {
 // 新增流式分析端点 (原版单模型)
 app.post('/api/analyze-stream', async (req, res) => {
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
 
   let authedInfo = null;
 
@@ -255,7 +329,7 @@ app.post('/api/analyze-stream', async (req, res) => {
 // 新增并行分析端点 (6个Agent并行 + 缓存)
 app.post('/api/analyze-parallel', async (req, res) => {
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
 
   let authedInfo = null;
 
@@ -281,7 +355,7 @@ app.post('/api/analyze-parallel', async (req, res) => {
 // 优势：API调用次数减少83%（6次→1次），成本显著降低
 app.post('/api/analyze-unified', async (req, res) => {
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
 
   let authedInfo = null;
 
@@ -316,7 +390,7 @@ app.get('/api/cache/stats', (req, res) => {
 
 app.post('/api/analyze', async (req, res) => {
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
 
   let authedInfo = null;
 
@@ -1097,6 +1171,27 @@ app.get('/api/share/history', requireAuth(JWT_SECRET), (req, res) => {
 
 // POST /api/admin/voucher/generate - 管理员生成兑换码
 const ADMIN_VOUCHER_PASSWORD = process.env.ADMIN_VOUCHER_PASSWORD || 'change-this-password';
+
+app.post('/api/admin/voucher/generate-v2', requireAdmin, (req, res) => {
+  const pointsNum = parseInt(req.body?.points, 10);
+  if (!pointsNum || pointsNum <= 0 || pointsNum > 100000) {
+    return res.status(400).json({ error: 'INVALID_POINTS', message: '点数必须在 1-100000 之间' });
+  }
+
+  try {
+    const voucher = createVoucher(pointsNum);
+    logEvent('info', '生成兑换码', { code: voucher.code, points: pointsNum }, null, req.ip);
+    return res.json({
+      success: true,
+      code: voucher.code,
+      points: voucher.points,
+      createdAt: voucher.createdAt,
+    });
+  } catch (error) {
+    console.error('生成兑换码失败:', error);
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: '生成失败' });
+  }
+});
 
 app.post('/api/admin/voucher/generate', (req, res) => {
   const { password, points } = req.body;
@@ -2903,7 +2998,7 @@ app.post('/api/kline/daily', async (req, res) => {
 // ============ Pricing Management API ============
 
 // GET /api/admin/pricing - Get all pricing configuration
-app.get('/api/admin/pricing', (req, res) => {
+app.get('/api/admin/pricing', requireAdmin, (req, res) => {
   try {
     const features = getPricing();
     const packages = getPointPackages();
@@ -2919,7 +3014,7 @@ app.get('/api/admin/pricing', (req, res) => {
 });
 
 // PUT /api/admin/pricing - Update pricing configuration
-app.put('/api/admin/pricing', (req, res) => {
+app.put('/api/admin/pricing', requireAdmin, (req, res) => {
   try {
     const { features } = req.body;
 
@@ -2957,7 +3052,7 @@ app.put('/api/admin/pricing', (req, res) => {
 });
 
 // GET /api/admin/packages - Get point packages
-app.get('/api/admin/packages', (req, res) => {
+app.get('/api/admin/packages', requireAdmin, (req, res) => {
   try {
     const packages = getPointPackages();
     return res.json({ packages });
@@ -2968,7 +3063,7 @@ app.get('/api/admin/packages', (req, res) => {
 });
 
 // PUT /api/admin/packages - Update point packages
-app.put('/api/admin/packages', (req, res) => {
+app.put('/api/admin/packages', requireAdmin, (req, res) => {
   try {
     const { packages } = req.body;
 
@@ -3004,6 +3099,217 @@ app.get('/api/public/pricing', (req, res) => {
   } catch (error) {
     console.error('获取公开定价信息失败:', error);
     return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.get('/api/admin/overview', requireAdmin, (_req, res) => {
+  try {
+    return res.json({
+      stats: getStats(),
+      users: getAllUsers(20, 0),
+      analyses: getAllAnalyses(20, 0),
+      orders: getPaymentOrders(20, 0),
+      knowledgeCount: getKnowledgeArticleCount(),
+      caseCount: getCaseCount(),
+      wechatPay: getWechatPayPublicConfig(),
+    });
+  } catch (error) {
+    console.error('获取后台概览失败:', error);
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.get('/api/admin/wechat-pay', requireAdmin, (_req, res) => {
+  return res.json({ config: getWechatPayAdminConfig(), publicConfig: getWechatPayPublicConfig() });
+});
+
+app.put('/api/admin/wechat-pay', requireAdmin, (req, res) => {
+  try {
+    saveWechatPayConfig(req.body || {});
+    logEvent('info', '更新微信支付配置', { fields: Object.keys(req.body || {}) }, null, req.ip);
+    return res.json({ success: true, config: getWechatPayAdminConfig(), publicConfig: getWechatPayPublicConfig() });
+  } catch (error) {
+    console.error('保存微信支付配置失败:', error);
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.get('/api/admin/orders', requireAdmin, (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit, 10) || 50, 200);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  return res.json({ orders: getPaymentOrders(limit, offset) });
+});
+
+app.get('/api/admin/users', requireAdmin, (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit, 10) || 100, 200);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  return res.json({ users: getAllUsers(limit, offset) });
+});
+
+app.get('/api/admin/analyses', requireAdmin, (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit, 10) || 100, 200);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  return res.json({ analyses: getAllAnalyses(limit, offset) });
+});
+
+app.get('/api/admin/content/knowledge', requireAdmin, (req, res) => {
+  const { category } = req.query;
+  const limit = Math.min(parseInt(req.query.limit, 10) || 100, 200);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  return res.json({ items: getAllArticlesAdmin(category || null, limit, offset) });
+});
+
+app.put('/api/admin/content/knowledge/:id', requireAdmin, (req, res) => {
+  try {
+    const id = upsertArticle({ ...req.body, id: req.params.id });
+    return res.json({ success: true, id });
+  } catch (error) {
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.post('/api/admin/content/knowledge', requireAdmin, (req, res) => {
+  try {
+    const id = upsertArticle(req.body);
+    return res.json({ success: true, id });
+  } catch (error) {
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.get('/api/admin/content/cases', requireAdmin, (req, res) => {
+  const { curveType } = req.query;
+  const limit = Math.min(parseInt(req.query.limit, 10) || 100, 200);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  return res.json({ items: getAllCasesAdmin(curveType || null, limit, offset) });
+});
+
+app.put('/api/admin/content/cases/:id', requireAdmin, (req, res) => {
+  try {
+    const id = upsertCase({ ...req.body, id: req.params.id });
+    return res.json({ success: true, id });
+  } catch (error) {
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.post('/api/admin/content/cases', requireAdmin, (req, res) => {
+  try {
+    const id = upsertCase(req.body);
+    return res.json({ success: true, id });
+  } catch (error) {
+    return res.status(500).json({ error: 'INTERNAL_ERROR', message: error.message });
+  }
+});
+
+app.post('/api/payment/wechat/create', requireAuth(JWT_SECRET), async (req, res) => {
+  const packageId = String(req.body?.packageId || '').trim();
+  const mode = req.body?.mode === 'h5' ? 'h5' : 'native';
+  const returnUrl = String(req.body?.returnUrl || '').trim();
+  const packages = getPointPackages();
+  const pkg = packages.find(item => item.id === packageId && item.is_active !== false);
+
+  if (!pkg) return res.status(404).json({ error: 'PACKAGE_NOT_FOUND', message: '积分套餐不存在' });
+  if (!pkg.price_cny || pkg.price_cny <= 0) return res.status(400).json({ error: 'INVALID_PACKAGE_PRICE' });
+
+  const totalPoints = Number(pkg.points || 0) + Number(pkg.bonus || 0);
+  const amountCents = Math.round(Number(pkg.price_cny) * 100);
+  const orderId = `wx_${Date.now()}_${nanoid(8)}`;
+
+  let order = createPaymentOrder({
+    id: orderId,
+    userId: req.auth.sub,
+    packageId: pkg.id,
+    packageName: pkg.name,
+    points: pkg.points,
+    bonusPoints: pkg.bonus || 0,
+    totalPoints,
+    amountCents,
+    provider: mode === 'h5' ? 'wechat_h5' : 'wechat_native',
+  });
+
+  try {
+    const description = `${pkg.name} ${totalPoints}点`;
+    if (mode === 'h5') {
+      const result = await createWechatH5Order({
+        order,
+        description,
+        clientIp: req.ip,
+      });
+      order = updatePaymentOrderPayInfo(order.id, { provider: 'wechat_h5' });
+      const h5Url = returnUrl
+        ? `${result.h5_url}${result.h5_url.includes('?') ? '&' : '?'}redirect_url=${encodeURIComponent(returnUrl)}`
+        : result.h5_url;
+      return res.json({ order, mode, h5Url });
+    }
+
+    const result = await createWechatNativeOrder({ order, description });
+    order = updatePaymentOrderPayInfo(order.id, { codeUrl: result.code_url, provider: 'wechat_native' });
+    return res.json({ order, mode, codeUrl: result.code_url });
+  } catch (error) {
+    markPaymentOrderFailed(order.id, { error: error.message });
+    console.error('创建微信支付订单失败:', error);
+    return res.status(500).json({ error: 'WECHAT_PAY_CREATE_FAILED', message: error.message });
+  }
+});
+
+app.get('/api/payment/orders/:id', requireAuth(JWT_SECRET), async (req, res) => {
+  const order = getPaymentOrder(req.params.id);
+  if (!order || order.userId !== req.auth.sub) return res.status(404).json({ error: 'ORDER_NOT_FOUND' });
+
+  if (order.status === 'pending') {
+    try {
+      const wxOrder = await queryWechatOrder(order.id);
+      if (wxOrder.trade_state === 'SUCCESS') {
+        const paid = markPaymentOrderPaid({
+          orderId: order.id,
+          transactionId: wxOrder.transaction_id,
+          rawNotify: wxOrder,
+        });
+        return res.json({ order: paid.order, status: 'paid', newBalance: paid.newBalance });
+      }
+    } catch (error) {
+      console.warn('查询微信订单失败:', error.message);
+    }
+  }
+
+  return res.json({ order: getPaymentOrder(order.id) });
+});
+
+app.post('/api/payment/wechat/notify', (req, res) => {
+  try {
+    const bodyText = req.rawBody || JSON.stringify(req.body || {});
+    verifyWechatNotifySignature(req.headers, bodyText);
+    const payload = JSON.parse(bodyText || '{}');
+    const data = decryptWechatResource(payload.resource);
+    const orderId = data.out_trade_no;
+    const tradeState = data.trade_state;
+
+    if (tradeState === 'SUCCESS') {
+      const result = markPaymentOrderPaid({
+        orderId,
+        transactionId: data.transaction_id,
+        rawNotify: data,
+      });
+
+      if (!result.success) {
+        console.error('微信支付回调处理失败:', result.error, orderId);
+      } else {
+        logEvent('info', '微信支付到账', {
+          orderId,
+          transactionId: data.transaction_id,
+          totalPoints: result.order.totalPoints,
+          alreadyPaid: result.alreadyPaid,
+        }, result.order.userId, null);
+      }
+    } else {
+      markPaymentOrderFailed(orderId, data);
+    }
+
+    return res.json({ code: 'SUCCESS', message: '成功' });
+  } catch (error) {
+    console.error('微信支付通知处理失败:', error);
+    return res.status(500).json({ code: 'FAIL', message: error.message });
   }
 });
 

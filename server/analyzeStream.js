@@ -179,7 +179,7 @@ export const handleAnalyzeStream = async (req, res) => {
   res.setHeader('X-Accel-Buffering', 'no');
 
   const body = req.body || {};
-  const useCustomApi = Boolean(body.useCustomApi);
+  const useCustomApi = false;
 
   let authedInfo = req.__authedInfo || null;
 
