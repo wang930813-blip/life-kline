@@ -5,6 +5,7 @@ import { CTACard } from '../widgets/CTACard';
 import { TrendingCard } from '../widgets/TrendingCard';
 import { DailyFortuneCard } from '../fortune/DailyFortuneCard';
 import { ProfileInfo } from '../fortune/ProfileQuickSwitch';
+import { CURRENT_PROFILE_EVENT, getStoredCurrentProfile, setStoredCurrentProfile, syncCurrentProfileFromServer } from '../../utils/currentProfile';
 
 const PROFILES_STORAGE_KEY = 'lifekline_profiles';
 const HISTORY_STORAGE_KEY = 'lifekline_history';
@@ -585,7 +586,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
           setAllProfiles(profileInfos);
 
           // Set default profile as current if no current profile selected
-          const saved = localStorage.getItem('lifekline_current_profile');
+          const saved = getStoredCurrentProfile();
           if (!saved) {
             const defaultProfile = profileInfos.find(p => p.isDefault);
             if (defaultProfile) {
@@ -600,7 +601,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
                 hourPillar: defaultProfile.hourPillar,
               };
               setCurrentProfile(fullProfile);
-              localStorage.setItem('lifekline_current_profile', JSON.stringify(fullProfile));
+              setStoredCurrentProfile(fullProfile);
             }
           }
           return;
@@ -643,23 +644,18 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
     }
   }, [isLoggedIn]);
 
-  // Load current profile from localStorage
+  // Load current profile
   const loadCurrentProfile = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('lifekline_current_profile');
-      if (saved) {
-        try {
-          setCurrentProfile(JSON.parse(saved));
-        } catch {
-          setCurrentProfile(null);
-        }
-      }
-    }
+    setCurrentProfile(getStoredCurrentProfile());
   }, []);
 
   useEffect(() => {
     loadProfiles();
-    loadCurrentProfile();
+    if (isLoggedIn) {
+      syncCurrentProfileFromServer().then(setCurrentProfile).catch(loadCurrentProfile);
+    } else {
+      loadCurrentProfile();
+    }
     loadCurrentCalculation();
   }, [isLoggedIn]); // Only run on mount and when login status changes
 
@@ -683,11 +679,11 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
     };
 
     window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('profileChanged', handleProfileChange);
+    window.addEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('profileChanged', handleProfileChange);
+      window.removeEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
     };
   }, [loadProfiles, loadCurrentProfile, loadCurrentCalculation]);
 
@@ -715,9 +711,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
         hourPillar: profile.hourPillar,
       };
       setCurrentProfile(fullProfile);
-      localStorage.setItem('lifekline_current_profile', JSON.stringify(fullProfile));
-      // Dispatch custom event for other components in same tab
-      window.dispatchEvent(new Event('profileChanged'));
+      setStoredCurrentProfile(fullProfile);
     }
   }, [allProfiles]);
 
@@ -764,14 +758,11 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 
           // Set as current profile
           setCurrentProfile(newProfile);
-          localStorage.setItem('lifekline_current_profile', JSON.stringify(newProfile));
+          setStoredCurrentProfile(newProfile);
 
           // Refresh profiles list
           loadProfiles();
           setShowSavePrompt(false);
-
-          // Dispatch event
-          window.dispatchEvent(new Event('profileChanged'));
           return;
         }
       }
@@ -792,15 +783,12 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
       localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify([...existingProfiles, newProfile]));
 
       // Set as current profile
-      localStorage.setItem('lifekline_current_profile', JSON.stringify(newProfile));
+      setStoredCurrentProfile(newProfile);
 
       // Refresh state
       loadProfiles();
       setCurrentProfile(newProfile);
       setShowSavePrompt(false);
-
-      // Dispatch event
-      window.dispatchEvent(new Event('profileChanged'));
     } catch (err) {
       console.error('Failed to save profile:', err);
     }

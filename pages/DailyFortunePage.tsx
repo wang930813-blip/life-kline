@@ -23,6 +23,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { PointsConfirmDialog } from '../components/PointsConfirmDialog';
+import { CURRENT_PROFILE_EVENT, getStoredCurrentProfile, syncCurrentProfileFromServer } from '../utils/currentProfile';
 
 interface FortuneAspect {
   score: number;
@@ -157,16 +158,15 @@ const DailyFortunePage: React.FC = () => {
 
   const targetDate = date || new Date().toISOString().split('T')[0];
 
-  // Load current profile from localStorage
+  // Load current profile
   useEffect(() => {
-    const saved = localStorage.getItem('lifekline_current_profile');
-    if (saved) {
-      try {
-        setCurrentProfile(JSON.parse(saved));
-      } catch {
-        setCurrentProfile(null);
-      }
-    }
+    syncCurrentProfileFromServer().then(setCurrentProfile).catch(() => setCurrentProfile(getStoredCurrentProfile()));
+
+    const handleProfileChange = () => {
+      setCurrentProfile(getStoredCurrentProfile());
+    };
+
+    window.addEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
 
     // Fetch user info for points
     fetch('/api/auth/me', { credentials: 'include' })
@@ -177,6 +177,7 @@ const DailyFortunePage: React.FC = () => {
         }
       })
       .catch(console.error);
+    return () => window.removeEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
   }, []);
 
   // Fetch fortune data

@@ -41,7 +41,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
       hourPillar: '',
       startAge: '',
       firstDaYun: '',
-      modelName: 'gemini-3-pro-preview',
+      modelName: '',
       apiBaseUrl: '',
       apiKey: '',
       useCustomApi: false,

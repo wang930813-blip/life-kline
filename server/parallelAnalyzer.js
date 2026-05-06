@@ -18,21 +18,24 @@ import { generateFallbackKLine } from './baziCalculator.js';
 
 const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
 const DEFAULT_API_KEY = process.env.API_KEY || ''; // 需要在 .env 中配置
+const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
 
-// 为不同Agent分配最适合的模型
+// 优先使用 .env 中的 DEFAULT_MODEL，只有失败时才回退
 const AGENT_MODEL_ASSIGNMENT = {
-  core: 'grok-4',       // 核心命理 - 逻辑推理强
-  kline_past: 'gemini-3-pro-preview',     // 过去K线 - 数据结构化强
-  kline_future: 'gemini-3-pro-preview',   // 未来K线 - 数据结构化强
-  career: 'grok-4-auto',                  // 事业财富 - 综合能力
-  marriage: 'grok-4',                     // 婚姻健康 - 快速响应
-  crypto: 'grok-4',                       // 币圈分析 - 币圈知识丰富
+  core: DEFAULT_MODEL,
+  kline_past: DEFAULT_MODEL,
+  kline_future: DEFAULT_MODEL,
+  career: DEFAULT_MODEL,
+  marriage: DEFAULT_MODEL,
+  crypto: DEFAULT_MODEL,
 };
 
 // 备用模型列表
 const FALLBACK_MODELS = [
-  'gemini-3-pro-preview',
+  DEFAULT_MODEL,
   'grok-4-auto',
+  'grok-4',
+  'gemini-3-pro-preview',
   'claude-haiku-4-5-20251001',
 ];
 
@@ -163,7 +166,7 @@ const validateAgentResponse = (agentType, data) => {
  * 带重试的Agent请求
  */
 const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPrompt, userPrompt, maxRetries = 2) => {
-  const primaryModel = AGENT_MODEL_ASSIGNMENT[agentType] || 'gemini-3-pro-preview';
+  const primaryModel = AGENT_MODEL_ASSIGNMENT[agentType] || DEFAULT_MODEL;
   const modelsToTry = [primaryModel, ...FALLBACK_MODELS.filter(m => m !== primaryModel)];
 
   for (const model of modelsToTry) {

@@ -48,6 +48,7 @@ import {
   createUserProfile,
   getUserProfileById,
   updateUserProfile,
+  updateUserProfileCompat,
   deleteUserProfile,
   setDefaultProfile,
   getUserPreferences,
@@ -1253,14 +1254,7 @@ app.get('/api/profiles', requireAuth(JWT_SECRET), (req, res) => {
     const profiles = getUserProfiles(req.auth.sub);
 
     return res.json({
-      profiles: profiles.map(profile => ({
-        id: profile.id,
-        name: profile.name,
-        gender: profile.gender,
-        birthYear: profile.birthYear,
-        isDefault: profile.isDefault,
-        createdAt: profile.createdAt
-      }))
+      profiles
     });
 
   } catch (error) {
@@ -1273,15 +1267,22 @@ app.get('/api/profiles', requireAuth(JWT_SECRET), (req, res) => {
 
 // POST /api/profiles - Create a new profile
 app.post('/api/profiles', requireAuth(JWT_SECRET), (req, res) => {
-  const { name, gender, birthYear, yearPillar, monthPillar, dayPillar, hourPillar, startAge, firstDaYun, birthPlace } = req.body;
+  const { name, gender, birthYear, yearPillar, monthPillar, dayPillar, hourPillar, startAge, firstDaYun, birthPlace, isDefault } = req.body;
+  const normalizedGender = gender === 'male' || gender === 'female'
+    ? gender
+    : gender === 'Male'
+      ? 'male'
+      : gender === 'Female'
+        ? 'female'
+        : '';
 
   // Validate required fields
-  if (!name || !gender || !birthYear) {
+  if (!name || !normalizedGender || !birthYear) {
     return res.status(400).json({ error: 'MISSING_REQUIRED_FIELDS', message: 'Name, gender, and birthYear are required' });
   }
 
   // Validate gender
-  if (!['male', 'female'].includes(gender)) {
+  if (!['male', 'female'].includes(normalizedGender)) {
     return res.status(400).json({ error: 'INVALID_GENDER', message: 'Gender must be male or female' });
   }
 
@@ -1291,7 +1292,7 @@ app.post('/api/profiles', requireAuth(JWT_SECRET), (req, res) => {
       id: profileId,
       userId: req.auth.sub,
       name,
-      gender,
+      gender: normalizedGender,
       birthYear,
       yearPillar,
       monthPillar,
@@ -1300,7 +1301,7 @@ app.post('/api/profiles', requireAuth(JWT_SECRET), (req, res) => {
       startAge,
       firstDaYun,
       birthPlace,
-      isDefault: false,
+      isDefault: Boolean(isDefault),
     });
 
     logEvent('info', '创建档案', { profileId, name }, req.auth.sub, req.ip);
@@ -1344,6 +1345,15 @@ app.get('/api/profiles/:id', requireAuth(JWT_SECRET), (req, res) => {
 app.put('/api/profiles/:id', requireAuth(JWT_SECRET), (req, res) => {
   const { id } = req.params;
   const { name, gender, birthYear, yearPillar, monthPillar, dayPillar, hourPillar, startAge, firstDaYun, birthPlace } = req.body;
+  const normalizedGender = gender === undefined
+    ? undefined
+    : gender === 'male' || gender === 'female'
+      ? gender
+      : gender === 'Male'
+        ? 'male'
+        : gender === 'Female'
+          ? 'female'
+          : '';
 
   try {
     // First check if profile exists and belongs to user
@@ -1358,13 +1368,13 @@ app.put('/api/profiles/:id', requireAuth(JWT_SECRET), (req, res) => {
     }
 
     // Validate gender if provided
-    if (gender && !['male', 'female'].includes(gender)) {
+    if (normalizedGender !== undefined && !['male', 'female'].includes(normalizedGender)) {
       return res.status(400).json({ error: 'INVALID_GENDER', message: 'Gender must be male or female' });
     }
 
     const updateData = {
       name,
-      gender,
+      gender: normalizedGender,
       birthYear,
       yearPillar,
       monthPillar,
@@ -1378,7 +1388,7 @@ app.put('/api/profiles/:id', requireAuth(JWT_SECRET), (req, res) => {
     // Remove undefined fields
     Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
 
-    const updatedProfile = updateUserProfile(id, updateData);
+    const updatedProfile = updateUserProfileCompat(id, updateData);
 
     if (!updatedProfile) {
       return res.status(500).json({ error: 'UPDATE_FAILED', message: 'Failed to update profile' });
@@ -1418,6 +1428,7 @@ app.delete('/api/profiles/:id', requireAuth(JWT_SECRET), (req, res) => {
 
     logEvent('info', '删除档案', { profileId: id, name: existingProfile.name }, req.auth.sub, req.ip);
 
+    updateUserPreferences(req.auth.sub, { defaultProfileId: id });
     return res.json({ success: true });
 
   } catch (error) {

@@ -88,7 +88,7 @@ const Composer: React.FC<ComposerProps> = ({
         hourPillar: eightChar.getTimeGanZhi(),
         startAge: startAge.toString(),
         firstDaYun: firstDaYun,
-        modelName: 'gemini-3-pro-preview',
+        modelName: '',
         apiBaseUrl: '',
         apiKey: '',
         useCustomApi: false,

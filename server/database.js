@@ -1470,6 +1470,47 @@ export const updateUserProfile = (id, data) => {
   return getUserProfileById(id);
 };
 
+export const updateUserProfileCompat = (id, data) => {
+  const fieldMap = {
+    name: 'name',
+    gender: 'gender',
+    birthYear: 'birth_year',
+    yearPillar: 'year_pillar',
+    monthPillar: 'month_pillar',
+    dayPillar: 'day_pillar',
+    hourPillar: 'hour_pillar',
+    startAge: 'start_age',
+    firstDaYun: 'first_da_yun',
+    birthPlace: 'birth_place',
+  };
+
+  const fields = [];
+  const values = [];
+
+  Object.entries(data).forEach(([key, value]) => {
+    const dbField = fieldMap[key];
+    if (value !== undefined && dbField) {
+      fields.push(`${dbField} = ?`);
+      values.push(value);
+    }
+  });
+
+  if (fields.length === 0) return null;
+
+  fields.push('updated_at = ?');
+  values.push(new Date().toISOString());
+  values.push(id);
+
+  const stmt = db.prepare(`
+    UPDATE user_profiles
+    SET ${fields.join(', ')}
+    WHERE id = ?
+  `);
+
+  stmt.run(...values);
+  return getUserProfileById(id);
+};
+
 // 设置默认档案
 export const setDefaultProfile = (userId, profileId) => {
   // 先取消所有默认档案

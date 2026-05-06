@@ -40,7 +40,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       hourPillar: '',
       startAge: '',
       firstDaYun: '',
-      modelName: 'gemini-3-pro-preview',
+      modelName: '',
       apiBaseUrl: '',
       apiKey: '',
       useCustomApi: false,

@@ -70,10 +70,23 @@ const ProfilePage: React.FC = () => {
   // Load profile list from server (if logged in)
   const loadProfileList = async () => {
     try {
-      const response = await fetch('/api/profiles/list', { credentials: 'include' });
+      const response = await fetch('/api/profiles', { credentials: 'include' });
       if (response.ok) {
         const data = await response.json();
-        setProfileList(data.profiles || []);
+        const profiles = (data.profiles || []).map((p: any) => ({
+          id: p.id,
+          createdAt: p.createdAt,
+          cost: 0,
+          input: {
+            name: p.name,
+            birthYear: p.birthYear || 0,
+            birthMonth: 0,
+            birthDay: 0,
+            birthHour: 0,
+            gender: p.gender || '',
+          },
+        }));
+        setProfileList(profiles);
       } else {
         // Fallback to local storage
         loadLocalProfiles();

@@ -25,13 +25,42 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({
 
   // Load profiles on mount
   useEffect(() => {
-    const loadProfiles = () => {
-      if (typeof window !== 'undefined') {
-        const savedProfiles = localStorage.getItem('lifekline_profiles');
-        if (savedProfiles) {
-          const parsed = JSON.parse(savedProfiles);
+    const loadProfiles = async () => {
+      try {
+        const response = await fetch('/api/profiles', { credentials: 'include' });
+        if (response.ok) {
+          const data = await response.json();
+          const parsed = (data.profiles || []).map((p: any) => ({
+            id: p.id,
+            name: p.name || '',
+            gender: p.gender === 'male' ? Gender.MALE : Gender.FEMALE,
+            birthYear: p.birthYear?.toString() || '',
+            yearPillar: p.yearPillar || '',
+            monthPillar: p.monthPillar || '',
+            dayPillar: p.dayPillar || '',
+            hourPillar: p.hourPillar || '',
+            startAge: p.startAge?.toString() || '',
+            firstDaYun: p.firstDaYun || '',
+            birthPlace: p.birthPlace || '',
+            modelName: '',
+            apiBaseUrl: '',
+            apiKey: '',
+            useCustomApi: false,
+            isDefault: Boolean(p.isDefault),
+            createdAt: p.createdAt,
+          }));
           setProfiles(parsed);
+          localStorage.setItem('lifekline_profiles', JSON.stringify(parsed));
+          return;
         }
+      } catch {
+        // fallback to localStorage
+      }
+
+      const savedProfiles = localStorage.getItem('lifekline_profiles');
+      if (savedProfiles) {
+        const parsed = JSON.parse(savedProfiles);
+        setProfiles(parsed);
       }
     };
 

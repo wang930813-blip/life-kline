@@ -9,15 +9,18 @@ import { generateFallbackKLine } from './baziCalculator.js';
 
 const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
 const DEFAULT_API_KEY = process.env.API_KEY || '';
+const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
 
-// 统一模型配置 - 优先使用性价比高的模型
-const UNIFIED_MODEL = 'gemini-3-pro-preview';
+// 统一模型配置 - 优先使用 .env 中的 DEFAULT_MODEL
+const UNIFIED_MODEL = DEFAULT_MODEL;
 
 // 备用模型列表
 const FALLBACK_MODELS = [
+  DEFAULT_MODEL,
   'grok-4-auto',
-  'claude-haiku-4-5-20251001',
   'grok-4',
+  'gemini-3-pro-preview',
+  'claude-haiku-4-5-20251001',
 ];
 
 /**

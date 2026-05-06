@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, User, Settings, Star, Trash2, Edit } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Plus, User } from 'lucide-react';
 import ProfileCard from './ProfileCard';
 import CreateProfileModal from './CreateProfileModal';
 import { UserInput, Gender } from '../../types';
+import { setStoredCurrentProfile, updateServerDefaultProfile } from '../../utils/currentProfile';
 
 type CoreDocumentStatus = 'pending' | 'generating' | 'ready' | 'failed';
 
@@ -18,9 +19,32 @@ interface ProfileManagerProps {
   currentProfileId?: string;
 }
 
+const PROFILES_STORAGE_KEY = 'lifekline_profiles';
+
+const normalizeApiProfile = (p: any): UserProfile => ({
+  id: p.id,
+  name: p.name || '',
+  gender: p.gender === 'male' ? Gender.MALE : Gender.FEMALE,
+  birthYear: p.birthYear?.toString() || '',
+  yearPillar: p.yearPillar || '',
+  monthPillar: p.monthPillar || '',
+  dayPillar: p.dayPillar || '',
+  hourPillar: p.hourPillar || '',
+  startAge: p.startAge?.toString() || '',
+  firstDaYun: p.firstDaYun || '',
+  birthPlace: p.birthPlace || '',
+  modelName: '',
+  apiBaseUrl: '',
+  apiKey: '',
+  useCustomApi: false,
+  isDefault: Boolean(p.isDefault),
+  coreDocumentStatus: p.coreDocumentStatus || 'pending',
+  createdAt: p.createdAt,
+});
+
 const ProfileManager: React.FC<ProfileManagerProps> = ({
   onProfileSelect,
-  currentProfileId
+  currentProfileId,
 }) => {
   const [profiles, setProfiles] = useState<UserProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,108 +52,107 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
   const [editingProfile, setEditingProfile] = useState<UserProfile | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const PROFILES_STORAGE_KEY = 'lifekline_profiles';
+  const persistLocalProfiles = (nextProfiles: UserProfile[]) => {
+    localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(nextProfiles));
+    setProfiles(nextProfiles);
+  };
 
-  // Load profiles from API first, with localStorage as fallback
+  const loadProfiles = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/profiles', { credentials: 'include' });
+      if (response.ok) {
+        const data = await response.json();
+        const apiProfiles: UserProfile[] = (data.profiles || []).map(normalizeApiProfile);
+        persistLocalProfiles(apiProfiles);
+        setIsLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.error('Failed to load profiles from API:', err);
+    }
+
+    const saved = localStorage.getItem(PROFILES_STORAGE_KEY);
+    setProfiles(saved ? JSON.parse(saved) : []);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const loadProfiles = async () => {
-      setIsLoading(true);
-      try {
-        // Try API first
-        const response = await fetch('/api/profiles', { credentials: 'include' });
-        if (response.ok) {
-          const data = await response.json();
-          const apiProfiles: UserProfile[] = data.profiles.map((p: any) => ({
-            id: p.id,
-            name: p.name,
-            gender: p.gender,
-            birthYear: p.birthYear?.toString() || '',
-            yearPillar: p.yearPillar || '',
-            monthPillar: p.monthPillar || '',
-            dayPillar: p.dayPillar || '',
-            hourPillar: p.hourPillar || '',
-            startAge: p.startAge?.toString() || '',
-            firstDaYun: p.firstDaYun || '',
-            birthPlace: p.birthPlace || '',
-            isDefault: p.isDefault || false,
-            coreDocumentStatus: p.coreDocumentStatus || 'pending',
-            createdAt: p.createdAt,
-          }));
-          setProfiles(apiProfiles);
-          // Sync to localStorage as backup
-          localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(apiProfiles));
-          setIsLoading(false);
-          return;
-        }
-      } catch (err) {
-        console.error('API fetch failed, using localStorage:', err);
-      }
-
-      // Fallback to localStorage
-      if (typeof window !== 'undefined') {
-        const saved = localStorage.getItem(PROFILES_STORAGE_KEY);
-        if (saved) {
-          setProfiles(JSON.parse(saved));
-        }
-      }
-      setIsLoading(false);
-    };
-
     loadProfiles();
   }, []);
 
-  // Save profiles to localStorage
-  const saveProfiles = async (updatedProfiles: UserProfile[]) => {
-    try {
-      // Save to localStorage for now
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('lifekline_profiles', JSON.stringify(updatedProfiles));
-      }
-
-      // TODO: Save to API when backend is ready
-      // await fetch('/api/profiles', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ profiles: updatedProfiles })
-      // });
-
-      setProfiles(updatedProfiles);
-    } catch (err) {
-      setError('保存档案失败');
-      console.error('Error saving profiles:', err);
-    }
-  };
-
   const handleCreateProfile = async (profileData: UserInput) => {
-    const newProfile: UserProfile = {
-      ...profileData,
-      id: Date.now().toString(),
-      isDefault: profiles.length === 0, // First profile is default
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const response = await fetch('/api/profiles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: profileData.name,
+          gender: profileData.gender === Gender.MALE ? 'male' : 'female',
+          birthYear: parseInt(profileData.birthYear, 10) || 0,
+          yearPillar: profileData.yearPillar,
+          monthPillar: profileData.monthPillar,
+          dayPillar: profileData.dayPillar,
+          hourPillar: profileData.hourPillar,
+          startAge: profileData.startAge ? parseInt(profileData.startAge, 10) : undefined,
+          firstDaYun: profileData.firstDaYun,
+          birthPlace: profileData.birthPlace,
+          isDefault: profiles.length === 0,
+        }),
+      });
 
-    const updatedProfiles = [...profiles, newProfile];
-    await saveProfiles(updatedProfiles);
-    setShowCreateModal(false);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || '创建档案失败');
+
+      const nextProfiles = [...profiles, normalizeApiProfile(data.profile)];
+      persistLocalProfiles(nextProfiles);
+      setStoredCurrentProfile(nextProfiles.find((p) => p.isDefault) || nextProfiles[nextProfiles.length - 1]);
+      setShowCreateModal(false);
+    } catch (err: any) {
+      setError(err.message || '创建档案失败');
+    }
   };
 
   const handleEditProfile = async (profileData: UserInput) => {
     if (!editingProfile) return;
 
-    const updatedProfiles = profiles.map(p =>
-      p.id === editingProfile.id
-        ? { ...p, ...profileData }
-        : p
-    );
+    try {
+      const response = await fetch(`/api/profiles/${editingProfile.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: profileData.name,
+          gender: profileData.gender === Gender.MALE ? 'male' : 'female',
+          birthYear: parseInt(profileData.birthYear, 10) || 0,
+          yearPillar: profileData.yearPillar,
+          monthPillar: profileData.monthPillar,
+          dayPillar: profileData.dayPillar,
+          hourPillar: profileData.hourPillar,
+          startAge: profileData.startAge ? parseInt(profileData.startAge, 10) : undefined,
+          firstDaYun: profileData.firstDaYun,
+          birthPlace: profileData.birthPlace,
+        }),
+      });
 
-    await saveProfiles(updatedProfiles);
-    setEditingProfile(null);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || '更新档案失败');
+
+      const nextProfiles = profiles.map((p) => (p.id === editingProfile.id ? normalizeApiProfile(data.profile) : p));
+      persistLocalProfiles(nextProfiles);
+      if (editingProfile.id === currentProfileId) {
+        const updatedCurrent = nextProfiles.find((p) => p.id === editingProfile.id);
+        if (updatedCurrent) setStoredCurrentProfile(updatedCurrent);
+      }
+      setEditingProfile(null);
+    } catch (err: any) {
+      setError(err.message || '更新档案失败');
+    }
   };
 
   const handleDeleteProfile = async (profileId: string) => {
-    const profileToDelete = profiles.find(p => p.id === profileId);
-
-    // Don't allow deletion if it's the only profile
     if (profiles.length <= 1) {
       setError('不能删除唯一的档案');
       return;
@@ -140,76 +163,60 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
         method: 'DELETE',
         credentials: 'include',
       });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || '删除档案失败');
 
-      if (response.ok) {
-        // If deleting default profile, make another one default
-        let updatedProfiles = profiles.filter(p => p.id !== profileId);
-        if (profileToDelete?.isDefault && updatedProfiles.length > 0) {
-          updatedProfiles[0].isDefault = true;
-        }
-
-        // Remove from local state
-        setProfiles(updatedProfiles);
-        // Update localStorage
-        localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(updatedProfiles));
-        return;
+      const nextProfiles = profiles.filter((p) => p.id !== profileId);
+      persistLocalProfiles(nextProfiles);
+      if (profileId === currentProfileId && nextProfiles[0]) {
+        setStoredCurrentProfile(nextProfiles[0]);
       }
-    } catch (err) {
-      console.error('API delete failed, using localStorage only:', err);
+    } catch (err: any) {
+      setError(err.message || '删除档案失败');
     }
-
-    // Fallback to localStorage only delete
-    let updatedProfiles = profiles.filter(p => p.id !== profileId);
-    if (profileToDelete?.isDefault && updatedProfiles.length > 0) {
-      updatedProfiles[0].isDefault = true;
-    }
-    setProfiles(updatedProfiles);
-    localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(updatedProfiles));
   };
 
   const handleSetDefault = async (profileId: string) => {
-    const updatedProfiles = profiles.map(p => ({
-      ...p,
-      isDefault: p.id === profileId
-    }));
+    try {
+      await updateServerDefaultProfile(profileId);
 
-    await saveProfiles(updatedProfiles);
+      const nextProfiles = profiles.map((p) => ({
+        ...p,
+        isDefault: p.id === profileId,
+      }));
+      persistLocalProfiles(nextProfiles);
+      const selected = nextProfiles.find((p) => p.id === profileId);
+      if (selected) setStoredCurrentProfile(selected);
+    } catch (err: any) {
+      setError(err.message || '设置默认档案失败');
+    }
   };
 
   const handleRegenerateCore = async (profileId: string) => {
     try {
-      // Update status to generating immediately
-      setProfiles(prev => prev.map(p =>
-        p.id === profileId ? { ...p, coreDocumentStatus: 'generating' as CoreDocumentStatus } : p
-      ));
+      setProfiles((prev) =>
+        prev.map((p) => (p.id === profileId ? { ...p, coreDocumentStatus: 'generating' } : p))
+      );
 
       const response = await fetch(`/api/profiles/${profileId}/regenerate`, {
         method: 'POST',
         credentials: 'include',
       });
+      const data = await response.json();
 
-      if (response.ok) {
-        const data = await response.json();
-        // Update with response data
-        setProfiles(prev => prev.map(p =>
+      if (!response.ok) throw new Error(data.message || '重新生成失败');
+
+      setProfiles((prev) =>
+        prev.map((p) =>
           p.id === profileId ? { ...p, coreDocumentStatus: data.coreDocumentStatus || 'generating' } : p
-        ));
-      } else {
-        // On error, set to failed
-        setProfiles(prev => prev.map(p =>
-          p.id === profileId ? { ...p, coreDocumentStatus: 'failed' as CoreDocumentStatus } : p
-        ));
-      }
+        )
+      );
     } catch (err) {
       console.error('Failed to regenerate core document:', err);
-      setProfiles(prev => prev.map(p =>
-        p.id === profileId ? { ...p, coreDocumentStatus: 'failed' as CoreDocumentStatus } : p
-      ));
+      setProfiles((prev) =>
+        prev.map((p) => (p.id === profileId ? { ...p, coreDocumentStatus: 'failed' } : p))
+      );
     }
-  };
-
-  const openEditModal = (profile: UserProfile) => {
-    setEditingProfile(profile);
   };
 
   const closeModal = () => {
@@ -232,7 +239,6 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -256,27 +262,21 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
           </div>
 
           {profiles.length >= 10 && (
-            <p className="mt-3 text-sm text-amber-600">
-              最多可创建 10 个档案。请删除已有档案后再添加新档案。
-            </p>
+            <p className="mt-3 text-sm text-amber-600">最多可创建 10 个档案，请先删除已有档案。</p>
           )}
         </div>
 
-        {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
-            {error}
-          </div>
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">{error}</div>
         )}
 
-        {/* Profiles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {profiles.map((profile) => (
             <ProfileCard
               key={profile.id}
               profile={profile}
               isCurrent={profile.id === currentProfileId}
-              onEdit={() => openEditModal(profile)}
+              onEdit={() => setEditingProfile(profile)}
               onDelete={() => handleDeleteProfile(profile.id)}
               onSetDefault={() => handleSetDefault(profile.id)}
               onSelect={() => onProfileSelect?.(profile)}
@@ -285,7 +285,6 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
           ))}
         </div>
 
-        {/* Empty State */}
         {profiles.length === 0 && (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center">
             <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -304,21 +303,8 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
         )}
       </div>
 
-      {/* Create/Edit Modal */}
-      {showCreateModal && (
-        <CreateProfileModal
-          onClose={closeModal}
-          onSave={handleCreateProfile}
-        />
-      )}
-
-      {editingProfile && (
-        <CreateProfileModal
-          onClose={closeModal}
-          onSave={handleEditProfile}
-          initialData={editingProfile}
-        />
-      )}
+      {showCreateModal && <CreateProfileModal onClose={closeModal} onSave={handleCreateProfile} />}
+      {editingProfile && <CreateProfileModal onClose={closeModal} onSave={handleEditProfile} initialData={editingProfile} />}
     </div>
   );
 };

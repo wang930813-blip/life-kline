@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { User, Coins, LogOut, LogIn, UserPlus, LayoutDashboard } from 'lucide-react';
 import ProfileSelector from '../profile/ProfileSelector';
 import { useSiteConfig } from '../../utils/siteConfig';
+import { CURRENT_PROFILE_EVENT, getStoredCurrentProfile, setStoredCurrentProfile, syncCurrentProfileFromServer } from '../../utils/currentProfile';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -42,24 +43,24 @@ const Header: React.FC<HeaderProps> = ({
 
   // Load current profile
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('lifekline_current_profile');
-      if (saved) {
-        setCurrentProfile(JSON.parse(saved));
-      }
-    }
+    syncCurrentProfileFromServer().then(setCurrentProfile).catch(() => setCurrentProfile(getStoredCurrentProfile()));
+
+    const handleProfileChange = () => {
+      setCurrentProfile(getStoredCurrentProfile());
+    };
+
+    window.addEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
+    return () => window.removeEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
   }, []);
 
   const handleProfileChange = (profile: any) => {
     setCurrentProfile(profile);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('lifekline_current_profile', JSON.stringify(profile));
-    }
+    setStoredCurrentProfile(profile);
   };
 
   const handleManageProfiles = () => {
     // Navigate to dashboard profiles tab
-    window.location.href = '/dashboard/profiles';
+    window.location.href = '/dashboard?tab=profiles';
   };
   return (
     <header className="w-full bg-white border-b border-gray-200 py-4 sticky top-0 z-50 no-print">
