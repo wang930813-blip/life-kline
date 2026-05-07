@@ -15,10 +15,11 @@ import {
   AGENT_CRYPTO_PROMPT,
 } from './agentPrompts.js';
 import { generateFallbackKLine } from './baziCalculator.js';
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
 
-const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const DEFAULT_API_BASE_URL = normalizeApiBaseUrl();
 const DEFAULT_API_KEY = process.env.API_KEY || '';
-const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const DEFAULT_MODEL = normalizeModelName();
 
 // 浼樺厛浣跨敤 .env 涓殑 DEFAULT_MODEL锛屽彧鏈夊け璐ユ椂鎵嶅洖閫€
 const AGENT_MODEL_ASSIGNMENT = {
@@ -31,13 +32,7 @@ const AGENT_MODEL_ASSIGNMENT = {
 };
 
 // 澶囩敤妯″瀷鍒楄〃
-const FALLBACK_MODELS = [
-  DEFAULT_MODEL,
-  'grok-4-auto',
-  'grok-4',
-  'gemini-3-pro-preview',
-  'claude-haiku-4-5-20251001',
-];
+const FALLBACK_MODELS = [];
 
 /**
  * 鍙戦€丼SE浜嬩欢
@@ -155,7 +150,7 @@ const validateAgentResponse = (agentType, data) => {
   const fields = requiredFields[agentType] || [];
   for (const field of fields) {
     if (!data[field] || (typeof data[field] === 'string' && data[field].trim().length < 10)) {
-      console.warn(`[Agent:${agentType}] 瀛楁 ${field} 缂哄け鎴栧唴瀹瑰お鐭璥);
+      console.warn(`[Agent:${agentType}] 字段 ${field} 缺失或内容太短`);
       return false;
     }
   }
@@ -178,12 +173,12 @@ const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPr
         if (validateAgentResponse(agentType, result.data)) {
           return result;
         }
-        console.warn(`[Agent:${agentType}] 妯″瀷 ${model} 杩斿洖鏁版嵁涓嶅畬鏁达紝灏濊瘯閲嶆柊璇锋眰...`);
+        console.warn(`[Agent:${agentType}] 模型 ${model} 返回数据不完整，准备重试`);
       }
 
       // 濡傛灉鏄渶鍚庝竴娆″皾璇曡繖涓ā鍨嬶紝鍒囨崲鍒颁笅涓€涓ā鍨?
       if (attempt === maxRetries) {
-        console.warn(`[Agent:${agentType}] 妯″瀷 ${model} 澶辫触锛屽皾璇曞鐢ㄦā鍨?..`);
+        console.warn(`[Agent:${agentType}] 模型 ${model} 请求失败`);
       } else {
         // 绛夊緟鍚庨噸璇?
         await new Promise(r => setTimeout(r, 1500));
@@ -198,7 +193,7 @@ const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPr
  * 鏋勫缓Agent鐢ㄦ埛鎻愮ず璇?
  */
 const buildAgentUserPrompt = (input, skeletonData, agentType) => {
-  const genderStr = input.gender === 'Male' ? '鐢?(涔鹃€?' : '濂?(鍧ら€?';
+  const genderStr = input.gender === 'Male' ? '男' : '女';
 
   // 绮剧畝鐨勬椂闂寸嚎鏁版嵁
   const timelineStr = JSON.stringify(skeletonData.timeline.slice(0, 30).map(t => ({
@@ -209,21 +204,21 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
   })));
 
   const baseInfo = `
-銆愬懡涓讳俊鎭€?
-鎬у埆锛?{genderStr}
-濮撳悕锛?{input.name || '鏈彁渚?}
-鍑虹敓骞翠唤锛?{input.birthYear}骞?
-鍑虹敓鍦扮偣锛?{input.birthPlace || '鏈彁渚?}
+【命主信息】
+性别：${genderStr}
+姓名：${input.name || '未提供'}
+出生年份：${input.birthYear}年
+出生地点：${input.birthPlace || '未提供'}
 
-銆愬叓瀛楀洓鏌便€?
-骞存煴锛?{skeletonData.bazi[0]}
-鏈堟煴锛?{skeletonData.bazi[1]}
-鏃ユ煴锛?{skeletonData.bazi[2]}
-鏃舵煴锛?{skeletonData.bazi[3]}
+【八字四柱】
+年柱：${skeletonData.bazi[0]}
+月柱：${skeletonData.bazi[1]}
+日柱：${skeletonData.bazi[2]}
+时柱：${skeletonData.bazi[3]}
 
-銆愬ぇ杩愪俊鎭€?
-璧疯繍骞撮緞锛?{skeletonData.startAge} 宀?
-澶ц繍椤洪€嗭細${skeletonData.direction}
+【大运信息】
+起运年龄：${skeletonData.startAge} 岁
+大运顺逆：${skeletonData.direction}
 `;
 
   // 鏍规嵁Agent绫诲瀷娣诲姞鐗瑰畾淇℃伅
@@ -241,7 +236,7 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
         gz: t.ganZhi,
         dy: t.daYun
       })));
-      return baseInfo + `\n銆愬綋鍓嶅勾浠姐€?{currentYear}骞达紙${currentAge}宀侊級\n銆愬緟濉厖鐨勮繃鍘绘椂闂磋酱锛堝嚭鐢熷埌浠婂勾锛夈€慭n${pastTimelineStr}`;
+      return `${baseInfo}\n【当前年份】${currentYear}年（${currentAge}岁）\n【待填充的过去时间轴（出生到今年）】\n${pastTimelineStr}`;
     }
 
     case 'kline_future': {
@@ -253,20 +248,20 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
         gz: t.ganZhi,
         dy: t.daYun
       })));
-      return baseInfo + `\n銆愬綋鍓嶅勾浠姐€?{currentYear}骞达紙${currentAge}宀侊級\n銆愬緟濉厖鐨勬湭鏉ユ椂闂磋酱锛堜粖骞村埌100宀侊級銆慭n${futureTimelineStr}`;
+      return `${baseInfo}\n【当前年份】${currentYear}年（${currentAge}岁）\n【待填充的未来时间轴（今年到100岁）】\n${futureTimelineStr}`;
     }
 
     case 'core':
-      return baseInfo + `\n銆愬墠30骞存椂闂磋酱鍙傝€冦€慭n${timelineStr}\n\n璇锋繁搴﹀垎鏋愭鍏瓧鐨勬牳蹇冨懡鐞嗙粨鏋勩€俙;
+      return `${baseInfo}\n【前30年时间轴参考】\n${timelineStr}\n\n请深度分析此八字的核心命理结构。`;
 
     case 'career':
-      return baseInfo + `\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勪簨涓氳储瀵岃繍鍔裤€俙;
+      return `${baseInfo}\n请专注分析此八字的事业财富运势。`;
 
     case 'marriage':
-      return baseInfo + `\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勫濮绘劅鎯呭拰鍋ュ悍鐘跺喌銆俙;
+      return `${baseInfo}\n请专注分析此八字的婚姻感情和健康状况。`;
 
     case 'crypto':
-      return baseInfo + `\n褰撳墠骞翠唤锛?{currentYear}\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勫竵鍦堜氦鏄撹繍鍔垮拰鎶曟満娼滃姏銆俙;
+      return `${baseInfo}\n当前年份：${currentYear}\n请专注分析此八字的交易运势和风险承受能力。`;
 
     default:
       return baseInfo;
@@ -364,23 +359,23 @@ const generateCareerFallback = (core, skeletonData) => {
 
   // 鍩轰簬鏃ヤ富浜旇鎺ㄦ柇閫傚悎琛屼笟
   const dayGanIndustries = {
-    '鐢?: { industries: '鏁欒偛銆佹枃鍖栥€佸嚭鐗堛€佺幆淇濄€佸洯鑹?, element: '鏈? },
-    '涔?: { industries: '璁捐銆佺編瀹广€佽姳鑹恒€佹湇瑁呫€佸尰鑽?, element: '鏈? },
-    '涓?: { industries: '鑳芥簮銆佸ū涔愩€侀楗€佷紶濯掋€佹紨鑹?, element: '鐏? },
-    '涓?: { industries: '绉戞妧銆佺數瀛愩€佹枃鍖栧垱鎰忋€佹暀鑲插煿璁?, element: '鐏? },
-    '鎴?: { industries: '鎴垮湴浜с€佸缓绛戙€佺熆涓氥€佸啘涓氥€佺墿娴?, element: '鍦? },
-    '宸?: { industries: '鍐滀笟銆侀鍝併€侀櫠鐡枫€佷腑浠嬨€佹湇鍔′笟', element: '鍦? },
-    '搴?: { industries: '閲戣瀺銆佹満姊般€佹苯杞︺€佷簲閲戙€佸啗宸?, element: '閲? },
-    '杈?: { industries: '鐝犲疂銆佺簿瀵嗕华鍣ㄣ€佹硶寰嬨€侀噾铻嶃€佺編瀹?, element: '閲? },
-    '澹?: { industries: '鐗╂祦銆佽埅杩愩€佹梾娓搞€佹按浜с€侀ギ鏂?, element: '姘? },
-    '鐧?: { industries: '鍜ㄨ銆佹暀鑲层€佸尰鐤椼€佸績鐞嗐€佽壓鏈?, element: '姘? },
+    甲: { industries: '教育、文化、出版、环保、园艺', element: '木' },
+    乙: { industries: '设计、美容、花艺、服装、医药', element: '木' },
+    丙: { industries: '能源、娱乐、餐饮、传媒、演艺', element: '火' },
+    丁: { industries: '科技、电子、文化创意、教育培训', element: '火' },
+    戊: { industries: '房地产、建筑、矿业、农业、物流', element: '土' },
+    己: { industries: '农业、食品、陶瓷、中介、服务业', element: '土' },
+    庚: { industries: '金融、机械、汽车、五金、军工', element: '金' },
+    辛: { industries: '珠宝、精密仪器、法律、金融、美容', element: '金' },
+    壬: { industries: '物流、航运、旅游、水产、饮品', element: '水' },
+    癸: { industries: '咨询、教育、医疗、心理、艺术', element: '水' },
   };
 
-  const info = dayGanIndustries[dayGan] || { industries: '缁煎悎鏈嶅姟绫昏涓?, element: '骞宠　' };
+  const info = dayGanIndustries[dayGan] || { industries: '综合服务类行业', element: '平衡' };
 
-  const industry = `鏍规嵁鍏瓧鏃ヤ富銆?{dayGan || '鏈煡'}銆嶅垎鏋愶紝鎮ㄤ簲琛屽睘${info.element}锛屼簨涓氶€傚悎鏂瑰悜鍖呮嫭锛?{info.industries}銆傛棩涓诲己寮卞奖鍝嶄簨涓氬彂灞曟ā寮忥紝寤鸿缁撳悎瀹為檯鎯呭喌閫夋嫨鏈€閫傚悎鑷繁鐨勫彂灞曢亾璺€傚懡灞€涓畼鏉€鏄熶唬琛ㄤ簨涓氭満閬囷紝璐㈡槦浠ｈ〃璐㈠瘜鑾峰彇鑳藉姏锛岄渶缁煎悎鍒ゆ柇浠ヨ幏寰楁渶浣充簨涓氳鍒掋€俙;
+  const industry = `根据八字日主「${dayGan || '未知'}」分析，五行倾向为${info.element}，事业适合方向包括：${info.industries}。日主强弱影响事业发展模式，建议结合实际资源和阶段运势选择最适合自己的发展路径。命局中的官杀星代表事业机会，财星代表财富获取能力，需要综合判断以获得更稳妥的事业规划。`;
 
-  const wealth = `浠庤储杩愯搴﹀垎鏋愶紝鍏瓧涓储鏄熺殑寮哄急鍐冲畾浜嗚储瀵岃幏鍙栫殑鏂瑰紡鍜岃妯°€?{dayGan ? `鏃ヤ富${dayGan}` : '鎮ㄧ殑鍛藉眬'}鍏锋湁涓€瀹氱殑鐞嗚储澶╄祴锛屽缓璁ǔ鍋ユ姇璧勪负涓汇€傛璐唬琛ㄧǔ瀹氭敹鍏ュ宸ヨ祫钖噾锛屽亸璐唬琛ㄦ姇璧勭悊璐㈢瓑闈炲浐瀹氭敹鍏ャ€傛牴鎹ぇ杩愭祦骞寸殑涓嶅悓锛岃储杩愪細鏈夎捣浼忓彉鍖栵紝瀹滄妸鎻¤储杩愭椇鐩涚殑骞翠唤绉瀬杩涘彇銆俙;
+  const wealth = `从财运角度分析，八字中财星的强弱决定财富获取方式和规模。${dayGan ? `日主${dayGan}` : '此命局'}具备一定理财潜力，建议以稳健投资为主。正财代表稳定收入，偏财代表投资理财等非固定收入。随着大运流年的变化，财运会有起伏，应在财运较旺的年份积极进取。`;
 
   return {
     industry,
@@ -388,11 +383,11 @@ const generateCareerFallback = (core, skeletonData) => {
     wealth,
     wealthScore: 6,
     recommendedIndustries: [
-      { name: info.industries.split('銆?)[0], reason: `浜旇灞?{info.element}锛屼笌鍛藉眬鐩稿悎` },
-      { name: info.industries.split('銆?)[1] || '缁煎悎鏈嶅姟', reason: '鍛界悊鍒嗘瀽鎺ㄨ崘' }
+      { name: info.industries.split('、')[0], reason: `五行属${info.element}，与命局相合` },
+      { name: info.industries.split('、')[1] || '综合服务', reason: '命理分析推荐' }
     ],
-    wealthPattern: '姝ｅ亸璐㈠吋鏈?,
-    wealthPotential: '涓瓑鍋忎笂',
+    wealthPattern: '正偏财兼有',
+    wealthPotential: '中等偏上',
   };
 };
 
@@ -410,7 +405,7 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
     : null;
 
   if (careerFallback) {
-    console.log('[mergeAgentResults] Career鏁版嵁缂哄け锛屼娇鐢ㄩ檷绾у唴瀹圭敓鎴愪簨涓氳储瀵屽垎鏋?);
+    console.log('[mergeAgentResults] Career 数据缺失，使用降级内容生成事业财富分析');
   }
 
   // K绾挎暟鎹細鍚堝苟杩囧幓鍜屾湭鏉ョ殑K绾挎暟鎹?
@@ -438,7 +433,7 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
     }
 
     chartPoints = allPoints.sort((a, b) => a.age - b.age);
-    console.log(`[mergeAgentResults] K绾垮畬鏁村悎骞? 杩囧幓${pastPoints.length}骞?+ 鏈潵${futurePoints.length}骞?= 鎬?{chartPoints.length}骞碻);
+    console.log(`[mergeAgentResults] K线完整合并: 过去${pastPoints.length}年 + 未来${futurePoints.length}年 = 共${chartPoints.length}年`);
 
   } else if (hasPastData || hasFutureData) {
     // 閮ㄥ垎鏁版嵁锛氬彧鏈変竴娈礙绾挎暟鎹紝浣跨敤fallback琛ュ叏缂哄け閮ㄥ垎
@@ -462,16 +457,16 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
       }
 
       chartPoints = allPoints.sort((a, b) => a.age - b.age);
-      console.log(`[mergeAgentResults] K绾挎贩鍚堝悎骞? AI鏁版嵁${pastPoints.length + futurePoints.length}骞?+ Fallback琛ュ叏 = 鎬?{chartPoints.length}骞碻);
+      console.log(`[mergeAgentResults] K线混合合并: AI数据${pastPoints.length + futurePoints.length}年 + fallback补全 = 共${chartPoints.length}年`);
     } else {
       // 鏃爏keleton鏁版嵁锛屽彧鑳界敤鐜版湁鏁版嵁
       chartPoints = [...pastPoints, ...futurePoints].sort((a, b) => a.age - b.age);
-      console.warn(`[mergeAgentResults] 鏃爏keleton鏁版嵁锛屼粎浣跨敤閮ㄥ垎K绾? ${chartPoints.length}骞碻);
+      console.warn(`[mergeAgentResults] 无 skeleton 数据，仅使用部分K线: ${chartPoints.length}年`);
     }
 
   } else if (skeletonData) {
     // 涓ゆK绾块兘澶辫触锛屽畬鍏ㄤ娇鐢ㄩ檷绾х畻娉?
-    console.log('[mergeAgentResults] K绾緼gent鍏ㄩ儴澶辫触锛屼娇鐢ㄥ畬鏁撮檷绾х畻娉曠敓鎴怟绾挎暟鎹?);
+    console.log('[mergeAgentResults] K线 Agent 全部失败，使用完整降级算法生成K线数据');
     chartPoints = generateFallbackKLine(skeletonData);
   }
 
@@ -480,7 +475,7 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
   if (chartPoints.length < MIN_CHART_POINTS && skeletonData) {
     console.warn(`[mergeAgentResults] K绾挎暟鎹笉瓒?${chartPoints.length}鐐?< ${MIN_CHART_POINTS}鐐?锛屼娇鐢ㄥ畬鏁磃allback鏇挎崲`);
     chartPoints = generateFallbackKLine(skeletonData);
-    console.log(`[mergeAgentResults] Fallback鐢熸垚瀹屾垚: ${chartPoints.length}骞碻);
+    console.log(`[mergeAgentResults] Fallback 生成完成: ${chartPoints.length}年`);
   }
 
   // 鍚堝苟杩囧幓鍜屾湭鏉ョ殑鍏抽敭浜嬩欢

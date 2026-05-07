@@ -1,12 +1,13 @@
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 import { nanoid } from 'nanoid';
+import { normalizeApiBaseUrl, normalizeModelName } from '../server/llmConfig.js';
 
 dotenv.config();
 
-const API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const API_BASE_URL = normalizeApiBaseUrl();
 const API_KEY = process.env.API_KEY;
-const MODEL = process.env.DEFAULT_MODEL || 'gemini-2.5-flash';
+const MODEL = normalizeModelName();
 
 // 文章生成 Prompt
 const ARTICLE_PROMPT = (topic, category) => `

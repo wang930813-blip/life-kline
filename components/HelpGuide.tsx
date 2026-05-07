@@ -136,7 +136,7 @@ const HelpGuide: React.FC<HelpGuideProps> = ({ defaultOpen = false }) => {
                   购买API
                 </h4>
                 <p className="text-gray-600 pl-8">
-                  去闲鱼搜索 <strong>"gemini API"</strong>，大概5块钱能用60次。
+                  使用 OpenAI 兼容 API 服务，并填写服务商提供的 API Key。
                 </p>
 
                 <h4 className="font-bold text-gray-800 flex items-center gap-2">
@@ -148,7 +148,7 @@ const HelpGuide: React.FC<HelpGuideProps> = ({ defaultOpen = false }) => {
                   <ul className="list-disc list-inside space-y-1 text-gray-500">
                     <li><strong>URL地址</strong>：如 https://xxx.com/v1</li>
                     <li><strong>API Key</strong>：sk-xxxxxxxx...</li>
-                    <li><strong>推荐模型</strong>：gemini-3-pro-preview</li>
+                    <li><strong>推荐模型</strong>：gpt-5.5</li>
                   </ul>
                 </div>
 
@@ -165,9 +165,7 @@ const HelpGuide: React.FC<HelpGuideProps> = ({ defaultOpen = false }) => {
                   推荐模型
                 </h4>
                 <div className="pl-8 space-y-1">
-                  <code className="block bg-gray-100 px-2 py-1 rounded text-xs">gemini-3-pro-preview</code>
-                  <code className="block bg-gray-100 px-2 py-1 rounded text-xs">gemini-2.5-pro</code>
-                  <code className="block bg-gray-100 px-2 py-1 rounded text-xs">grok-4</code>
+                  <code className="block bg-gray-100 px-2 py-1 rounded text-xs">gpt-5.5</code>
                 </div>
 
                 {/* Common Errors */}

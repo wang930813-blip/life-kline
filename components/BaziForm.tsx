@@ -443,7 +443,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
                     name="modelName"
                     value={formData.modelName}
                     onChange={handleChange}
-                    placeholder="gemini-3-pro-preview"
+                    placeholder="gpt-5.5"
                     className={`w-full px-3 py-2 border rounded-lg text-xs font-mono outline-none ${formErrors.modelName ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:ring-2 focus:ring-gray-400'}`}
                   />
                   {formErrors.modelName && <p className="text-red-500 text-xs mt-1">{formErrors.modelName}</p>}

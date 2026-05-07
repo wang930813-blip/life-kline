@@ -431,9 +431,9 @@ function showUsage() {
   console.log('');
   console.log('  自托管模式:');
   console.log('    API_MODE=self');
-  console.log('    API_BASE_URL=https://api.openai.com/v1');
+  console.log('    API_BASE_URL=https://37chatgpt37.com/v1');
   console.log('    API_KEY=your-api-key');
-  console.log('    DEFAULT_MODEL=gpt-4');
+  console.log('    DEFAULT_MODEL=gpt-5.5');
   console.log('');
   console.log('  云服务模式:');
   console.log('    API_MODE=cloud');

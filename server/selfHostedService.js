@@ -209,7 +209,7 @@ function cleanResponseContent(content) {
  * @returns {Promise<Object>} 分析结果
  */
 export async function callWithFallback(payload, config, fallbackModels, options = {}) {
-  const models = [config.model, ...fallbackModels];
+  const models = [config.model];
   const errors = [];
 
   for (const model of models) {

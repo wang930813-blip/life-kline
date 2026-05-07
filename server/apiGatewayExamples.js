@@ -11,6 +11,7 @@ import {
   healthCheck,
   API_MODE
 } from './apiGateway.js';
+import { normalizeModelName } from './llmConfig.js';
 
 import { callWithFallback, testSelfHostedConnection } from './selfHostedService.js';
 import { getCloudQuota, validateCloudApiKey } from './cloudService.js';
@@ -93,9 +94,7 @@ export async function fallbackModelExample(userId, baziData) {
 
     // 定义备选模型列表
     const fallbackModels = [
-      'gpt-4-turbo',
-      'gpt-3.5-turbo',
-      'claude-3-opus'
+      normalizeModelName()
     ];
 
     // 使用备选模型

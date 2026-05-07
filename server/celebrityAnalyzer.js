@@ -4,12 +4,13 @@
  */
 import fetch from 'node-fetch';
 import { AGENT_CELEBRITY_ANALYSIS_PROMPT } from './agentPrompts.js';
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
 
-const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const DEFAULT_API_BASE_URL = normalizeApiBaseUrl();
 const DEFAULT_API_KEY = process.env.API_KEY || ''; // 闇€瑕佸湪 .env 涓厤缃?
 
 // 鍚嶄汉鍒嗘瀽浣跨敤鐨勬ā鍨?- 闇€瑕侀珮璐ㄩ噺杈撳嚭
-const CELEBRITY_ANALYSIS_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const CELEBRITY_ANALYSIS_MODEL = normalizeModelName();
 const FALLBACK_MODELS = []; 
 
 /**
@@ -28,28 +29,28 @@ function buildCelebrityPrompt(celebrity) {
                     celebrity.category === 'crypto_macro';
 
   return `
-銆?{isCompany ? '浼佷笟/椤圭洰' : '鍚嶄汉'}淇℃伅銆?
-鍚嶇О: ${celebrity.nameCn || celebrity.name_cn} (${celebrity.name})
-绫诲埆: ${celebrity.categoryCn || celebrity.category_cn}
-${isCompany ? '鎴愮珛' : '鍑虹敓'}鏃ユ湡: ${birthYear}骞?{birthMonth}鏈?{birthDay}鏃?${birthHour}鏃?
-${isCompany ? '鎬婚儴' : '鍑虹敓'}鍦扮偣: ${celebrity.birthLocation?.city || celebrity.birth_location_city || '鏈煡'}
+【${isCompany ? '企业/项目' : '名人'}信息】
+名称: ${celebrity.nameCn || celebrity.name_cn} (${celebrity.name})
+类别: ${celebrity.categoryCn || celebrity.category_cn}
+${isCompany ? '成立' : '出生'}日期: ${birthYear}年${birthMonth}月${birthDay}日${birthHour}时
+${isCompany ? '总部' : '出生'}地点: ${celebrity.birthLocation?.city || celebrity.birth_location_city || '未知'}
 
-銆愬叓瀛楀洓鏌便€?
-骞存煴: ${celebrity.yearPillar || celebrity.year_pillar}
-鏈堟煴: ${celebrity.monthPillar || celebrity.month_pillar}
-鏃ユ煴: ${celebrity.dayPillar || celebrity.day_pillar}
-鏃舵煴: ${celebrity.hourPillar || celebrity.hour_pillar}
+【八字四柱】
+年柱: ${celebrity.yearPillar || celebrity.year_pillar}
+月柱: ${celebrity.monthPillar || celebrity.month_pillar}
+日柱: ${celebrity.dayPillar || celebrity.day_pillar}
+时柱: ${celebrity.hourPillar || celebrity.hour_pillar}
 
-銆愬凡鏈夋弿杩般€?
+【已有描述】
 ${celebrity.description}
 
-銆愭爣绛俱€?
+【标签】
 ${(celebrity.tags || []).join(', ')}
 
-銆愬垎鏋愯姹傘€?
-璇蜂负姝?{isCompany ? '浼佷笟/椤圭洰' : '鍚嶄汉'}鐢熸垚娣卞害鍏瓧鍛界悊鍒嗘瀽鎶ュ憡銆?
-${isCompany ? '娉ㄦ剰锛氫紒涓氬叓瀛椾互鎴愮珛鏃ユ湡涓哄噯锛屽垎鏋愬叾鍙戝睍杩愬娍銆? : ''}
-鍒嗘瀽闇€瑕佸熀浜庣湡瀹炵殑鍛界悊閫昏緫锛屾瘡涓淮搴﹁嚦灏?00瀛楋紝蹇呴』鏈夊懡鐞嗕緷鎹敮鎾戙€?
+【分析要求】
+请为此${isCompany ? '企业/项目' : '名人'}生成深度八字命理分析报告。
+${isCompany ? '注意：企业八字以成立日期为准，分析其发展运势。' : ''}
+分析需要基于真实的命理逻辑，每个维度至少100字，必须有命理依据支撑。
 `;
 }
 

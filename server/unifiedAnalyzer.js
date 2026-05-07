@@ -6,22 +6,17 @@
 import fetch from 'node-fetch';
 import { nanoid } from 'nanoid';
 import { generateFallbackKLine } from './baziCalculator.js';
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
 
-const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const DEFAULT_API_BASE_URL = normalizeApiBaseUrl();
 const DEFAULT_API_KEY = process.env.API_KEY || '';
-const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const DEFAULT_MODEL = normalizeModelName();
 
 // 缁熶竴妯″瀷閰嶇疆 - 浼樺厛浣跨敤 .env 涓殑 DEFAULT_MODEL
 const UNIFIED_MODEL = DEFAULT_MODEL;
 
 // 澶囩敤妯″瀷鍒楄〃
-const FALLBACK_MODELS = [
-  DEFAULT_MODEL,
-  'grok-4-auto',
-  'grok-4',
-  'gemini-3-pro-preview',
-  'claude-haiku-4-5-20251001',
-];
+const FALLBACK_MODELS = [];
 
 /**
  * 缁熶竴绯荤粺鎻愮ず璇?- 鍚堝苟6涓狝gent鐨勫姛鑳?
@@ -394,7 +389,7 @@ const validateUnifiedResponse = (data) => {
 
   // chartPoints蹇呴』鏄暟缁勪笖鏈夎冻澶熸暟鎹?
   if (!Array.isArray(data.chartPoints) || data.chartPoints.length < 50) {
-    console.warn(`[UnifiedAgent] chartPoints 鏁版嵁涓嶈冻: ${data.chartPoints?.length || 0}鐐筦);
+    console.warn(`[UnifiedAgent] chartPoints 数据不足: ${data.chartPoints?.length || 0}点`);
     return false;
   }
 
@@ -440,9 +435,9 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
   const MIN_CHART_POINTS = 50;
 
   if (chartPoints.length < MIN_CHART_POINTS && skeletonData) {
-    console.warn(`[UnifiedAgent] K绾挎暟鎹笉瓒?${chartPoints.length}鐐?锛屼娇鐢ㄩ檷绾х畻娉曡ˉ鍏╜);
+    console.warn(`[UnifiedAgent] K线数据不足: ${chartPoints.length}点，使用降级算法补全`);
     chartPoints = generateFallbackKLine(skeletonData);
-    onProgress(`鈿?K绾挎暟鎹娇鐢ㄩ檷绾х畻娉曠敓鎴?(${chartPoints.length}骞?`);
+    onProgress(`K线数据使用降级算法生成 (${chartPoints.length}年)`);
   }
 
   // 缁勮鏈€缁堢粨鏋?

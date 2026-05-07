@@ -8,10 +8,11 @@ import {
 } from './database.js';
 import { BAZI_SYSTEM_INSTRUCTION, buildUserPrompt } from './prompt.js';
 import { calculateLifeTimeline } from './baziCalculator.js';
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
 
-const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const DEFAULT_API_BASE_URL = normalizeApiBaseUrl();
 const DEFAULT_API_KEY = process.env.API_KEY || ''; // 闇€瑕佸湪 .env 涓厤缃?
-const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const DEFAULT_MODEL = normalizeModelName();
 
 // 澶囬€夋ā鍨嬪垪琛?- 鐢ㄤ簬骞跺彂璇锋眰鍜岄檷绾?
 const ALL_MODELS = [DEFAULT_MODEL];
@@ -247,7 +248,7 @@ export const handleAnalyzeStream = async (req, res) => {
     console.error('楠ㄦ灦璁＄畻澶辫触:', err);
     sendSSE(res, 'error', {
       error: 'SKELETON_CALC_FAILED',
-      message: '娴佸勾楠ㄦ灦璁＄畻澶辫触锛岃妫€鏌ヨ緭鍏ユ暟鎹?
+      message: '流年骨架计算失败，请检查输入数据'
     });
     return res.end();
   }
@@ -332,21 +333,21 @@ export const handleAnalyzeStream = async (req, res) => {
     chartData: result.chartPoints,
     analysis: {
       bazi: result.bazi || [],
-      summary: result.summary || '鏃犳憳瑕?,
+      summary: result.summary || '暂无摘要',
       summaryScore: result.summaryScore || 5,
       personality: result.personality || '鏃犳€ф牸鍒嗘瀽',
       personalityScore: result.personalityScore || 5,
-      industry: result.industry || '鏃?,
+      industry: result.industry || '暂无行业分析',
       industryScore: result.industryScore || 5,
-      fengShui: result.fengShui || '寤鸿澶氫翰杩戣嚜鐒讹紝淇濇寔蹇冨骞冲拰銆?,
+      fengShui: result.fengShui || '建议亲近自然，保持心境平和。',
       fengShuiScore: result.fengShuiScore || 5,
-      wealth: result.wealth || '鏃?,
+      wealth: result.wealth || '暂无财富分析',
       wealthScore: result.wealthScore || 5,
-      marriage: result.marriage || '鏃?,
+      marriage: result.marriage || '暂无婚恋分析',
       marriageScore: result.marriageScore || 5,
-      health: result.health || '鏃?,
+      health: result.health || '暂无健康分析',
       healthScore: result.healthScore || 5,
-      family: result.family || '鏃?,
+      family: result.family || '暂无家庭分析',
       familyScore: result.familyScore || 5,
       crypto: result.crypto || '鏆傛棤浜ゆ槗鍒嗘瀽',
       cryptoScore: result.cryptoScore || 5,

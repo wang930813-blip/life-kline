@@ -117,15 +117,16 @@ import {
   queryWechatOrder,
   verifyWechatNotifySignature,
 } from './wechatPay.js';
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
 
 dotenv.config();
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 
-const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const DEFAULT_API_BASE_URL = normalizeApiBaseUrl();
 const DEFAULT_API_KEY = process.env.API_KEY || ''; // 闇€瑕佸湪 .env 涓厤缃?
-const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const DEFAULT_MODEL = normalizeModelName();
 
 // 妯″瀷闄嶇骇鍒楄〃锛氬綋涓绘ā鍨嬪け璐ユ椂渚濇灏濊瘯
 const FALLBACK_MODELS = []; 
@@ -2097,7 +2098,7 @@ app.post('/api/fortune/daily', async (req, res) => {
       dateKey,
       fortuneData,
       aiEnhanced: !!aiEnhancedData,
-      modelUsed: aiEnhancedData ? 'claude-sonnet-4' : null,
+      modelUsed: aiEnhancedData ? DEFAULT_MODEL : null,
       pointsCost: pointsDeducted,
       // AI澧炲己鐗堟案涔呯紦瀛橈紝鍩虹鐗堟鏃ヨ繃鏈?
       expiresAt: aiEnhancedData ? null : getNextMidnight().toISOString(),

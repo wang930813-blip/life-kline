@@ -1,3 +1,5 @@
+import { normalizeApiBaseUrl, normalizeModelName } from './llmConfig.js';
+
 /**
  * API Gateway - 路由层
  * 支持自托管 API 和官方云服务两种模式
@@ -49,9 +51,9 @@ export function getApiConfig() {
   // 自托管模式
   return {
     mode: API_MODE.SELF_HOSTED,
-    endpoint: process.env.API_BASE_URL || 'https://api.openai.com/v1',
+    endpoint: normalizeApiBaseUrl(),
     apiKey: process.env.API_KEY || '',
-    model: process.env.DEFAULT_MODEL || 'gpt-4',
+    model: normalizeModelName(),
     timeout: DEFAULT_TIMEOUT
   };
 }

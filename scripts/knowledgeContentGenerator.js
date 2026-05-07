@@ -27,6 +27,7 @@ import {
   getDb,
   createArticle,
 } from '../server/database.js';
+import { normalizeApiBaseUrl, normalizeModelName } from '../server/llmConfig.js';
 import { buildArticlePrompt } from './knowledgeContentPrompts.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,10 +35,10 @@ const __dirname = path.dirname(__filename);
 
 // ============ 配置 ============
 
-const API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
+const API_BASE_URL = normalizeApiBaseUrl();
 const API_KEY = process.env.API_KEY || ''; // 需要在 .env 中配置
-const PRIMARY_MODEL = 'grok-4';
-const FALLBACK_MODELS = ['gemini-3-pro-preview', 'grok-4-auto'];
+const PRIMARY_MODEL = normalizeModelName();
+const FALLBACK_MODELS = [];
 
 // 解析命令行参数
 const args = process.argv.slice(2);
