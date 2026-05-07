@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Coins, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, Coins, Loader2, Sparkles, X } from 'lucide-react';
 
 interface PointsConfirmDialogProps {
   isOpen: boolean;
@@ -32,7 +32,6 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in">
-        {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-white">
             <Sparkles className="w-5 h-5" />
@@ -47,12 +46,9 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-6 space-y-4">
-          {/* Description */}
           <p className="text-gray-600">{description}</p>
 
-          {/* Cost Display */}
           <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm text-gray-600">消耗积分</span>
@@ -78,7 +74,6 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
             )}
           </div>
 
-          {/* Insufficient Points Warning */}
           {!hasEnoughPoints && (
             <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl border border-red-100">
               <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
@@ -86,13 +81,11 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
                 <p className="text-sm font-medium text-red-700">积分不足</p>
                 <p className="text-sm text-red-600 mt-1">
                   还需要 <span className="font-bold">{cost - currentPoints}</span> 点。
-                  分享到社交媒体可获得 300 点奖励！
                 </p>
               </div>
             </div>
           )}
 
-          {/* Feature Benefits */}
           {featureName && (
             <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-3">
               <p className="font-medium text-gray-700 mb-1">功能说明：</p>
@@ -100,21 +93,21 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
                 <ul className="space-y-1 list-disc list-inside">
                   <li>基于八字与流日的深度AI分析</li>
                   <li>12时辰吉凶详解</li>
-                  <li>四维运势(事业/财运/感情/健康)专业解读</li>
+                  <li>四维运势专业解读</li>
                   <li>个性化建议与注意事项</li>
-                  <li>结果永久保存，可随时查看</li>
+                  <li>结果可长期查看</li>
                 </ul>
               )}
               {featureName === 'DAILY_KLINE' && (
                 <ul className="space-y-1 list-disc list-inside">
-                  <li>61天运势K线图(前30天+今天+后30天)</li>
+                  <li>61天运势K线图</li>
                   <li>每日详细批断</li>
                   <li>关键日期标注</li>
                 </ul>
               )}
               {featureName === 'MONTHLY_KLINE' && (
                 <ul className="space-y-1 list-disc list-inside">
-                  <li>7个月运势K线图(前3月+当月+后3月)</li>
+                  <li>7个月运势K线图</li>
                   <li>月度趋势分析</li>
                   <li>重点月份提示</li>
                 </ul>
@@ -123,7 +116,6 @@ export const PointsConfirmDialog: React.FC<PointsConfirmDialogProps> = ({
           )}
         </div>
 
-        {/* Actions */}
         <div className="px-6 pb-6 flex gap-3">
           <button
             onClick={onClose}

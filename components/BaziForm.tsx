@@ -202,7 +202,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
   }, [formData.yearPillar, formData.gender]);
 
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border-2 border-golden-300 shadow-glow-golden">
+    <div id="bazi-form-card" className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border-2 border-golden-300 shadow-glow-golden">
       <div className="text-center mb-6">
         <h2 className="text-3xl font-serif-sc font-bold text-purple-700 mb-2">八字排盘</h2>
         <p className="text-gray-500 text-sm">请输入四柱与大运信息以生成分析</p>

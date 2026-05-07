@@ -125,12 +125,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 
 const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
 const DEFAULT_API_KEY = process.env.API_KEY || ''; // 闇€瑕佸湪 .env 涓厤缃?
-const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gemini-3-pro-preview';
+const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
 
 // 妯″瀷闄嶇骇鍒楄〃锛氬綋涓绘ā鍨嬪け璐ユ椂渚濇灏濊瘯
-const FALLBACK_MODELS = [
-  'gemini-2.5-pro',
-];
+const FALLBACK_MODELS = []; 
 
 const FREE_INIT_POINTS = process.env.FREE_INIT_POINTS ? parseInt(process.env.FREE_INIT_POINTS, 10) : 1000;
 const COST_PER_ANALYSIS = process.env.COST_PER_ANALYSIS ? parseInt(process.env.COST_PER_ANALYSIS, 10) : 50;
@@ -2011,8 +2009,9 @@ app.post('/api/fortune/daily', async (req, res) => {
       if (enhanced && !cached.aiEnhanced) {
         // 缁х画鍒颁笅闈㈢敓鎴怉I澧炲己鍐呭
       } else {
+        const normalizedCachedFortune = normalizeDailyFortuneData(cached.fortuneData);
         return res.json({
-          fortune: cached.fortuneData,
+          fortune: normalizedCachedFortune,
           fromCache: true,
           pointsDeducted: 0,
           remainingPoints: authInfo ? authInfo.user.points : null,
@@ -2057,7 +2056,7 @@ app.post('/api/fortune/daily', async (req, res) => {
     const solar = Solar.fromDate(targetDate);
     const lunar = solar.getLunar();
     const dayGanZhi = `${lunar.getDayGan()}${lunar.getDayZhi()}`;
-    const lunarDateStr = `${lunar.getMonthInChinese()}鏈?{lunar.getDayInChinese()}`;
+    const lunarDateStr = `${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
 
     // 鍩虹杩愬娍璁＄畻锛堟湰鍦帮級
     const baseFortune = calculateBasicDailyFortune(bazi, targetDate, dayGanZhi, lunar);
@@ -2082,14 +2081,14 @@ app.post('/api/fortune/daily', async (req, res) => {
     }
 
     // 缁勮瀹屾暣杩愬娍鏁版嵁
-    const fortuneData = {
+    const fortuneData = normalizeDailyFortuneData({
       date: dateKey,
       dayGanZhi,
       lunarDate: lunarDateStr,
       ...baseFortune,
       ...(aiEnhancedData || {}),
       generatedAt: new Date().toISOString(),
-    };
+    });
 
     // 淇濆瓨鍒扮紦瀛?
     saveDailyFortuneDetail({
@@ -2140,7 +2139,7 @@ app.get('/api/fortune/daily/:date', (req, res) => {
   }
 
   return res.json({
-    fortune: cached.fortuneData,
+    fortune: normalizeDailyFortuneData(cached.fortuneData),
     aiEnhanced: cached.aiEnhanced,
     createdAt: cached.createdAt,
   });
@@ -2166,7 +2165,7 @@ app.get('/api/fortune/monthly/:year/:month', (req, res) => {
     // 妫€鏌ョ紦瀛?
     const cached = getFortuneCache(profileId, 'monthly', dateKey);
     if (cached) {
-      return res.json({ fortune: cached.predictions, fromCache: true });
+      return res.json({ fortune: normalizeFortuneText(cached.predictions), fromCache: true });
     }
 
     // 鐢熸垚鏈堝害杩愬娍锛堟湰鍦拌绠楋級
@@ -2191,7 +2190,7 @@ app.get('/api/fortune/monthly/:year/:month', (req, res) => {
       expiresAt: nextMonth.toISOString(),
     });
 
-    return res.json({ fortune, fromCache: false });
+    return res.json({ fortune: normalizeFortuneText(fortune), fromCache: false });
 
   } catch (error) {
     console.error('鑾峰彇鏈堝害杩愬娍澶辫触:', error);
@@ -2219,7 +2218,7 @@ app.get('/api/fortune/yearly/:year', (req, res) => {
     // 妫€鏌ョ紦瀛?
     const cached = getFortuneCache(profileId, 'yearly', dateKey);
     if (cached) {
-      return res.json({ fortune: cached.predictions, fromCache: true });
+      return res.json({ fortune: normalizeFortuneText(cached.predictions), fromCache: true });
     }
 
     // 鐢熸垚骞村害杩愬娍锛堟湰鍦拌绠楋級
@@ -2244,7 +2243,7 @@ app.get('/api/fortune/yearly/:year', (req, res) => {
       expiresAt: nextYear.toISOString(),
     });
 
-    return res.json({ fortune, fromCache: false });
+    return res.json({ fortune: normalizeFortuneText(fortune), fromCache: false });
 
   } catch (error) {
     console.error('鑾峰彇骞村害杩愬娍澶辫触:', error);
@@ -2287,6 +2286,68 @@ function getNextMidnight() {
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
   return midnight;
+}
+
+function normalizeFortuneText(value) {
+  if (typeof value === 'string') {
+    const replacements = new Map([
+      ['鎰熸儏杩愬娍骞崇ǔ', '感情运势平稳'],
+      ['宸虫椂', '巳时'],
+      ['鏈椂', '未时'],
+      ['绛剧害', '签约'],
+      ['浼氳', '会议'],
+      ['绀句氦', '社交'],
+      ['鎷滆', '拜访'],
+      ['绾㈣壊', '红色'],
+      ['鍗楁柟', '南方'],
+      ['鎶婃彙鏈洪亣', '把握机遇'],
+      ['绋充腑姹傝繘', '稳中求进'],
+      ['绋虫鍙戝睍', '稳步发展'],
+      ['鐢ㄥ績缁忚惀', '用心经营'],
+      ['娉ㄦ剰浣滄伅', '注意作息'],
+      ['浜嬩笟鏈洪亣', '事业机遇'],
+      ['璐㈣繍楂樺嘲', '财运高峰'],
+      ['鏀惰幏骞', '收获年'],
+      ['骞崇ǔ骞', '平稳年'],
+      ['璋冩暣骞', '调整年'],
+      ['鏈洪亣', '机遇'],
+      ['绐佺牬', '突破'],
+      ['绋冲畾', '稳定'],
+      ['绉疮', '积累'],
+      ['璋冩暣', '调整'],
+      ['钃勫姏', '蓄力'],
+      ['鏄ヨ妭', '春节'],
+      ['璐㈣繍鏈', '财运月'],
+      ['浜嬩笟鏈', '事业月'],
+      ['瀛︿範鏈', '学习月'],
+      ['骞崇ǔ鏈', '平稳月'],
+      ['鏉冨▉鏈', '权威月'],
+      ['鐞嗘€х悊璐', '理性理财'],
+      ['鐞嗘€ф姇璧', '理性投资'],
+    ]);
+
+    let next = value;
+    replacements.forEach((good, bad) => {
+      next = next.split(bad).join(good);
+    });
+    return next;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeFortuneText(item));
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, normalizeFortuneText(item)])
+    );
+  }
+
+  return value;
+}
+
+function normalizeDailyFortuneData(fortuneData) {
+  return normalizeFortuneText(fortuneData);
 }
 
 // 璁＄畻鍏瓧鐩镐技搴?
@@ -2539,7 +2600,7 @@ function calculateBasicDailyFortune(bazi, date, dayGanZhi, lunar) {
     relationship: {
       score: relationshipScore,
       trend: getTrend(relationshipScore),
-      description: relationshipScore > 70 ? '浜洪檯鍏崇郴鍜岃皭' : relationshipScore < 45 ? '闇€娉ㄦ剰浜洪檯鍏崇郴' : '鎰熸儏杩愬娍骞崇ǔ',
+      description: relationshipScore > 70 ? '人际关系和谐' : relationshipScore < 45 ? '需要注意人际关系' : '感情运势平稳',
       advice: relationshipScore > 70 ? '多参与社交活动' : '避免不必要的冲突',
       keyPoint: relationshipScore > 70 ? '今日适合社交' : '今日宜低调',
     },
@@ -2551,12 +2612,12 @@ function calculateBasicDailyFortune(bazi, date, dayGanZhi, lunar) {
       keyPoint: healthScore > 70 ? '精力充沛' : '注意劳逸结合',
     },
     auspiciousHours: [
-      { hour: '09:00-11:00', branch: '宸虫椂', quality: 'good', activities: ['绛剧害', '浼氳'] },
-      { hour: '13:00-15:00', branch: '鏈椂', quality: 'good', activities: ['绀句氦', '鎷滆'] },
+      { hour: '09:00-11:00', branch: '巳时', quality: 'good', activities: ['签约', '会议'] },
+      { hour: '13:00-15:00', branch: '未时', quality: 'good', activities: ['社交', '拜访'] },
     ],
     luckyElements: {
-      colors: elementColors[dayMaster] || ['绾㈣壊'],
-      directions: elementDirections[dayMaster] || ['鍗楁柟'],
+      colors: elementColors[dayMaster] || ['红色'],
+      directions: elementDirections[dayMaster] || ['南方'],
       numbers: [date.getDate() % 9 + 1, (date.getDate() + 3) % 9 + 1],
       zodiac: ['马', '虎'],
     },
@@ -2664,7 +2725,7 @@ async function generateDailyFortuneAI(bazi, dateKey, dayGanZhi, lunarDateStr, pr
         'Authorization': `Bearer ${DEFAULT_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gemini-3-pro-preview',
+        model: DEFAULT_MODEL,
         messages: [
           { role: 'system', content: AGENT_DAILY_FORTUNE_PROMPT },
           { role: 'user', content: userPrompt },
@@ -3348,4 +3409,5 @@ app.listen(PORT, () => {
   // Start email scheduler
   startEmailScheduler();
 });
+
 

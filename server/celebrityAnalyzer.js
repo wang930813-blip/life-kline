@@ -1,20 +1,20 @@
-/**
- * 名人命理分析器
- * 使用LLM为名人/企业生成深度八字分析报告
+﻿/**
+ * 鍚嶄汉鍛界悊鍒嗘瀽鍣?
+ * 浣跨敤LLM涓哄悕浜?浼佷笟鐢熸垚娣卞害鍏瓧鍒嗘瀽鎶ュ憡
  */
 import fetch from 'node-fetch';
 import { AGENT_CELEBRITY_ANALYSIS_PROMPT } from './agentPrompts.js';
 
 const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
-const DEFAULT_API_KEY = process.env.API_KEY || ''; // 需要在 .env 中配置
+const DEFAULT_API_KEY = process.env.API_KEY || ''; // 闇€瑕佸湪 .env 涓厤缃?
 
-// 名人分析使用的模型 - 需要高质量输出
-const CELEBRITY_ANALYSIS_MODEL = 'grok-4';
-const FALLBACK_MODELS = ['gemini-3-pro-preview', 'grok-4-auto'];
+// 鍚嶄汉鍒嗘瀽浣跨敤鐨勬ā鍨?- 闇€瑕侀珮璐ㄩ噺杈撳嚭
+const CELEBRITY_ANALYSIS_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
+const FALLBACK_MODELS = []; 
 
 /**
- * 构建名人分析的用户提示词
- * @param {object} celebrity - 名人数据对象
+ * 鏋勫缓鍚嶄汉鍒嗘瀽鐨勭敤鎴锋彁绀鸿瘝
+ * @param {object} celebrity - 鍚嶄汉鏁版嵁瀵硅薄
  */
 function buildCelebrityPrompt(celebrity) {
   const birthDate = new Date(celebrity.birthDate || celebrity.birth_date);
@@ -28,38 +28,38 @@ function buildCelebrityPrompt(celebrity) {
                     celebrity.category === 'crypto_macro';
 
   return `
-【${isCompany ? '企业/项目' : '名人'}信息】
-名称: ${celebrity.nameCn || celebrity.name_cn} (${celebrity.name})
-类别: ${celebrity.categoryCn || celebrity.category_cn}
-${isCompany ? '成立' : '出生'}日期: ${birthYear}年${birthMonth}月${birthDay}日 ${birthHour}时
-${isCompany ? '总部' : '出生'}地点: ${celebrity.birthLocation?.city || celebrity.birth_location_city || '未知'}
+銆?{isCompany ? '浼佷笟/椤圭洰' : '鍚嶄汉'}淇℃伅銆?
+鍚嶇О: ${celebrity.nameCn || celebrity.name_cn} (${celebrity.name})
+绫诲埆: ${celebrity.categoryCn || celebrity.category_cn}
+${isCompany ? '鎴愮珛' : '鍑虹敓'}鏃ユ湡: ${birthYear}骞?{birthMonth}鏈?{birthDay}鏃?${birthHour}鏃?
+${isCompany ? '鎬婚儴' : '鍑虹敓'}鍦扮偣: ${celebrity.birthLocation?.city || celebrity.birth_location_city || '鏈煡'}
 
-【八字四柱】
-年柱: ${celebrity.yearPillar || celebrity.year_pillar}
-月柱: ${celebrity.monthPillar || celebrity.month_pillar}
-日柱: ${celebrity.dayPillar || celebrity.day_pillar}
-时柱: ${celebrity.hourPillar || celebrity.hour_pillar}
+銆愬叓瀛楀洓鏌便€?
+骞存煴: ${celebrity.yearPillar || celebrity.year_pillar}
+鏈堟煴: ${celebrity.monthPillar || celebrity.month_pillar}
+鏃ユ煴: ${celebrity.dayPillar || celebrity.day_pillar}
+鏃舵煴: ${celebrity.hourPillar || celebrity.hour_pillar}
 
-【已有描述】
+銆愬凡鏈夋弿杩般€?
 ${celebrity.description}
 
-【标签】
+銆愭爣绛俱€?
 ${(celebrity.tags || []).join(', ')}
 
-【分析要求】
-请为此${isCompany ? '企业/项目' : '名人'}生成深度八字命理分析报告。
-${isCompany ? '注意：企业八字以成立日期为准，分析其发展运势。' : ''}
-分析需要基于真实的命理逻辑，每个维度至少200字，必须有命理依据支撑。
+銆愬垎鏋愯姹傘€?
+璇蜂负姝?{isCompany ? '浼佷笟/椤圭洰' : '鍚嶄汉'}鐢熸垚娣卞害鍏瓧鍛界悊鍒嗘瀽鎶ュ憡銆?
+${isCompany ? '娉ㄦ剰锛氫紒涓氬叓瀛椾互鎴愮珛鏃ユ湡涓哄噯锛屽垎鏋愬叾鍙戝睍杩愬娍銆? : ''}
+鍒嗘瀽闇€瑕佸熀浜庣湡瀹炵殑鍛界悊閫昏緫锛屾瘡涓淮搴﹁嚦灏?00瀛楋紝蹇呴』鏈夊懡鐞嗕緷鎹敮鎾戙€?
 `;
 }
 
 /**
- * 解析LLM响应中的JSON
- * @param {string} content - LLM返回的内容
+ * 瑙ｆ瀽LLM鍝嶅簲涓殑JSON
+ * @param {string} content - LLM杩斿洖鐨勫唴瀹?
  */
 function parseAnalysisResponse(content) {
   try {
-    // 清理内容
+    // 娓呯悊鍐呭
     let cleaned = content.trim();
     cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
     cleaned = cleaned.replace(/^[\s\S]*?(?=\{)/m, '');
@@ -77,35 +77,35 @@ function parseAnalysisResponse(content) {
 
     return JSON.parse(cleaned);
   } catch (error) {
-    console.error('[celebrityAnalyzer] JSON解析失败:', error.message);
-    console.error('[celebrityAnalyzer] 原始内容前500字:', content.substring(0, 500));
+    console.error('[celebrityAnalyzer] JSON瑙ｆ瀽澶辫触:', error.message);
+    console.error('[celebrityAnalyzer] 鍘熷鍐呭鍓?00瀛?', content.substring(0, 500));
     return null;
   }
 }
 
 /**
- * 验证分析结果是否完整
- * @param {object} result - 解析后的分析结果
+ * 楠岃瘉鍒嗘瀽缁撴灉鏄惁瀹屾暣
+ * @param {object} result - 瑙ｆ瀽鍚庣殑鍒嗘瀽缁撴灉
  */
 function validateAnalysisResult(result) {
   if (!result || typeof result !== 'object') return false;
 
   const { analysisData, scores } = result;
 
-  // 检查必要的分析字段
+  // 妫€鏌ュ繀瑕佺殑鍒嗘瀽瀛楁
   const requiredAnalysisFields = ['summary', 'personality', 'career', 'wealth', 'marriage', 'health'];
   for (const field of requiredAnalysisFields) {
     if (!analysisData?.[field] || analysisData[field].length < 100) {
-      console.warn(`[celebrityAnalyzer] 字段 ${field} 缺失或内容太短 (${analysisData?.[field]?.length || 0}字)`);
+      console.warn(`[celebrityAnalyzer] 瀛楁 ${field} 缂哄け鎴栧唴瀹瑰お鐭?(${analysisData?.[field]?.length || 0}瀛?`);
       return false;
     }
   }
 
-  // 检查评分字段
+  // 妫€鏌ヨ瘎鍒嗗瓧娈?
   const requiredScoreFields = ['overall', 'personality', 'career', 'wealth', 'marriage', 'health'];
   for (const field of requiredScoreFields) {
     if (typeof scores?.[field] !== 'number' || scores[field] < 0 || scores[field] > 100) {
-      console.warn(`[celebrityAnalyzer] 评分字段 ${field} 无效: ${scores?.[field]}`);
+      console.warn(`[celebrityAnalyzer] 璇勫垎瀛楁 ${field} 鏃犳晥: ${scores?.[field]}`);
       return false;
     }
   }
@@ -114,17 +114,17 @@ function validateAnalysisResult(result) {
 }
 
 /**
- * 调用LLM API生成分析
- * @param {string} model - 模型名称
- * @param {string} userPrompt - 用户提示词
- * @param {number} timeoutMs - 超时时间
+ * 璋冪敤LLM API鐢熸垚鍒嗘瀽
+ * @param {string} model - 妯″瀷鍚嶇О
+ * @param {string} userPrompt - 鐢ㄦ埛鎻愮ず璇?
+ * @param {number} timeoutMs - 瓒呮椂鏃堕棿
  */
 async function callLLMApi(model, userPrompt, timeoutMs = 120000) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    console.log(`[celebrityAnalyzer] 使用模型 ${model} 开始生成分析...`);
+    console.log(`[celebrityAnalyzer] 浣跨敤妯″瀷 ${model} 寮€濮嬬敓鎴愬垎鏋?..`);
     const startTime = Date.now();
 
     const response = await fetch(`${DEFAULT_API_BASE_URL}/chat/completions`, {
@@ -150,7 +150,7 @@ async function callLLMApi(model, userPrompt, timeoutMs = 120000) {
 
     if (!response.ok) {
       const errText = await response.text();
-      console.warn(`[celebrityAnalyzer] API请求失败 (${elapsed}s): ${response.status} - ${errText.substring(0, 200)}`);
+      console.warn(`[celebrityAnalyzer] API璇锋眰澶辫触 (${elapsed}s): ${response.status} - ${errText.substring(0, 200)}`);
       return { success: false, error: `HTTP ${response.status}`, elapsed };
     }
 
@@ -170,25 +170,25 @@ async function callLLMApi(model, userPrompt, timeoutMs = 120000) {
       return { success: false, error: 'VALIDATION_ERROR', data: parsed, elapsed };
     }
 
-    console.log(`[celebrityAnalyzer] ✓ 分析生成成功 (${elapsed}s)`);
+    console.log(`[celebrityAnalyzer] 鉁?鍒嗘瀽鐢熸垚鎴愬姛 (${elapsed}s)`);
     return { success: true, data: parsed, elapsed, model };
 
   } catch (error) {
     clearTimeout(timeoutId);
     if (error.name === 'AbortError') {
-      console.warn(`[celebrityAnalyzer] 请求超时`);
+      console.warn(`[celebrityAnalyzer] 璇锋眰瓒呮椂`);
       return { success: false, error: 'TIMEOUT' };
     }
-    console.warn(`[celebrityAnalyzer] 请求异常: ${error.message}`);
+    console.warn(`[celebrityAnalyzer] 璇锋眰寮傚父: ${error.message}`);
     return { success: false, error: error.message };
   }
 }
 
 /**
- * 为名人生成完整的命理分析
- * @param {object} celebrity - 名人数据对象
- * @param {object} options - 选项
- * @returns {Promise<object>} 分析结果
+ * 涓哄悕浜虹敓鎴愬畬鏁寸殑鍛界悊鍒嗘瀽
+ * @param {object} celebrity - 鍚嶄汉鏁版嵁瀵硅薄
+ * @param {object} options - 閫夐」
+ * @returns {Promise<object>} 鍒嗘瀽缁撴灉
  */
 export async function generateCelebrityAnalysis(celebrity, options = {}) {
   const { maxRetries = 2 } = options;
@@ -197,7 +197,7 @@ export async function generateCelebrityAnalysis(celebrity, options = {}) {
 
   for (const model of modelsToTry) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      console.log(`[celebrityAnalyzer] 尝试模型 ${model} (第${attempt}次)...`);
+      console.log(`[celebrityAnalyzer] 灏濊瘯妯″瀷 ${model} (绗?{attempt}娆?...`);
 
       const result = await callLLMApi(model, userPrompt);
 
@@ -214,11 +214,11 @@ export async function generateCelebrityAnalysis(celebrity, options = {}) {
         };
       }
 
-      // 如果有部分数据但验证失败，尝试使用
+      // 濡傛灉鏈夐儴鍒嗘暟鎹絾楠岃瘉澶辫触锛屽皾璇曚娇鐢?
       if (result.error === 'VALIDATION_ERROR' && result.data) {
-        console.warn(`[celebrityAnalyzer] 数据验证失败但有部分数据，尝试补全...`);
+        console.warn(`[celebrityAnalyzer] 鏁版嵁楠岃瘉澶辫触浣嗘湁閮ㄥ垎鏁版嵁锛屽皾璇曡ˉ鍏?..`);
         const partialData = result.data;
-        // 填充缺失的默认值
+        // 濉厖缂哄け鐨勯粯璁ゅ€?
         partialData.scores = partialData.scores || {
           overall: 60, personality: 60, career: 60, wealth: 60, marriage: 60, health: 60
         };
@@ -238,24 +238,24 @@ export async function generateCelebrityAnalysis(celebrity, options = {}) {
       }
 
       if (attempt < maxRetries) {
-        console.log(`[celebrityAnalyzer] 等待1.5秒后重试...`);
+        console.log(`[celebrityAnalyzer] 绛夊緟1.5绉掑悗閲嶈瘯...`);
         await new Promise(r => setTimeout(r, 1500));
       }
     }
-    console.warn(`[celebrityAnalyzer] 模型 ${model} 所有尝试失败，切换备用模型...`);
+    console.warn(`[celebrityAnalyzer] 妯″瀷 ${model} 鎵€鏈夊皾璇曞け璐ワ紝鍒囨崲澶囩敤妯″瀷...`);
   }
 
   return {
     success: false,
     error: 'ALL_MODELS_FAILED',
-    message: '所有模型均无法生成有效分析',
+    message: '鎵€鏈夋ā鍨嬪潎鏃犳硶鐢熸垚鏈夋晥鍒嗘瀽',
   };
 }
 
 /**
- * 批量生成名人分析（用于后台任务）
- * @param {Array} celebrities - 名人数据数组
- * @param {function} onProgress - 进度回调
+ * 鎵归噺鐢熸垚鍚嶄汉鍒嗘瀽锛堢敤浜庡悗鍙颁换鍔★級
+ * @param {Array} celebrities - 鍚嶄汉鏁版嵁鏁扮粍
+ * @param {function} onProgress - 杩涘害鍥炶皟
  */
 export async function batchGenerateCelebrityAnalysis(celebrities, onProgress) {
   const results = [];
@@ -263,7 +263,7 @@ export async function batchGenerateCelebrityAnalysis(celebrities, onProgress) {
 
   for (let i = 0; i < total; i++) {
     const celebrity = celebrities[i];
-    console.log(`[celebrityAnalyzer] 批量生成进度: ${i + 1}/${total} - ${celebrity.nameCn || celebrity.name_cn}`);
+    console.log(`[celebrityAnalyzer] 鎵归噺鐢熸垚杩涘害: ${i + 1}/${total} - ${celebrity.nameCn || celebrity.name_cn}`);
 
     if (onProgress) {
       onProgress({
@@ -281,7 +281,7 @@ export async function batchGenerateCelebrityAnalysis(celebrities, onProgress) {
       ...result,
     });
 
-    // 每次请求后等待2秒，避免API限流
+    // 姣忔璇锋眰鍚庣瓑寰?绉掞紝閬垮厤API闄愭祦
     if (i < total - 1) {
       await new Promise(r => setTimeout(r, 2000));
     }
@@ -294,3 +294,4 @@ export default {
   generateCelebrityAnalysis,
   batchGenerateCelebrityAnalysis,
 };
+

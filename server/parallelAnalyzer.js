@@ -1,7 +1,7 @@
-/**
- * 并行分析器 - 6个Agent同时工作
- * 实现渐进式SSE推送，用户感知到的等待时间 = 最快Agent的返回时间
- * K线分为过去(出生到今年)和未来(今年到100岁)两个并行请求，提升生成速度
+﻿/**
+ * 骞惰鍒嗘瀽鍣?- 6涓狝gent鍚屾椂宸ヤ綔
+ * 瀹炵幇娓愯繘寮廠SE鎺ㄩ€侊紝鐢ㄦ埛鎰熺煡鍒扮殑绛夊緟鏃堕棿 = 鏈€蹇獳gent鐨勮繑鍥炴椂闂?
+ * K绾垮垎涓鸿繃鍘?鍑虹敓鍒颁粖骞?鍜屾湭鏉?浠婂勾鍒?00宀?涓や釜骞惰璇锋眰锛屾彁鍗囩敓鎴愰€熷害
  */
 import fetch from 'node-fetch';
 import { nanoid } from 'nanoid';
@@ -17,10 +17,10 @@ import {
 import { generateFallbackKLine } from './baziCalculator.js';
 
 const DEFAULT_API_BASE_URL = process.env.API_BASE_URL || 'https://api.openai.com/v1';
-const DEFAULT_API_KEY = process.env.API_KEY || ''; // 需要在 .env 中配置
+const DEFAULT_API_KEY = process.env.API_KEY || '';
 const DEFAULT_MODEL = process.env.DEFAULT_MODEL || 'gpt-4';
 
-// 优先使用 .env 中的 DEFAULT_MODEL，只有失败时才回退
+// 浼樺厛浣跨敤 .env 涓殑 DEFAULT_MODEL锛屽彧鏈夊け璐ユ椂鎵嶅洖閫€
 const AGENT_MODEL_ASSIGNMENT = {
   core: DEFAULT_MODEL,
   kline_past: DEFAULT_MODEL,
@@ -30,7 +30,7 @@ const AGENT_MODEL_ASSIGNMENT = {
   crypto: DEFAULT_MODEL,
 };
 
-// 备用模型列表
+// 澶囩敤妯″瀷鍒楄〃
 const FALLBACK_MODELS = [
   DEFAULT_MODEL,
   'grok-4-auto',
@@ -40,7 +40,7 @@ const FALLBACK_MODELS = [
 ];
 
 /**
- * 发送SSE事件
+ * 鍙戦€丼SE浜嬩欢
  */
 export const sendSSE = (res, event, data) => {
   if (!res.writableEnded) {
@@ -50,14 +50,14 @@ export const sendSSE = (res, event, data) => {
 };
 
 /**
- * 单个Agent请求
+ * 鍗曚釜Agent璇锋眰
  */
 const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemPrompt, userPrompt, timeoutMs = 60000) => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    console.log(`[Agent:${agentType}] 使用模型 ${model} 开始请求...`);
+    console.log(`[Agent:${agentType}] 浣跨敤妯″瀷 ${model} 寮€濮嬭姹?..`);
     const startTime = Date.now();
 
     const response = await fetch(`${apiBaseUrl}/chat/completions`, {
@@ -73,7 +73,7 @@ const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemProm
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
         ],
-        temperature: 0.6, // 稍低的温度以保持一致性
+        temperature: 0.6, // 绋嶄綆鐨勬俯搴︿互淇濇寔涓€鑷存€?
       }),
     });
 
@@ -82,7 +82,7 @@ const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemProm
 
     if (!response.ok) {
       const errText = await response.text();
-      console.warn(`[Agent:${agentType}] 请求失败 (${elapsed}s): ${response.status}`);
+      console.warn(`[Agent:${agentType}] 璇锋眰澶辫触 (${elapsed}s): ${response.status}`);
       return { success: false, agentType, error: `HTTP ${response.status}`, elapsed };
     }
 
@@ -91,7 +91,7 @@ const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemProm
     try {
       jsonResult = JSON.parse(responseText);
     } catch (e) {
-      console.warn(`[Agent:${agentType}] JSON解析失败 (${elapsed}s)`);
+      console.warn(`[Agent:${agentType}] JSON瑙ｆ瀽澶辫触 (${elapsed}s)`);
       return { success: false, agentType, error: 'INVALID_API_RESPONSE', elapsed };
     }
 
@@ -100,7 +100,7 @@ const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemProm
       return { success: false, agentType, error: 'EMPTY_RESPONSE', elapsed };
     }
 
-    // 清理内容
+    // 娓呯悊鍐呭
     content = content.trim();
     content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
     content = content.replace(/^[\s\S]*?(?=\{)/m, '');
@@ -119,26 +119,26 @@ const makeAgentRequest = async (agentType, model, apiBaseUrl, apiKey, systemProm
     try {
       data = JSON.parse(content);
     } catch (parseErr) {
-      console.warn(`[Agent:${agentType}] 内容JSON解析失败 (${elapsed}s): ${content.substring(0, 100)}`);
+      console.warn(`[Agent:${agentType}] 鍐呭JSON瑙ｆ瀽澶辫触 (${elapsed}s): ${content.substring(0, 100)}`);
       return { success: false, agentType, error: 'INVALID_JSON_FORMAT', elapsed };
     }
 
-    console.log(`[Agent:${agentType}] ✓ 成功 (${elapsed}s)`);
+    console.log(`[Agent:${agentType}] 鉁?鎴愬姛 (${elapsed}s)`);
     return { success: true, agentType, data, elapsed, model };
 
   } catch (error) {
     clearTimeout(timeoutId);
     if (error.name === 'AbortError') {
-      console.warn(`[Agent:${agentType}] 请求超时`);
+      console.warn(`[Agent:${agentType}] 璇锋眰瓒呮椂`);
       return { success: false, agentType, error: 'TIMEOUT' };
     }
-    console.warn(`[Agent:${agentType}] 请求异常: ${error.message}`);
+    console.warn(`[Agent:${agentType}] 璇锋眰寮傚父: ${error.message}`);
     return { success: false, agentType, error: error.message };
   }
 };
 
 /**
- * 验证Agent返回数据是否完整
+ * 楠岃瘉Agent杩斿洖鏁版嵁鏄惁瀹屾暣
  */
 const validateAgentResponse = (agentType, data) => {
   if (!data || typeof data !== 'object') return false;
@@ -155,7 +155,7 @@ const validateAgentResponse = (agentType, data) => {
   const fields = requiredFields[agentType] || [];
   for (const field of fields) {
     if (!data[field] || (typeof data[field] === 'string' && data[field].trim().length < 10)) {
-      console.warn(`[Agent:${agentType}] 字段 ${field} 缺失或内容太短`);
+      console.warn(`[Agent:${agentType}] 瀛楁 ${field} 缂哄け鎴栧唴瀹瑰お鐭璥);
       return false;
     }
   }
@@ -163,7 +163,7 @@ const validateAgentResponse = (agentType, data) => {
 };
 
 /**
- * 带重试的Agent请求
+ * 甯﹂噸璇曠殑Agent璇锋眰
  */
 const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPrompt, userPrompt, maxRetries = 2) => {
   const primaryModel = AGENT_MODEL_ASSIGNMENT[agentType] || DEFAULT_MODEL;
@@ -174,18 +174,18 @@ const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPr
       const result = await makeAgentRequest(agentType, model, apiBaseUrl, apiKey, systemPrompt, userPrompt);
 
       if (result.success) {
-        // 验证返回数据是否完整
+        // 楠岃瘉杩斿洖鏁版嵁鏄惁瀹屾暣
         if (validateAgentResponse(agentType, result.data)) {
           return result;
         }
-        console.warn(`[Agent:${agentType}] 模型 ${model} 返回数据不完整，尝试重新请求...`);
+        console.warn(`[Agent:${agentType}] 妯″瀷 ${model} 杩斿洖鏁版嵁涓嶅畬鏁达紝灏濊瘯閲嶆柊璇锋眰...`);
       }
 
-      // 如果是最后一次尝试这个模型，切换到下一个模型
+      // 濡傛灉鏄渶鍚庝竴娆″皾璇曡繖涓ā鍨嬶紝鍒囨崲鍒颁笅涓€涓ā鍨?
       if (attempt === maxRetries) {
-        console.warn(`[Agent:${agentType}] 模型 ${model} 失败，尝试备用模型...`);
+        console.warn(`[Agent:${agentType}] 妯″瀷 ${model} 澶辫触锛屽皾璇曞鐢ㄦā鍨?..`);
       } else {
-        // 等待后重试
+        // 绛夊緟鍚庨噸璇?
         await new Promise(r => setTimeout(r, 1500));
       }
     }
@@ -195,12 +195,12 @@ const makeAgentRequestWithRetry = async (agentType, apiBaseUrl, apiKey, systemPr
 };
 
 /**
- * 构建Agent用户提示词
+ * 鏋勫缓Agent鐢ㄦ埛鎻愮ず璇?
  */
 const buildAgentUserPrompt = (input, skeletonData, agentType) => {
-  const genderStr = input.gender === 'Male' ? '男 (乾造)' : '女 (坤造)';
+  const genderStr = input.gender === 'Male' ? '鐢?(涔鹃€?' : '濂?(鍧ら€?';
 
-  // 精简的时间线数据
+  // 绮剧畝鐨勬椂闂寸嚎鏁版嵁
   const timelineStr = JSON.stringify(skeletonData.timeline.slice(0, 30).map(t => ({
     a: t.age,
     y: t.year,
@@ -209,31 +209,31 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
   })));
 
   const baseInfo = `
-【命主信息】
-性别：${genderStr}
-姓名：${input.name || '未提供'}
-出生年份：${input.birthYear}年
-出生地点：${input.birthPlace || '未提供'}
+銆愬懡涓讳俊鎭€?
+鎬у埆锛?{genderStr}
+濮撳悕锛?{input.name || '鏈彁渚?}
+鍑虹敓骞翠唤锛?{input.birthYear}骞?
+鍑虹敓鍦扮偣锛?{input.birthPlace || '鏈彁渚?}
 
-【八字四柱】
-年柱：${skeletonData.bazi[0]}
-月柱：${skeletonData.bazi[1]}
-日柱：${skeletonData.bazi[2]}
-时柱：${skeletonData.bazi[3]}
+銆愬叓瀛楀洓鏌便€?
+骞存煴锛?{skeletonData.bazi[0]}
+鏈堟煴锛?{skeletonData.bazi[1]}
+鏃ユ煴锛?{skeletonData.bazi[2]}
+鏃舵煴锛?{skeletonData.bazi[3]}
 
-【大运信息】
-起运年龄：${skeletonData.startAge} 岁
-大运顺逆：${skeletonData.direction}
+銆愬ぇ杩愪俊鎭€?
+璧疯繍骞撮緞锛?{skeletonData.startAge} 宀?
+澶ц繍椤洪€嗭細${skeletonData.direction}
 `;
 
-  // 根据Agent类型添加特定信息
+  // 鏍规嵁Agent绫诲瀷娣诲姞鐗瑰畾淇℃伅
   const currentYear = new Date().getFullYear();
   const birthYear = parseInt(input.birthYear, 10);
   const currentAge = currentYear - birthYear + 1;
 
   switch (agentType) {
     case 'kline_past': {
-      // 过去K线：从出生到今年
+      // 杩囧幓K绾匡細浠庡嚭鐢熷埌浠婂勾
       const pastTimeline = skeletonData.timeline.filter(t => t.year <= currentYear);
       const pastTimelineStr = JSON.stringify(pastTimeline.map(t => ({
         a: t.age,
@@ -241,11 +241,11 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
         gz: t.ganZhi,
         dy: t.daYun
       })));
-      return baseInfo + `\n【当前年份】${currentYear}年（${currentAge}岁）\n【待填充的过去时间轴（出生到今年）】\n${pastTimelineStr}`;
+      return baseInfo + `\n銆愬綋鍓嶅勾浠姐€?{currentYear}骞达紙${currentAge}宀侊級\n銆愬緟濉厖鐨勮繃鍘绘椂闂磋酱锛堝嚭鐢熷埌浠婂勾锛夈€慭n${pastTimelineStr}`;
     }
 
     case 'kline_future': {
-      // 未来K线：从今年到100岁
+      // 鏈潵K绾匡細浠庝粖骞村埌100宀?
       const futureTimeline = skeletonData.timeline.filter(t => t.year >= currentYear);
       const futureTimelineStr = JSON.stringify(futureTimeline.map(t => ({
         a: t.age,
@@ -253,20 +253,20 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
         gz: t.ganZhi,
         dy: t.daYun
       })));
-      return baseInfo + `\n【当前年份】${currentYear}年（${currentAge}岁）\n【待填充的未来时间轴（今年到100岁）】\n${futureTimelineStr}`;
+      return baseInfo + `\n銆愬綋鍓嶅勾浠姐€?{currentYear}骞达紙${currentAge}宀侊級\n銆愬緟濉厖鐨勬湭鏉ユ椂闂磋酱锛堜粖骞村埌100宀侊級銆慭n${futureTimelineStr}`;
     }
 
     case 'core':
-      return baseInfo + `\n【前30年时间轴参考】\n${timelineStr}\n\n请深度分析此八字的核心命理结构。`;
+      return baseInfo + `\n銆愬墠30骞存椂闂磋酱鍙傝€冦€慭n${timelineStr}\n\n璇锋繁搴﹀垎鏋愭鍏瓧鐨勬牳蹇冨懡鐞嗙粨鏋勩€俙;
 
     case 'career':
-      return baseInfo + `\n请专注分析此八字的事业财富运势。`;
+      return baseInfo + `\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勪簨涓氳储瀵岃繍鍔裤€俙;
 
     case 'marriage':
-      return baseInfo + `\n请专注分析此八字的婚姻感情和健康状况。`;
+      return baseInfo + `\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勫濮绘劅鎯呭拰鍋ュ悍鐘跺喌銆俙;
 
     case 'crypto':
-      return baseInfo + `\n当前年份：${currentYear}\n请专注分析此八字的币圈交易运势和投机潜力。`;
+      return baseInfo + `\n褰撳墠骞翠唤锛?{currentYear}\n璇蜂笓娉ㄥ垎鏋愭鍏瓧鐨勫竵鍦堜氦鏄撹繍鍔垮拰鎶曟満娼滃姏銆俙;
 
     default:
       return baseInfo;
@@ -274,11 +274,11 @@ const buildAgentUserPrompt = (input, skeletonData, agentType) => {
 };
 
 /**
- * 并行执行6个Agent分析
- * @param {object} input - 用户输入
- * @param {object} skeletonData - 时间线骨架
- * @param {object} res - SSE响应对象
- * @param {function} onProgress - 进度回调
+ * 骞惰鎵ц6涓狝gent鍒嗘瀽
+ * @param {object} input - 鐢ㄦ埛杈撳叆
+ * @param {object} skeletonData - 鏃堕棿绾块鏋?
+ * @param {object} res - SSE鍝嶅簲瀵硅薄
+ * @param {function} onProgress - 杩涘害鍥炶皟
  */
 export const runParallelAgents = async (input, skeletonData, res, onProgress) => {
   const apiBaseUrl = DEFAULT_API_BASE_URL;
@@ -293,12 +293,12 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
     { type: 'crypto', prompt: AGENT_CRYPTO_PROMPT, priority: 6 },
   ];
 
-  onProgress(`启动 ${agents.length} 个专业Agent并行分析...`);
+  onProgress(`鍚姩 ${agents.length} 涓笓涓欰gent骞惰鍒嗘瀽...`);
 
   const results = {};
   const completedAgents = [];
 
-  // 创建所有Agent的Promise
+  // 鍒涘缓鎵€鏈堿gent鐨凱romise
   const agentPromises = agents.map(agent => {
     const userPrompt = buildAgentUserPrompt(input, skeletonData, agent.type);
 
@@ -313,7 +313,7 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
         results[agent.type] = result.data;
         completedAgents.push(agent.type);
 
-        // 立即推送该Agent的结果
+        // 绔嬪嵆鎺ㄩ€佽Agent鐨勭粨鏋?
         sendSSE(res, `agent_${agent.type}_complete`, {
           agentType: agent.type,
           data: result.data,
@@ -323,9 +323,9 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
           totalAgents: agents.length,
         });
 
-        onProgress(`✓ Agent[${agent.type}] 完成 (${result.elapsed}s) - 已完成 ${completedAgents.length}/${agents.length}`);
+        onProgress(`鉁?Agent[${agent.type}] 瀹屾垚 (${result.elapsed}s) - 宸插畬鎴?${completedAgents.length}/${agents.length}`);
       } else {
-        onProgress(`✗ Agent[${agent.type}] 失败: ${result.error}`);
+        onProgress(`鉁?Agent[${agent.type}] 澶辫触: ${result.error}`);
         sendSSE(res, `agent_${agent.type}_error`, {
           agentType: agent.type,
           error: result.error,
@@ -335,13 +335,13 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
     });
   });
 
-  // 等待所有Agent完成
+  // 绛夊緟鎵€鏈堿gent瀹屾垚
   const allResults = await Promise.allSettled(agentPromises);
 
-  // 汇总结果
+  // 姹囨€荤粨鏋?
   const successCount = allResults.filter(r => r.status === 'fulfilled' && r.value?.success).length;
 
-  onProgress(`并行分析完成: ${successCount}/${agents.length} 成功`);
+  onProgress(`骞惰鍒嗘瀽瀹屾垚: ${successCount}/${agents.length} 鎴愬姛`);
 
   return {
     success: successCount > 0,
@@ -353,34 +353,34 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
 };
 
 /**
- * 基于八字生成事业财富降级内容
- * @param {object} core - 核心分析结果
- * @param {object} skeletonData - 时间线骨架数据
+ * 鍩轰簬鍏瓧鐢熸垚浜嬩笟璐㈠瘜闄嶇骇鍐呭
+ * @param {object} core - 鏍稿績鍒嗘瀽缁撴灉
+ * @param {object} skeletonData - 鏃堕棿绾块鏋舵暟鎹?
  */
 const generateCareerFallback = (core, skeletonData) => {
   const bazi = core?.bazi || skeletonData?.bazi || [];
   const dayPillar = bazi[2] || '';
   const dayGan = dayPillar ? dayPillar[0] : '';
 
-  // 基于日主五行推断适合行业
+  // 鍩轰簬鏃ヤ富浜旇鎺ㄦ柇閫傚悎琛屼笟
   const dayGanIndustries = {
-    '甲': { industries: '教育、文化、出版、环保、园艺', element: '木' },
-    '乙': { industries: '设计、美容、花艺、服装、医药', element: '木' },
-    '丙': { industries: '能源、娱乐、餐饮、传媒、演艺', element: '火' },
-    '丁': { industries: '科技、电子、文化创意、教育培训', element: '火' },
-    '戊': { industries: '房地产、建筑、矿业、农业、物流', element: '土' },
-    '己': { industries: '农业、食品、陶瓷、中介、服务业', element: '土' },
-    '庚': { industries: '金融、机械、汽车、五金、军工', element: '金' },
-    '辛': { industries: '珠宝、精密仪器、法律、金融、美容', element: '金' },
-    '壬': { industries: '物流、航运、旅游、水产、饮料', element: '水' },
-    '癸': { industries: '咨询、教育、医疗、心理、艺术', element: '水' },
+    '鐢?: { industries: '鏁欒偛銆佹枃鍖栥€佸嚭鐗堛€佺幆淇濄€佸洯鑹?, element: '鏈? },
+    '涔?: { industries: '璁捐銆佺編瀹广€佽姳鑹恒€佹湇瑁呫€佸尰鑽?, element: '鏈? },
+    '涓?: { industries: '鑳芥簮銆佸ū涔愩€侀楗€佷紶濯掋€佹紨鑹?, element: '鐏? },
+    '涓?: { industries: '绉戞妧銆佺數瀛愩€佹枃鍖栧垱鎰忋€佹暀鑲插煿璁?, element: '鐏? },
+    '鎴?: { industries: '鎴垮湴浜с€佸缓绛戙€佺熆涓氥€佸啘涓氥€佺墿娴?, element: '鍦? },
+    '宸?: { industries: '鍐滀笟銆侀鍝併€侀櫠鐡枫€佷腑浠嬨€佹湇鍔′笟', element: '鍦? },
+    '搴?: { industries: '閲戣瀺銆佹満姊般€佹苯杞︺€佷簲閲戙€佸啗宸?, element: '閲? },
+    '杈?: { industries: '鐝犲疂銆佺簿瀵嗕华鍣ㄣ€佹硶寰嬨€侀噾铻嶃€佺編瀹?, element: '閲? },
+    '澹?: { industries: '鐗╂祦銆佽埅杩愩€佹梾娓搞€佹按浜с€侀ギ鏂?, element: '姘? },
+    '鐧?: { industries: '鍜ㄨ銆佹暀鑲层€佸尰鐤椼€佸績鐞嗐€佽壓鏈?, element: '姘? },
   };
 
-  const info = dayGanIndustries[dayGan] || { industries: '综合服务类行业', element: '平衡' };
+  const info = dayGanIndustries[dayGan] || { industries: '缁煎悎鏈嶅姟绫昏涓?, element: '骞宠　' };
 
-  const industry = `根据八字日主「${dayGan || '未知'}」分析，您五行属${info.element}，事业适合方向包括：${info.industries}。日主强弱影响事业发展模式，建议结合实际情况选择最适合自己的发展道路。命局中官杀星代表事业机遇，财星代表财富获取能力，需综合判断以获得最佳事业规划。`;
+  const industry = `鏍规嵁鍏瓧鏃ヤ富銆?{dayGan || '鏈煡'}銆嶅垎鏋愶紝鎮ㄤ簲琛屽睘${info.element}锛屼簨涓氶€傚悎鏂瑰悜鍖呮嫭锛?{info.industries}銆傛棩涓诲己寮卞奖鍝嶄簨涓氬彂灞曟ā寮忥紝寤鸿缁撳悎瀹為檯鎯呭喌閫夋嫨鏈€閫傚悎鑷繁鐨勫彂灞曢亾璺€傚懡灞€涓畼鏉€鏄熶唬琛ㄤ簨涓氭満閬囷紝璐㈡槦浠ｈ〃璐㈠瘜鑾峰彇鑳藉姏锛岄渶缁煎悎鍒ゆ柇浠ヨ幏寰楁渶浣充簨涓氳鍒掋€俙;
 
-  const wealth = `从财运角度分析，八字中财星的强弱决定了财富获取的方式和规模。${dayGan ? `日主${dayGan}` : '您的命局'}具有一定的理财天赋，建议稳健投资为主。正财代表稳定收入如工资薪金，偏财代表投资理财等非固定收入。根据大运流年的不同，财运会有起伏变化，宜把握财运旺盛的年份积极进取。`;
+  const wealth = `浠庤储杩愯搴﹀垎鏋愶紝鍏瓧涓储鏄熺殑寮哄急鍐冲畾浜嗚储瀵岃幏鍙栫殑鏂瑰紡鍜岃妯°€?{dayGan ? `鏃ヤ富${dayGan}` : '鎮ㄧ殑鍛藉眬'}鍏锋湁涓€瀹氱殑鐞嗚储澶╄祴锛屽缓璁ǔ鍋ユ姇璧勪负涓汇€傛璐唬琛ㄧǔ瀹氭敹鍏ュ宸ヨ祫钖噾锛屽亸璐唬琛ㄦ姇璧勭悊璐㈢瓑闈炲浐瀹氭敹鍏ャ€傛牴鎹ぇ杩愭祦骞寸殑涓嶅悓锛岃储杩愪細鏈夎捣浼忓彉鍖栵紝瀹滄妸鎻¤储杩愭椇鐩涚殑骞翠唤绉瀬杩涘彇銆俙;
 
   return {
     industry,
@@ -388,49 +388,49 @@ const generateCareerFallback = (core, skeletonData) => {
     wealth,
     wealthScore: 6,
     recommendedIndustries: [
-      { name: info.industries.split('、')[0], reason: `五行属${info.element}，与命局相合` },
-      { name: info.industries.split('、')[1] || '综合服务', reason: '命理分析推荐' }
+      { name: info.industries.split('銆?)[0], reason: `浜旇灞?{info.element}锛屼笌鍛藉眬鐩稿悎` },
+      { name: info.industries.split('銆?)[1] || '缁煎悎鏈嶅姟', reason: '鍛界悊鍒嗘瀽鎺ㄨ崘' }
     ],
-    wealthPattern: '正偏财兼有',
-    wealthPotential: '中等偏上',
+    wealthPattern: '姝ｅ亸璐㈠吋鏈?,
+    wealthPotential: '涓瓑鍋忎笂',
   };
 };
 
 /**
- * 合并多个Agent的结果为最终分析
- * @param {object} agentResults - 各Agent返回的结果
- * @param {object} skeletonData - 时间线骨架数据（用于K线降级）
+ * 鍚堝苟澶氫釜Agent鐨勭粨鏋滀负鏈€缁堝垎鏋?
+ * @param {object} agentResults - 鍚凙gent杩斿洖鐨勭粨鏋?
+ * @param {object} skeletonData - 鏃堕棿绾块鏋舵暟鎹紙鐢ㄤ簬K绾块檷绾э級
  */
 export const mergeAgentResults = (agentResults, skeletonData = null) => {
   const { core, kline_past, kline_future, career, marriage, crypto } = agentResults;
 
-  // 如果career数据缺失，生成降级内容
+  // 濡傛灉career鏁版嵁缂哄け锛岀敓鎴愰檷绾у唴瀹?
   const careerFallback = (!career?.industry || !career?.wealth)
     ? generateCareerFallback(core, skeletonData)
     : null;
 
   if (careerFallback) {
-    console.log('[mergeAgentResults] Career数据缺失，使用降级内容生成事业财富分析');
+    console.log('[mergeAgentResults] Career鏁版嵁缂哄け锛屼娇鐢ㄩ檷绾у唴瀹圭敓鎴愪簨涓氳储瀵屽垎鏋?);
   }
 
-  // K线数据：合并过去和未来的K线数据
+  // K绾挎暟鎹細鍚堝苟杩囧幓鍜屾湭鏉ョ殑K绾挎暟鎹?
   let chartPoints = [];
   const currentYear = new Date().getFullYear();
 
-  // 获取过去K线数据
+  // 鑾峰彇杩囧幓K绾挎暟鎹?
   const pastPoints = kline_past?.chartPoints || [];
-  // 获取未来K线数据
+  // 鑾峰彇鏈潵K绾挎暟鎹?
   const futurePoints = kline_future?.chartPoints || [];
 
-  // 检查两个K线Agent是否都有数据
+  // 妫€鏌ヤ袱涓狵绾緼gent鏄惁閮芥湁鏁版嵁
   const hasPastData = pastPoints.length > 0;
   const hasFutureData = futurePoints.length > 0;
 
   if (hasPastData && hasFutureData) {
-    // 最佳情况：两段K线数据都有，正常合并
+    // 鏈€浣虫儏鍐碉細涓ゆK绾挎暟鎹兘鏈夛紝姝ｅ父鍚堝苟
     const allPoints = [...pastPoints];
 
-    // 未来K线避免重复年份
+    // 鏈潵K绾块伩鍏嶉噸澶嶅勾浠?
     for (const point of futurePoints) {
       if (!allPoints.some(p => p.year === point.year && p.age === point.age)) {
         allPoints.push(point);
@@ -438,11 +438,11 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
     }
 
     chartPoints = allPoints.sort((a, b) => a.age - b.age);
-    console.log(`[mergeAgentResults] K线完整合并: 过去${pastPoints.length}年 + 未来${futurePoints.length}年 = 总${chartPoints.length}年`);
+    console.log(`[mergeAgentResults] K绾垮畬鏁村悎骞? 杩囧幓${pastPoints.length}骞?+ 鏈潵${futurePoints.length}骞?= 鎬?{chartPoints.length}骞碻);
 
   } else if (hasPastData || hasFutureData) {
-    // 部分数据：只有一段K线数据，使用fallback补全缺失部分
-    console.warn(`[mergeAgentResults] K线数据不完整: 过去=${pastPoints.length}年, 未来=${futurePoints.length}年，使用fallback补全`);
+    // 閮ㄥ垎鏁版嵁锛氬彧鏈変竴娈礙绾挎暟鎹紝浣跨敤fallback琛ュ叏缂哄け閮ㄥ垎
+    console.warn(`[mergeAgentResults] K绾挎暟鎹笉瀹屾暣: 杩囧幓=${pastPoints.length}骞? 鏈潵=${futurePoints.length}骞达紝浣跨敤fallback琛ュ叏`);
 
     if (skeletonData) {
       const fallbackPoints = generateFallbackKLine(skeletonData);
@@ -451,10 +451,10 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
         ...futurePoints.map(p => p.year)
       ]);
 
-      // 合并已有数据
+      // 鍚堝苟宸叉湁鏁版嵁
       const allPoints = [...pastPoints, ...futurePoints];
 
-      // 用fallback填补缺失的年份
+      // 鐢╢allback濉ˉ缂哄け鐨勫勾浠?
       for (const point of fallbackPoints) {
         if (!existingYears.has(point.year)) {
           allPoints.push(point);
@@ -462,28 +462,28 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
       }
 
       chartPoints = allPoints.sort((a, b) => a.age - b.age);
-      console.log(`[mergeAgentResults] K线混合合并: AI数据${pastPoints.length + futurePoints.length}年 + Fallback补全 = 总${chartPoints.length}年`);
+      console.log(`[mergeAgentResults] K绾挎贩鍚堝悎骞? AI鏁版嵁${pastPoints.length + futurePoints.length}骞?+ Fallback琛ュ叏 = 鎬?{chartPoints.length}骞碻);
     } else {
-      // 无skeleton数据，只能用现有数据
+      // 鏃爏keleton鏁版嵁锛屽彧鑳界敤鐜版湁鏁版嵁
       chartPoints = [...pastPoints, ...futurePoints].sort((a, b) => a.age - b.age);
-      console.warn(`[mergeAgentResults] 无skeleton数据，仅使用部分K线: ${chartPoints.length}年`);
+      console.warn(`[mergeAgentResults] 鏃爏keleton鏁版嵁锛屼粎浣跨敤閮ㄥ垎K绾? ${chartPoints.length}骞碻);
     }
 
   } else if (skeletonData) {
-    // 两段K线都失败，完全使用降级算法
-    console.log('[mergeAgentResults] K线Agent全部失败，使用完整降级算法生成K线数据');
+    // 涓ゆK绾块兘澶辫触锛屽畬鍏ㄤ娇鐢ㄩ檷绾х畻娉?
+    console.log('[mergeAgentResults] K绾緼gent鍏ㄩ儴澶辫触锛屼娇鐢ㄥ畬鏁撮檷绾х畻娉曠敓鎴怟绾挎暟鎹?);
     chartPoints = generateFallbackKLine(skeletonData);
   }
 
-  // 最终数据验证：确保数据点数量足够（至少50年）
+  // 鏈€缁堟暟鎹獙璇侊細纭繚鏁版嵁鐐规暟閲忚冻澶燂紙鑷冲皯50骞达級
   const MIN_CHART_POINTS = 50;
   if (chartPoints.length < MIN_CHART_POINTS && skeletonData) {
-    console.warn(`[mergeAgentResults] K线数据不足(${chartPoints.length}点 < ${MIN_CHART_POINTS}点)，使用完整fallback替换`);
+    console.warn(`[mergeAgentResults] K绾挎暟鎹笉瓒?${chartPoints.length}鐐?< ${MIN_CHART_POINTS}鐐?锛屼娇鐢ㄥ畬鏁磃allback鏇挎崲`);
     chartPoints = generateFallbackKLine(skeletonData);
-    console.log(`[mergeAgentResults] Fallback生成完成: ${chartPoints.length}年`);
+    console.log(`[mergeAgentResults] Fallback鐢熸垚瀹屾垚: ${chartPoints.length}骞碻);
   }
 
-  // 合并过去和未来的关键事件
+  // 鍚堝苟杩囧幓鍜屾湭鏉ョ殑鍏抽敭浜嬩欢
   const pastEvents = kline_past?.pastEvents || core?.pastEvents || [];
   const futureEvents = kline_future?.futureEvents || core?.futureEvents || [];
   const keyYears = [
@@ -492,12 +492,12 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
   ].sort((a, b) => a.year - b.year);
 
   return {
-    // 基础信息
+    // 鍩虹淇℃伅
     bazi: core?.bazi || [],
-    summary: core?.summary || '命理分析完成',
+    summary: core?.summary || '鍛界悊鍒嗘瀽瀹屾垚',
     summaryScore: core?.summaryScore || 5,
 
-    // 核心Agent - 性格/六亲/风水
+    // 鏍稿績Agent - 鎬ф牸/鍏翰/椋庢按
     personality: core?.personality || '',
     personalityScore: core?.personalityScore || 5,
     family: core?.family || '',
@@ -505,47 +505,47 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
     fengShui: core?.fengShui || '',
     fengShuiScore: core?.fengShuiScore || 5,
 
-    // 个人特征
+    // 涓汉鐗瑰緛
     appearance: core?.appearance || '',
     bodyType: core?.bodyType || '',
     skin: core?.skin || '',
     characterSummary: core?.characterSummary || '',
 
-    // 事业Agent - 使用fallback如果原数据缺失
-    industry: career?.industry || careerFallback?.industry || '暂无事业分析，请稍后重试',
+    // 浜嬩笟Agent - 浣跨敤fallback濡傛灉鍘熸暟鎹己澶?
+    industry: career?.industry || careerFallback?.industry || '鏆傛棤浜嬩笟鍒嗘瀽锛岃绋嶅悗閲嶈瘯',
     industryScore: career?.industryScore || careerFallback?.industryScore || 5,
-    wealth: career?.wealth || careerFallback?.wealth || '暂无财富分析，请稍后重试',
+    wealth: career?.wealth || careerFallback?.wealth || '鏆傛棤璐㈠瘜鍒嗘瀽锛岃绋嶅悗閲嶈瘯',
     wealthScore: career?.wealthScore || careerFallback?.wealthScore || 5,
 
-    // 婚姻健康Agent
+    // 濠氬Щ鍋ュ悍Agent
     marriage: marriage?.marriage || '',
     marriageScore: marriage?.marriageScore || 5,
     health: marriage?.health || '',
     healthScore: marriage?.healthScore || 5,
     healthBodyParts: marriage?.healthBodyParts || [],
 
-    // 币圈Agent
+    // 甯佸湀Agent
     crypto: crypto?.crypto || '',
     cryptoScore: crypto?.cryptoScore || 5,
-    cryptoYear: crypto?.cryptoYear || '待定',
-    cryptoStyle: crypto?.cryptoStyle || '现货定投',
+    cryptoYear: crypto?.cryptoYear || '寰呭畾',
+    cryptoStyle: crypto?.cryptoStyle || '鐜拌揣瀹氭姇',
 
-    // K线Agent - 使用已计算的chartPoints（含降级逻辑）
+    // K绾緼gent - 浣跨敤宸茶绠楃殑chartPoints锛堝惈闄嶇骇閫昏緫锛?
     chartPoints: chartPoints,
 
-    // 运势预测
+    // 杩愬娍棰勬祴
     monthlyFortune: core?.monthlyFortune || marriage?.monthlyFortune || '',
     monthlyHighlights: core?.monthlyHighlights || [],
     yearlyFortune: core?.yearlyFortune || career?.yearlyFortune || '',
     yearlyKeyEvents: core?.yearlyKeyEvents || career?.yearlyKeyEvents || [],
 
-    // 幸运元素
+    // 骞歌繍鍏冪礌
     luckyColors: core?.luckyColors || [],
     luckyDirections: core?.luckyDirections || [],
     luckyZodiac: core?.luckyZodiac || [],
     luckyNumbers: core?.luckyNumbers || [],
 
-    // 重点日期和事件
+    // 閲嶇偣鏃ユ湡鍜屼簨浠?
     keyDatesThisYear: core?.keyDatesThisYear || [],
     keyDatesThisMonth: core?.keyDatesThisMonth || [],
     pastEvents: pastEvents,
@@ -559,3 +559,4 @@ export default {
   mergeAgentResults,
   sendSSE,
 };
+

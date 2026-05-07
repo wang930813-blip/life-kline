@@ -6,6 +6,7 @@ import { TrendingCard } from '../widgets/TrendingCard';
 import { DailyFortuneCard } from '../fortune/DailyFortuneCard';
 import { ProfileInfo } from '../fortune/ProfileQuickSwitch';
 import { CURRENT_PROFILE_EVENT, getStoredCurrentProfile, setStoredCurrentProfile, syncCurrentProfileFromServer } from '../../utils/currentProfile';
+import { normalizeText } from '../../utils/normalizeText';
 
 const PROFILES_STORAGE_KEY = 'lifekline_profiles';
 const HISTORY_STORAGE_KEY = 'lifekline_history';
@@ -312,7 +313,7 @@ const MonthlyFortuneCard: React.FC<{ profileId: string | null; onViewDetail: () 
       );
       if (response.ok) {
         const data = await response.json();
-        setFortune(data.fortune);
+          setFortune(normalizeText(data.fortune));
       } else {
         setError('获取月度运势失败');
       }
@@ -420,7 +421,7 @@ const YearlyFortuneCard: React.FC<{ profileId: string | null; onViewDetail: () =
       const response = await fetch(`/api/fortune/yearly/${currentYear}?profileId=${profileId}`);
       if (response.ok) {
         const data = await response.json();
-        setFortune(data.fortune);
+          setFortune(normalizeText(data.fortune));
       } else {
         setError('获取年度运势失败');
       }

@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
-  Star,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  Sparkles,
-  Calendar,
-  Clock,
-  Compass,
-  Palette,
-  Hash,
-  Users,
-  Briefcase,
-  Wallet,
-  Heart,
   Activity,
   AlertTriangle,
+  Briefcase,
+  Calendar,
   CheckCircle2,
   ChevronLeft,
+  Clock,
+  Compass,
+  Hash,
+  Heart,
   Loader2,
+  Minus,
+  Palette,
+  Sparkles,
+  Star,
+  TrendingDown,
+  TrendingUp,
+  Users,
+  Wallet,
   Zap,
 } from 'lucide-react';
 import { PointsConfirmDialog } from '../components/PointsConfirmDialog';
 import { CURRENT_PROFILE_EVENT, getStoredCurrentProfile, syncCurrentProfileFromServer } from '../utils/currentProfile';
+import { normalizeText } from '../utils/normalizeText';
 
 interface FortuneAspect {
   score: number;
@@ -87,14 +88,7 @@ const ScoreRing: React.FC<{ score: number; size?: number }> = ({ score, size = 1
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg className="transform -rotate-90" width={size} height={size}>
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="#e5e7eb"
-          strokeWidth="10"
-          fill="none"
-        />
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke="#e5e7eb" strokeWidth="10" fill="none" />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -138,9 +132,7 @@ const AspectCard: React.FC<{
       <p className="text-xs text-gray-500 mb-1">今日建议</p>
       <p className="text-sm text-gray-700">{aspect.advice}</p>
     </div>
-    <div className="mt-2 text-xs text-indigo-600 font-medium">
-      核心要点：{aspect.keyPoint}
-    </div>
+    <div className="mt-2 text-xs text-indigo-600 font-medium">核心要点：{aspect.keyPoint}</div>
   </div>
 );
 
@@ -158,7 +150,6 @@ const DailyFortunePage: React.FC = () => {
 
   const targetDate = date || new Date().toISOString().split('T')[0];
 
-  // Load current profile
   useEffect(() => {
     syncCurrentProfileFromServer().then(setCurrentProfile).catch(() => setCurrentProfile(getStoredCurrentProfile()));
 
@@ -168,19 +159,16 @@ const DailyFortunePage: React.FC = () => {
 
     window.addEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
 
-    // Fetch user info for points
     fetch('/api/auth/me', { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
-        if (data.user) {
-          setUserPoints(data.user.points);
-        }
+        if (data.user) setUserPoints(data.user.points);
       })
       .catch(console.error);
+
     return () => window.removeEventListener(CURRENT_PROFILE_EVENT, handleProfileChange);
   }, []);
 
-  // Fetch fortune data
   useEffect(() => {
     if (currentProfile?.id) {
       fetchFortune();
@@ -205,15 +193,13 @@ const DailyFortunePage: React.FC = () => {
         }),
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.message || '获取运势失败');
       }
 
-      const data = await response.json();
-      setFortune(data.fortune);
+      setFortune(normalizeText(data.fortune));
       setAiEnhanced(data.aiEnhanced);
-
       if (data.remainingPoints !== null) {
         setUserPoints(data.remainingPoints);
       }
@@ -224,12 +210,9 @@ const DailyFortunePage: React.FC = () => {
     }
   };
 
-  const handleRequestEnhanced = () => {
-    setShowConfirmDialog(true);
-  };
-
   const handleConfirmEnhanced = async () => {
     setEnhancedLoading(true);
+    setShowConfirmDialog(true);
     try {
       await fetchFortune(true);
       setShowConfirmDialog(false);
@@ -246,7 +229,7 @@ const DailyFortunePage: React.FC = () => {
           <h2 className="text-xl font-bold text-gray-800 mb-2">选择八字档案</h2>
           <p className="text-gray-600 mb-6">请先选择或创建一个八字档案来查看每日运势</p>
           <button
-            onClick={() => navigate('/dashboard/profiles')}
+            onClick={() => navigate('/dashboard?tab=profiles')}
             className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors"
           >
             管理我的档案
@@ -285,19 +268,13 @@ const DailyFortunePage: React.FC = () => {
     );
   }
 
-  if (!fortune) {
-    return null;
-  }
+  if (!fortune) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-1 text-white/80 hover:text-white mb-4"
-          >
+          <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-white/80 hover:text-white mb-4">
             <ChevronLeft className="w-5 h-5" />
             返回
           </button>
@@ -327,9 +304,7 @@ const DailyFortunePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-        {/* Overall Summary */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6">
           <div className="flex items-center gap-2 mb-4">
             <TrendIcon trend={fortune.overallTrend} className="w-6 h-6" />
@@ -337,10 +312,9 @@ const DailyFortunePage: React.FC = () => {
           </div>
           <p className="text-gray-700 leading-relaxed">{fortune.overallSummary}</p>
 
-          {/* AI Enhancement Button */}
           {!aiEnhanced && (
             <button
-              onClick={handleRequestEnhanced}
+              onClick={() => setShowConfirmDialog(true)}
               className="mt-4 w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-2"
             >
               <Zap className="w-5 h-5" />
@@ -349,35 +323,13 @@ const DailyFortunePage: React.FC = () => {
           )}
         </div>
 
-        {/* Four Dimensions */}
         <div className="grid md:grid-cols-2 gap-4">
-          <AspectCard
-            title="事业运势"
-            icon={<Briefcase className="w-5 h-5 text-blue-600" />}
-            aspect={fortune.career}
-            colorClass="bg-blue-100"
-          />
-          <AspectCard
-            title="财运分析"
-            icon={<Wallet className="w-5 h-5 text-amber-600" />}
-            aspect={fortune.wealth}
-            colorClass="bg-amber-100"
-          />
-          <AspectCard
-            title="感情运势"
-            icon={<Heart className="w-5 h-5 text-rose-600" />}
-            aspect={fortune.relationship}
-            colorClass="bg-rose-100"
-          />
-          <AspectCard
-            title="健康提醒"
-            icon={<Activity className="w-5 h-5 text-green-600" />}
-            aspect={fortune.health}
-            colorClass="bg-green-100"
-          />
+          <AspectCard title="事业运势" icon={<Briefcase className="w-5 h-5 text-blue-600" />} aspect={fortune.career} colorClass="bg-blue-100" />
+          <AspectCard title="财运分析" icon={<Wallet className="w-5 h-5 text-amber-600" />} aspect={fortune.wealth} colorClass="bg-amber-100" />
+          <AspectCard title="感情运势" icon={<Heart className="w-5 h-5 text-rose-600" />} aspect={fortune.relationship} colorClass="bg-rose-100" />
+          <AspectCard title="健康提醒" icon={<Activity className="w-5 h-5 text-green-600" />} aspect={fortune.health} colorClass="bg-green-100" />
         </div>
 
-        {/* Auspicious Hours */}
         {fortune.auspiciousHours && fortune.auspiciousHours.length > 0 && (
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -403,10 +355,7 @@ const DailyFortunePage: React.FC = () => {
                   {hour.activities && (
                     <div className="flex flex-wrap gap-1">
                       {hour.activities.map((activity, i) => (
-                        <span
-                          key={i}
-                          className="px-2 py-0.5 bg-white/50 text-xs text-gray-600 rounded"
-                        >
+                        <span key={i} className="px-2 py-0.5 bg-white/50 text-xs text-gray-600 rounded">
                           {activity}
                         </span>
                       ))}
@@ -418,12 +367,10 @@ const DailyFortunePage: React.FC = () => {
           </div>
         )}
 
-        {/* Lucky Elements */}
         {fortune.luckyElements && (
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">今日幸运元素</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Colors */}
               <div className="p-4 bg-rose-50 rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
                   <Palette className="w-4 h-4 text-rose-600" />
@@ -438,7 +385,6 @@ const DailyFortunePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Directions */}
               <div className="p-4 bg-blue-50 rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
                   <Compass className="w-4 h-4 text-blue-600" />
@@ -453,7 +399,6 @@ const DailyFortunePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Numbers */}
               <div className="p-4 bg-amber-50 rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
                   <Hash className="w-4 h-4 text-amber-600" />
@@ -468,7 +413,6 @@ const DailyFortunePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Zodiac */}
               <div className="p-4 bg-purple-50 rounded-xl">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-purple-600" />
@@ -486,9 +430,7 @@ const DailyFortunePage: React.FC = () => {
           </div>
         )}
 
-        {/* Daily Advice & Warnings */}
         <div className="grid md:grid-cols-2 gap-4">
-          {/* Advice */}
           {fortune.dailyAdvice && fortune.dailyAdvice.length > 0 && (
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -506,7 +448,6 @@ const DailyFortunePage: React.FC = () => {
             </div>
           )}
 
-          {/* Warnings */}
           {fortune.warnings && fortune.warnings.length > 0 && (
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -525,7 +466,6 @@ const DailyFortunePage: React.FC = () => {
           )}
         </div>
 
-        {/* Deep Analysis (AI Enhanced only) */}
         {aiEnhanced && fortune.deepAnalysis && (
           <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl border border-purple-100 p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -533,22 +473,16 @@ const DailyFortunePage: React.FC = () => {
               <h2 className="text-lg font-bold text-gray-800">AI深度解析</h2>
             </div>
             <div className="prose prose-sm max-w-none">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {fortune.deepAnalysis}
-              </p>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{fortune.deepAnalysis}</p>
             </div>
           </div>
         )}
 
-        {/* Generated Time */}
         {fortune.generatedAt && (
-          <p className="text-xs text-gray-400 text-center">
-            生成时间：{new Date(fortune.generatedAt).toLocaleString('zh-CN')}
-          </p>
+          <p className="text-xs text-gray-400 text-center">生成时间：{new Date(fortune.generatedAt).toLocaleString('zh-CN')}</p>
         )}
       </div>
 
-      {/* Points Confirmation Dialog */}
       <PointsConfirmDialog
         isOpen={showConfirmDialog}
         onClose={() => setShowConfirmDialog(false)}

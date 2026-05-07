@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import CreateProfileModal from './CreateProfileModal';
 import { UserInput, Gender } from '../../types';
@@ -46,6 +47,7 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
   onProfileSelect,
   currentProfileId,
 }) => {
+  const navigate = useNavigate();
   const [profiles, setProfiles] = useState<UserProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -279,7 +281,14 @@ const ProfileManager: React.FC<ProfileManagerProps> = ({
               onEdit={() => setEditingProfile(profile)}
               onDelete={() => handleDeleteProfile(profile.id)}
               onSetDefault={() => handleSetDefault(profile.id)}
-              onSelect={() => onProfileSelect?.(profile)}
+              onSelect={() => {
+                setStoredCurrentProfile(profile);
+                onProfileSelect?.(profile);
+                navigate('/');
+                setTimeout(() => {
+                  window.dispatchEvent(new Event('profileChanged'));
+                }, 50);
+              }}
               onRegenerateCore={() => handleRegenerateCore(profile.id)}
             />
           ))}

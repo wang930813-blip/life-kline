@@ -77,7 +77,18 @@ const AppShell: React.FC<AppShellProps> = ({
 
   const handleGenerate = () => {
     navigate('/');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      const form = document.getElementById('bazi-form-card');
+      if (form) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const firstInput = form.querySelector('input, select, button');
+        if (firstInput instanceof HTMLElement) {
+          firstInput.focus();
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 80);
   };
 
   // Determine if sidebar should show full content
