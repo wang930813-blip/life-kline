@@ -1363,7 +1363,7 @@ export const createUserProfile = (input) => {
       id, user_id, name, gender, birth_year, year_pillar, month_pillar,
       day_pillar, hour_pillar, start_age, first_da_yun, birth_place,
       is_default, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   const now = new Date().toISOString();
@@ -1718,6 +1718,10 @@ export const getUserPreferences = (userId) => {
 
 // 更新用户偏好设置
 export const updateUserPreferences = (userId, data) => {
+  if (!getUserPreferences(userId)) {
+    createUserPreferences(userId);
+  }
+
   const fields = [];
   const values = [];
 
