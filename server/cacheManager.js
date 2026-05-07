@@ -212,20 +212,20 @@ export const mergeCachedWithFresh = (cachedData, freshPolish = null) => {
     wealth: cachedData.wealthCore?.content || '',
     wealthScore: cachedData.wealthCore?.score || 5,
 
-    marriage: cachedData.marriageCore?.content || '',
+    marriage: cachedData.marriageCore?.content || '婚姻情感详细内容暂未生成，建议结合现实沟通模式、责任分配与阶段运势综合判断。',
     marriageScore: cachedData.marriageCore?.score || 5,
 
-    health: cachedData.healthCore?.content || '',
+    health: cachedData.healthCore?.content || '健康分析详细内容暂未生成。建议保持规律作息，并结合个人体质进行定期体检。',
     healthScore: cachedData.healthCore?.score || 5,
     healthBodyParts: cachedData.healthCore?.bodyParts || [],
 
-    family: freshPolish?.family || cachedData.familyCore?.content || '',
+    family: freshPolish?.family || cachedData.familyCore?.content || '六亲关系详细内容暂未生成，建议结合父母、伴侣、子女及合作关系的实际互动继续观察。',
     familyScore: cachedData.familyCore?.score || 5,
 
-    fengShui: freshPolish?.fengShui || cachedData.fengShuiCore?.content || '',
+    fengShui: freshPolish?.fengShui || cachedData.fengShuiCore?.content || '发展风水详细内容暂未生成。可先以居住环境整洁、采光通风、动线舒展为基本开运原则。',
     fengShuiScore: cachedData.fengShuiCore?.score || 5,
 
-    crypto: cachedData.cryptoCore?.content || '',
+    crypto: cachedData.cryptoCore?.content || '币圈交易详细内容暂未生成。投资风险较高，建议控制仓位、重视风控，避免情绪化交易。',
     cryptoScore: cachedData.cryptoCore?.score || 5,
     cryptoYear: cachedData.cryptoCore?.cryptoYear || '待定',
     cryptoStyle: cachedData.cryptoCore?.cryptoStyle || '现货定投',

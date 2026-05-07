@@ -65,6 +65,20 @@ if (/HelpGuide|components\/HelpGuide/.test(homePage)) {
   offenders.push('pages/HomePage.tsx: remove HelpGuide from the home page');
 }
 
+const analysisResult = fs.readFileSync(path.join(root, 'components/AnalysisResult.tsx'), 'utf8');
+if (!/import \{ normalizeText \} from '\.\.\/utils\/normalizeText'/.test(analysisResult)) {
+  offenders.push('components/AnalysisResult.tsx: analysis output must import normalizeText');
+}
+if (!/const normalizedAnalysis = normalizeText\(analysis\)/.test(analysisResult)) {
+  offenders.push('components/AnalysisResult.tsx: analysis output must normalize analysis before rendering');
+}
+if (!/const toDisplayText = \(content: unknown\)/.test(analysisResult) || !/return normalizeText\(content\)/.test(analysisResult)) {
+  offenders.push('components/AnalysisResult.tsx: card content must normalize text before display');
+}
+if (!/FALLBACK_ANALYSIS_TEXT/.test(analysisResult) || !/displayContent \|\| fallback/.test(analysisResult)) {
+  offenders.push('components/AnalysisResult.tsx: analysis cards must render fallback text for empty fields');
+}
+
 const smartBaziInput = fs.readFileSync(path.join(root, 'components/SmartBaziInput.tsx'), 'utf8');
 if (!/const \[calendarMode,\s*setCalendarMode\] = useState<'lunar' \| 'solar'>\('lunar'\)/.test(smartBaziInput)) {
   offenders.push('components/SmartBaziInput.tsx: calendar mode must default to lunar');

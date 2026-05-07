@@ -29,6 +29,10 @@ const checks = [
   ['components/BaziForm.tsx', 'classical-button'],
   ['pages/HomePage.tsx', 'mobile-compact-home'],
   ['components/layout/AppShell.tsx', 'pb-20'],
+  ['components/KLineTextTable.tsx', 'selectedDetail'],
+  ['components/KLineTextTable.tsx', '查看详情'],
+  ['components/KLineTextTable.tsx', 'md:table-cell'],
+  ['components/KLineTextTable.tsx', 'scroll-panel'],
 ];
 
 const forbiddenChecks = [

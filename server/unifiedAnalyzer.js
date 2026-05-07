@@ -450,9 +450,9 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
     // 鏍稿績鍒嗘瀽
     personality: result.data.personality || '',
     personalityScore: result.data.personalityScore || 5,
-    family: result.data.family || '',
+    family: result.data.family || '六亲关系详细内容暂未生成，建议结合父母、伴侣、子女及合作关系的实际互动继续观察。',
     familyScore: result.data.familyScore || 5,
-    fengShui: result.data.fengShui || '',
+    fengShui: result.data.fengShui || '发展风水详细内容暂未生成。可先以居住环境整洁、采光通风、动线舒展为基本开运原则。',
     fengShuiScore: result.data.fengShuiScore || 5,
 
     // 涓汉鐗瑰緛
@@ -468,17 +468,17 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
     wealthScore: result.data.wealthScore || 5,
 
     // 濠氬Щ鍋ュ悍
-    marriage: result.data.marriage || '',
+    marriage: result.data.marriage || '婚姻情感详细内容暂未生成，建议结合现实沟通模式、责任分配与阶段运势综合判断。',
     marriageScore: result.data.marriageScore || 5,
-    health: result.data.health || '',
+    health: result.data.health || '健康分析详细内容暂未生成。建议保持规律作息，并结合个人体质进行定期体检。',
     healthScore: result.data.healthScore || 5,
     healthBodyParts: result.data.healthBodyParts || [],
 
     // 甯佸湀鍒嗘瀽
-    crypto: result.data.crypto || '',
+    crypto: result.data.crypto || '币圈交易详细内容暂未生成。投资风险较高，建议控制仓位、重视风控，避免情绪化交易。',
     cryptoScore: result.data.cryptoScore || 5,
-    cryptoYear: result.data.cryptoYear || '寰呭畾',
-    cryptoStyle: result.data.cryptoStyle || '鐜拌揣瀹氭姇',
+    cryptoYear: result.data.cryptoYear || '待定',
+    cryptoStyle: result.data.cryptoStyle || '现货定投',
 
     // K绾挎暟鎹?
     chartPoints: chartPoints,

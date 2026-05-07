@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import ProgressiveSkeleton from './ProgressiveSkeleton';
 import ResultActions from './ResultActions';
+import { normalizeText } from '../utils/normalizeText';
 
 // Agent类型定义
 type AgentType = 'core' | 'kline_past' | 'kline_future' | 'career' | 'marriage' | 'crypto';
@@ -140,36 +141,28 @@ const AgentStatusBadge = ({ status, agentName }: { status: AgentStatus; agentNam
   );
 };
 
-const Card = ({ title, icon: Icon, content, score, colorClass, extraBadges, loading }: any) => {
+const toDisplayText = (content: unknown) => {
+  if (typeof content === 'string') return normalizeText(content).replace(/\*\*/g, '');
+  if (content === null || content === undefined) return '';
+  if (Array.isArray(content)) return normalizeText(content.map((item) => String(item)).join('\n')).replace(/\*\*/g, '');
+  if (typeof content === 'object') {
+    try {
+      return normalizeText(JSON.stringify(content)).replace(/\*\*/g, '');
+    } catch {
+      return normalizeText(String(content)).replace(/\*\*/g, '');
+    }
+  }
+  return normalizeText(String(content)).replace(/\*\*/g, '');
+};
+
+const FALLBACK_ANALYSIS_TEXT = '该项详细内容暂未生成。你可以重新测算，或稍后从历史记录中重新打开结果。';
+
+const Card = ({ title, icon: Icon, content, score, colorClass, extraBadges, loading, fallback = FALLBACK_ANALYSIS_TEXT }: any) => {
   if (loading) {
     return <ProgressiveSkeleton type="card" title={title} />;
   }
 
-  let displayContent: React.ReactNode;
-
-  if (React.isValidElement(content)) {
-    displayContent = content;
-  } else {
-    let safeContent = '';
-    if (typeof content === 'string') {
-      safeContent = content;
-    } else if (content === null || content === undefined) {
-      safeContent = '';
-    } else if (typeof content === 'object') {
-      try {
-        if (Array.isArray(content)) {
-          safeContent = content.map((c: any) => String(c)).join('\n');
-        } else {
-          safeContent = JSON.stringify(content);
-        }
-      } catch (e) {
-        safeContent = String(content);
-      }
-    } else {
-      safeContent = String(content);
-    }
-    displayContent = safeContent.replace(/\*\*/g, '');
-  }
+  const displayContent = React.isValidElement(content) ? content : toDisplayText(content);
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col h-full relative overflow-hidden animate-fade-in">
@@ -188,7 +181,7 @@ const Card = ({ title, icon: Icon, content, score, colorClass, extraBadges, load
       )}
 
       <div className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap flex-grow">
-        {displayContent}
+        {displayContent || fallback}
       </div>
 
       {typeof score === 'number' && (
