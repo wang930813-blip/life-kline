@@ -28,6 +28,25 @@
   --color-telegram: #0088cc;
   --color-twitter: #1da1f2;
 
+  /* Oriental classical theme */
+  --color-qingdai: #123c43;
+  --color-qingdai-deep: #0b2529;
+  --color-cinnabar: #a8322a;
+  --color-cinnabar-dark: #78231f;
+  --color-rice-paper: #f4ead2;
+  --color-xuan-paper: #fbf7ea;
+  --color-surface-paper: rgb(251 247 234 / 0.92);
+  --color-bamboo: #5f7356;
+  --color-ink: #2d2922;
+  --color-ink-muted: #6f675a;
+  --color-action-text: #fffaf0;
+  --color-gold-sand: #c8a45d;
+  --font-heading-classical: "STXingkai", "华文行楷", "KaiTi", "楷体", "Noto Serif SC", serif;
+  --font-body-classical: "KaiTi", "楷体", "STKaiti", "Noto Serif SC", serif;
+  --shadow-scroll: 0 18px 45px rgb(45 35 22 / 0.18), inset 0 0 22px rgb(168 50 42 / 0.06);
+  --shadow-ink: 0 12px 30px rgb(11 37 41 / 0.16);
+  --border-ink: rgb(18 60 67 / 0.24);
+
   /* 文字层级 */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;

@@ -93,6 +93,7 @@ export function normalizeText<T>(value: T): T {
     for (const [bad, good] of REPLACEMENTS) {
       next = next.split(bad).join(good);
     }
+    next = next.replace(/\{lunar\.getDayInChinese\(\)\}/g, '').replace(/\s{2,}/g, ' ').trim();
     return next as T;
   }
 

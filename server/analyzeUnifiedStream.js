@@ -1,11 +1,3 @@
-/**
- * 统一分析流处理器 - 单Agent模式
- * 优势：
- * - API调用次数减少83%（6次→1次）
- * - 成本显著降低
- * - 代码更简单易维护
- * - 保持输出格式兼容（前端无需大改）
- */
 import { nanoid } from 'nanoid';
 import {
   updateUserPoints,
@@ -25,21 +17,15 @@ import {
 
 const COST_PER_ANALYSIS = process.env.COST_PER_ANALYSIS ? parseInt(process.env.COST_PER_ANALYSIS, 10) : 50;
 
-/**
- * 统一分析流处理器
- */
 export const handleUnifiedAnalyzeStream = async (req, res) => {
-  // 设置SSE响应头
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.setHeader('X-Accel-Buffering', 'no');
 
   const body = req.body || {};
-  const useCustomApi = false;
   const skipCache = Boolean(body.skipCache);
-
-  let authedInfo = req.__authedInfo || null;
+  const authedInfo = req.__authedInfo || null;
 
   const input = {
     name: body.name || '',
@@ -57,12 +43,10 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
   const inputId = nanoid();
   const startTime = Date.now();
 
-  // 进度回调
   const onProgress = (message) => {
     sendSSE(res, 'progress', { message, timestamp: Date.now() });
   };
 
-  // 启动心跳保活
   const keepAliveInterval = setInterval(() => {
     if (!res.writableEnded) {
       res.write(': keep-alive\n\n');
@@ -75,7 +59,6 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
 
   sendSSE(res, 'progress', { message: '正在初始化统一分析系统...', phase: 'init' });
 
-  // 计算八字哈希
   const baziHash = computeBaziHash(
     input.yearPillar,
     input.monthPillar,
@@ -86,26 +69,22 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
 
   sendSSE(res, 'progress', { message: `八字哈希: ${baziHash}`, phase: 'hash' });
 
-  // 检查缓存
-  if (!skipCache && !useCustomApi) {
+  if (!skipCache) {
     const cachedData = getCachedAnalysis(baziHash, genderKey);
 
     if (cachedData) {
       sendSSE(res, 'cache_hit', {
-        message: '✓ 命中永久缓存，直接返回一致性结果',
+        message: '命中永久缓存，直接返回一致性结果',
         baziHash,
         cachedAt: cachedData.createdAt,
       });
 
-      // 从缓存构建结果
       const cachedResult = mergeCachedWithFresh(cachedData);
-
       const finalResult = {
         chartData: cachedData.klineData || [],
         analysis: cachedResult,
       };
 
-      // 处理用户积分（缓存命中也扣分）
       let user = null;
       let cost = 0;
       let isGuest = false;
@@ -115,14 +94,12 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
         updateUserPoints(authedInfo.user.id, newPoints);
         cost = COST_PER_ANALYSIS;
         user = { id: authedInfo.user.id, email: authedInfo.user.email, points: newPoints };
-
         logEvent('info', '缓存命中分析', { baziHash, cost }, authedInfo.user.id, req.ip);
       } else {
         isGuest = true;
         logEvent('info', '游客缓存命中', { baziHash }, null, req.ip);
       }
 
-      // 发送完成事件
       sendSSE(res, 'complete', {
         result: finalResult,
         user,
@@ -133,28 +110,26 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
       });
 
       return res.end();
-    } else {
-      sendSSE(res, 'cache_miss', { message: '缓存未命中，启动统一分析...', baziHash });
     }
+
+    sendSSE(res, 'cache_miss', { message: '缓存未命中，启动统一分析...', baziHash });
   }
 
-  // 预计算生命周期骨架
   let skeletonData = null;
   try {
     skeletonData = calculateLifeTimeline(input);
-    sendSSE(res, 'progress', { message: '✓ 已生成100年流年骨架', phase: 'skeleton' });
+    sendSSE(res, 'progress', { message: '已生成 100 年流年骨架', phase: 'skeleton' });
   } catch (err) {
     console.error('骨架计算失败:', err);
     sendSSE(res, 'error', {
       error: 'SKELETON_CALC_FAILED',
-      message: '流年骨架计算失败，请检查输入数据'
+      message: '流年骨架计算失败，请检查输入数据',
     });
     return res.end();
   }
 
-  // 执行统一分析
   sendSSE(res, 'unified_start', {
-    message: '🚀 启动统一分析Agent（单次请求，全维度分析）...',
+    message: '启动统一分析 Agent（单次请求，全维度分析）...',
   });
 
   const analysisResult = await runUnifiedAnalyzer(input, skeletonData, res, onProgress);
@@ -168,7 +143,6 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
     return res.end();
   }
 
-  // 组装最终结果
   sendSSE(res, 'progress', { message: '正在整理分析结果...', phase: 'finalize' });
 
   const finalResult = {
@@ -195,8 +169,6 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
       cryptoScore: analysisResult.data.cryptoScore || 5,
       cryptoYear: analysisResult.data.cryptoYear || '待定',
       cryptoStyle: analysisResult.data.cryptoStyle || '现货定投',
-
-      // 扩展字段
       appearance: analysisResult.data.appearance,
       bodyType: analysisResult.data.bodyType,
       skin: analysisResult.data.skin,
@@ -218,8 +190,7 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
     },
   };
 
-  // 保存到缓存（永久缓存）
-  if (!useCustomApi && !skipCache) {
+  if (!skipCache) {
     try {
       const coreData = extractCoreData(finalResult.analysis, finalResult.chartData);
       cacheAnalysis({
@@ -229,89 +200,83 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
         modelUsed: analysisResult.model,
         version: 1,
       });
-      sendSSE(res, 'progress', { message: '✓ 结果已存入永久缓存', phase: 'cache' });
+      sendSSE(res, 'progress', { message: '结果已存入永久缓存', phase: 'cache' });
     } catch (cacheErr) {
       console.error('缓存保存失败:', cacheErr);
-      // 缓存失败不影响主流程
     }
   }
 
-  // 处理用户数据
   let user = null;
   let cost = 0;
   let isGuest = false;
 
-  if (!useCustomApi) {
-    // 保存用户输入
-    saveUserInput({
-      id: inputId,
-      userId: authedInfo ? authedInfo.user.id : null,
-      name: input.name,
-      gender: input.gender,
-      birthYear: input.birthYear,
-      yearPillar: input.yearPillar,
-      monthPillar: input.monthPillar,
-      dayPillar: input.dayPillar,
-      hourPillar: input.hourPillar,
-      startAge: input.startAge,
-      firstDaYun: input.firstDaYun,
-      modelName: analysisResult.model,
-      apiBaseUrl: '',
-      useCustomApi: false,
-      ipAddress: req.ip,
-      userAgent: req.get('User-Agent'),
+  saveUserInput({
+    id: inputId,
+    userId: authedInfo ? authedInfo.user.id : null,
+    name: input.name,
+    gender: input.gender,
+    birthYear: input.birthYear,
+    yearPillar: input.yearPillar,
+    monthPillar: input.monthPillar,
+    dayPillar: input.dayPillar,
+    hourPillar: input.hourPillar,
+    startAge: input.startAge,
+    firstDaYun: input.firstDaYun,
+    modelName: analysisResult.model,
+    apiBaseUrl: '',
+    useCustomApi: false,
+    ipAddress: req.ip,
+    userAgent: req.get('User-Agent'),
+  });
+
+  const analysisId = nanoid();
+
+  if (authedInfo) {
+    const newPoints = Math.max(0, authedInfo.user.points - COST_PER_ANALYSIS);
+    updateUserPoints(authedInfo.user.id, newPoints);
+    cost = COST_PER_ANALYSIS;
+
+    saveAnalysis({
+      id: analysisId,
+      userId: authedInfo.user.id,
+      inputId,
+      cost,
+      modelUsed: analysisResult.model,
+      chartData: finalResult.chartData,
+      analysisData: finalResult.analysis,
+      processingTimeMs: Date.now() - startTime,
+      status: 'completed',
     });
 
-    const analysisId = nanoid();
+    logEvent('info', '统一分析完成', {
+      analysisId,
+      cost,
+      model: analysisResult.model,
+      elapsed: analysisResult.elapsed,
+    }, authedInfo.user.id, req.ip);
 
-    if (authedInfo) {
-      const newPoints = Math.max(0, authedInfo.user.points - COST_PER_ANALYSIS);
-      updateUserPoints(authedInfo.user.id, newPoints);
-      cost = COST_PER_ANALYSIS;
+    user = { id: authedInfo.user.id, email: authedInfo.user.email, points: newPoints };
+  } else {
+    isGuest = true;
 
-      saveAnalysis({
-        id: analysisId,
-        userId: authedInfo.user.id,
-        inputId: inputId,
-        cost,
-        modelUsed: analysisResult.model,
-        chartData: finalResult.chartData,
-        analysisData: finalResult.analysis,
-        processingTimeMs: Date.now() - startTime,
-        status: 'completed',
-      });
+    saveAnalysis({
+      id: analysisId,
+      userId: null,
+      inputId,
+      cost: 0,
+      modelUsed: analysisResult.model,
+      chartData: finalResult.chartData,
+      analysisData: finalResult.analysis,
+      processingTimeMs: Date.now() - startTime,
+      status: 'completed',
+    });
 
-      logEvent('info', '统一分析完成', {
-        analysisId,
-        cost,
-        model: analysisResult.model,
-        elapsed: analysisResult.elapsed,
-      }, authedInfo.user.id, req.ip);
-
-      user = { id: authedInfo.user.id, email: authedInfo.user.email, points: newPoints };
-    } else {
-      isGuest = true;
-
-      saveAnalysis({
-        id: analysisId,
-        userId: null,
-        inputId: inputId,
-        cost: 0,
-        modelUsed: analysisResult.model,
-        chartData: finalResult.chartData,
-        analysisData: finalResult.analysis,
-        processingTimeMs: Date.now() - startTime,
-        status: 'completed',
-      });
-
-      logEvent('info', '游客统一分析', {
-        analysisId,
-        model: analysisResult.model,
-      }, null, req.ip);
-    }
+    logEvent('info', '游客统一分析', {
+      analysisId,
+      model: analysisResult.model,
+    }, null, req.ip);
   }
 
-  // 发送完成事件
   sendSSE(res, 'complete', {
     result: finalResult,
     user,
@@ -323,7 +288,7 @@ export const handleUnifiedAnalyzeStream = async (req, res) => {
     mode: 'unified',
   });
 
-  res.end();
+  return res.end();
 };
 
 export default handleUnifiedAnalyzeStream;

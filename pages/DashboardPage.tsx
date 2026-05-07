@@ -25,6 +25,7 @@ import {
 import ProfileManager from '../components/profile/ProfileManager';
 import PointsRechargePanel from '../components/payment/PointsRechargePanel';
 import { UserInput, Gender, LifeDestinyResult, HistoryListItem, UserProfile } from '../types';
+import { normalizeText } from '../utils/normalizeText';
 
 interface DashboardStats {
   profileCount: number;
@@ -50,13 +51,15 @@ interface DashboardPageProps {
   userInfo: UserInfo | null;
   onLoginClick: () => void;
   onLogout: () => void;
+  onHistorySelect?: (result: LifeDestinyResult, input: UserInput) => void;
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = ({
   isLoggedIn,
   userInfo,
   onLoginClick,
-  onLogout
+  onLogout,
+  onHistorySelect
 }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -169,7 +172,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           });
           if (historyResponse.ok) {
             const historyData = await historyResponse.json();
-            setRecentAnalyses(historyData.items?.slice(0, 5) || []);
+            setRecentAnalyses((historyData.items?.slice(0, 5) || []).map((item: HistoryListItem) => ({
+              ...item,
+              summary: normalizeText(item.summary || '历史分析')
+            })));
             setStats(prev => ({ ...prev, totalAnalyses: historyData.total || 0 }));
           }
         } catch (err) {
@@ -182,7 +188,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
               id: item.id,
               createdAt: item.createdAt,
               cost: item.cost || 0,
-              summary: item.result?.analysis?.summary || '历史分析'
+              summary: normalizeText(item.result?.analysis?.summary || '历史分析')
             })));
           }
         }
@@ -220,6 +226,34 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       const historyElement = document.getElementById('history-section');
       historyElement?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
+  };
+
+  const handleOpenHistory = async (analysis: HistoryListItem) => {
+    try {
+      const response = await fetch(`/api/history/${analysis.id}`, {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const item = data.item;
+        if (item?.result && item?.input) {
+          onHistorySelect?.(normalizeText(item.result), normalizeText(item.input));
+          navigate('/');
+          return;
+        }
+      }
+    } catch (err) {
+      console.error('Failed to open history:', err);
+    }
+
+    const localHistory = localStorage.getItem('lifekline_history');
+    if (localHistory) {
+      const found = JSON.parse(localHistory).find((item: any) => item.id === analysis.id);
+      if (found?.result && found?.input) {
+        onHistorySelect?.(normalizeText(found.result), normalizeText(found.input));
+        navigate('/');
+      }
+    }
   };
 
   const handleAddProfile = () => {
@@ -498,13 +532,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                         <div className="space-y-2">
                           {recentAnalyses.length > 0 ? (
                             recentAnalyses.slice(0, 3).map(analysis => (
-                              <div key={analysis.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg gap-2">
+                              <button
+                                key={analysis.id}
+                                onClick={() => handleOpenHistory(analysis)}
+                                className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg gap-2 text-left hover:bg-gray-100 transition-colors"
+                              >
                                 <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-sm sm:text-base text-gray-900 truncate">{analysis.summary}</div>
+                                  <div className="font-medium text-sm sm:text-base text-gray-900 truncate">{normalizeText(analysis.summary || '历史分析')}</div>
                                   <div className="text-xs sm:text-sm text-gray-500 truncate">{formatTime(analysis.createdAt)}</div>
                                 </div>
                                 <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                              </div>
+                              </button>
                             ))
                           ) : (
                             <p className="text-sm text-gray-500 text-center py-4">暂无分析记录</p>
@@ -603,10 +641,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
 
                     {recentAnalyses.length > 0 ? (
                       recentAnalyses.map(analysis => (
-                        <div key={analysis.id} className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                        <button
+                          key={analysis.id}
+                          onClick={() => handleOpenHistory(analysis)}
+                          className="w-full bg-gray-50 p-3 sm:p-4 rounded-lg text-left hover:bg-gray-100 transition-colors"
+                        >
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-sm sm:text-base text-gray-900 truncate">{analysis.summary}</h4>
+                              <h4 className="font-medium text-sm sm:text-base text-gray-900 truncate">{normalizeText(analysis.summary || '历史分析')}</h4>
                               <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm text-gray-500">
                                 <span className="flex items-center">
                                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
@@ -618,11 +660,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
                                 </span>
                               </div>
                             </div>
-                            <button className="text-gray-400 hover:text-gray-600 flex-shrink-0">
+                            <span className="text-gray-400 flex-shrink-0">
                               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                            </button>
+                            </span>
                           </div>
-                        </div>
+                        </button>
                       ))
                     ) : (
                       <div className="text-center py-12">

@@ -202,9 +202,9 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
   }, [formData.yearPillar, formData.gender]);
 
   return (
-    <div id="bazi-form-card" className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border-2 border-golden-300 shadow-glow-golden">
+    <div id="bazi-form-card" className="bamboo-card w-full max-w-md p-8">
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-serif-sc font-bold text-purple-700 mb-2">八字排盘</h2>
+        <h2 className="text-3xl font-serif-sc font-bold text-[var(--color-qingdai)] mb-2">八字排盘</h2>
         <p className="text-gray-500 text-sm">请输入四柱与大运信息以生成分析</p>
       </div>
 
@@ -225,14 +225,14 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">性别</label>
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-[rgb(18_60_67_/_0.08)] rounded-lg p-1 border border-[var(--border-ink)]">
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, gender: Gender.MALE })}
                 className={`flex-1 py-1.5 rounded-md text-xs font-medium transition ${
                   formData.gender === Gender.MALE
-                    ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-sm'
-                    : 'bg-white text-gray-500 hover:text-gray-700 border border-gray-300'
+                    ? 'classical-button shadow-sm'
+                    : 'bg-[var(--color-xuan-paper)] text-[var(--color-qingdai)] hover:text-[var(--color-cinnabar)] border border-[var(--border-ink)]'
                 }`}
               >
                 乾造 (男)
@@ -242,8 +242,8 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
                 onClick={() => setFormData({ ...formData, gender: Gender.FEMALE })}
                 className={`flex-1 py-1.5 rounded-md text-xs font-medium transition ${
                   formData.gender === Gender.FEMALE
-                    ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-sm'
-                    : 'bg-white text-gray-500 hover:text-gray-700 border border-gray-300'
+                    ? 'classical-button shadow-sm'
+                    : 'bg-[var(--color-xuan-paper)] text-[var(--color-qingdai)] hover:text-[var(--color-cinnabar)] border border-[var(--border-ink)]'
                 }`}
               >
                 坤造 (女)
@@ -261,8 +261,8 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
               onClick={() => setUseSmartInput(true)}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${
                 useSmartInput
-                  ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
+                  ? 'classical-button shadow-lg'
+                  : 'bg-[var(--color-xuan-paper)] text-[var(--color-qingdai)] hover:text-[var(--color-cinnabar)] border border-[var(--border-ink)]'
               }`}
             >
               <Zap className="w-4 h-4" />
@@ -273,8 +273,8 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
               onClick={() => setUseSmartInput(false)}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${
                 !useSmartInput
-                  ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
+                  ? 'classical-button shadow-lg'
+                  : 'bg-[var(--color-xuan-paper)] text-[var(--color-qingdai)] hover:text-[var(--color-cinnabar)] border border-[var(--border-ink)]'
               }`}
             >
               <Edit3 className="w-4 h-4" />

@@ -729,7 +729,25 @@ export const getAnalysesByUserId = (userId, limit = 20, offset = 0) => {
 };
 
 export const getAnalysisById = (id) => {
-  const stmt = db.prepare('SELECT * FROM analyses WHERE id = ?');
+  const stmt = db.prepare(`
+    SELECT
+      a.*,
+      ui.name,
+      ui.gender,
+      ui.birth_year,
+      ui.year_pillar,
+      ui.month_pillar,
+      ui.day_pillar,
+      ui.hour_pillar,
+      ui.start_age,
+      ui.first_da_yun,
+      ui.model_name,
+      ui.api_base_url,
+      ui.use_custom_api
+    FROM analyses a
+    LEFT JOIN user_inputs ui ON ui.id = a.input_id
+    WHERE a.id = ?
+  `);
   const row = stmt.get(id);
   if (!row) return null;
   return {
@@ -743,6 +761,21 @@ export const getAnalysisById = (id) => {
     createdAt: row.created_at,
     processingTimeMs: row.processing_time_ms,
     status: row.status,
+    input: row.input_id ? {
+      name: row.name || '',
+      gender: row.gender,
+      birthYear: row.birth_year ? String(row.birth_year) : '',
+      yearPillar: row.year_pillar || '',
+      monthPillar: row.month_pillar || '',
+      dayPillar: row.day_pillar || '',
+      hourPillar: row.hour_pillar || '',
+      startAge: row.start_age ? String(row.start_age) : '',
+      firstDaYun: row.first_da_yun || '',
+      modelName: row.model_name || '',
+      apiBaseUrl: row.api_base_url || '',
+      apiKey: '',
+      useCustomApi: row.use_custom_api === 1,
+    } : null,
   };
 };
 

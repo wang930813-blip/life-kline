@@ -20,6 +20,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
+    "design:use": "node scripts/use-design-md.js",
+    "verify:oriental-theme": "node scripts/verify-oriental-theme.js",
     "generate-content": "node scripts/generate-content.js",
     "import-content": "node scripts/import-content.js",
     "seed-cases": "node scripts/seed-cases.js",

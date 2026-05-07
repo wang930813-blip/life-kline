@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { User, Settings, History, LogOut, Coins, ChevronRight, Calendar, TrendingUp } from 'lucide-react';
+import { User, History, LogOut, Coins, ChevronRight, Calendar, TrendingUp } from 'lucide-react';
+import { normalizeText } from '../utils/normalizeText';
 
 interface ProfileData {
   id: string;
@@ -8,14 +9,17 @@ interface ProfileData {
   cost: number;
   input: {
     name?: string;
-    birthYear: number;
-    birthMonth: number;
-    birthDay: number;
-    birthHour: number;
-    gender: string;
+    birthYear?: string | number;
+    yearPillar?: string;
+    monthPillar?: string;
+    dayPillar?: string;
+    hourPillar?: string;
+    gender?: string;
   };
   result?: any;
 }
+
+const HISTORY_STORAGE_KEY = 'lifekline_history';
 
 const ProfilePage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ email: string; points: number } | null>(null);
@@ -23,7 +27,6 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check auth and load user info
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -33,15 +36,13 @@ const ProfilePage: React.FC = () => {
           if (data.user) {
             setIsLoggedIn(true);
             setUserInfo({ email: data.user.email, points: data.user.points });
-            loadProfileList();
-          } else {
-            setIsLoggedIn(false);
-            loadLocalProfiles();
+            await loadRecentAnalyses();
+            return;
           }
-        } else {
-          setIsLoggedIn(false);
-          loadLocalProfiles();
         }
+
+        setIsLoggedIn(false);
+        loadLocalProfiles();
       } catch (error) {
         console.error('Auth check error:', error);
         setIsLoggedIn(false);
@@ -54,50 +55,49 @@ const ProfilePage: React.FC = () => {
     checkAuth();
   }, []);
 
-  // Load profile list from localStorage
   const loadLocalProfiles = () => {
     try {
-      const data = localStorage.getItem('lifekline_history');
-      if (data) {
-        const history = JSON.parse(data);
-        setProfileList(history);
-      }
+      const data = localStorage.getItem(HISTORY_STORAGE_KEY);
+      setProfileList(data ? normalizeText(JSON.parse(data)) : []);
     } catch (e) {
       console.error('Failed to load local profiles:', e);
+      setProfileList([]);
     }
   };
 
-  // Load profile list from server (if logged in)
-  const loadProfileList = async () => {
+  const loadRecentAnalyses = async () => {
     try {
-      const response = await fetch('/api/profiles', { credentials: 'include' });
-      if (response.ok) {
-        const data = await response.json();
-        const profiles = (data.profiles || []).map((p: any) => ({
-          id: p.id,
-          createdAt: p.createdAt,
-          cost: 0,
-          input: {
-            name: p.name,
-            birthYear: p.birthYear || 0,
-            birthMonth: 0,
-            birthDay: 0,
-            birthHour: 0,
-            gender: p.gender || '',
-          },
-        }));
-        setProfileList(profiles);
-      } else {
-        // Fallback to local storage
+      const response = await fetch('/api/history', { credentials: 'include' });
+      if (!response.ok) {
         loadLocalProfiles();
+        return;
       }
+
+      const data = await response.json();
+      const items = data.items || [];
+      const fullHistory: ProfileData[] = [];
+
+      for (const item of items.slice(0, 10)) {
+        try {
+          const detailRes = await fetch(`/api/history/${item.id}`, { credentials: 'include' });
+          if (detailRes.ok) {
+            const detail = await detailRes.json();
+            if (detail.item?.input) {
+              fullHistory.push(normalizeText(detail.item));
+            }
+          }
+        } catch {
+          // Keep the rest of the list usable if one detail request fails.
+        }
+      }
+
+      setProfileList(fullHistory);
     } catch (error) {
-      console.error('Failed to load profiles from server:', error);
+      console.error('Failed to load recent analyses:', error);
       loadLocalProfiles();
     }
   };
 
-  // Logout handler
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', {
@@ -112,7 +112,6 @@ const ProfilePage: React.FC = () => {
     window.location.href = '/';
   };
 
-  // Format date
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('zh-CN', {
@@ -122,6 +121,21 @@ const ProfilePage: React.FC = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const formatBirthInfo = (input: ProfileData['input']) => {
+    const pillars = [input.yearPillar, input.monthPillar, input.dayPillar, input.hourPillar].filter(Boolean);
+    const birthYear = input.birthYear ? `${input.birthYear}年` : '';
+
+    if (birthYear && pillars.length === 4) {
+      return `${birthYear} · ${pillars.join(' ')}`;
+    }
+
+    if (pillars.length === 4) {
+      return pillars.join(' ');
+    }
+
+    return birthYear || '出生信息未完整保存';
   };
 
   if (loading) {
@@ -135,7 +149,6 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
@@ -151,7 +164,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Points display */}
           {isLoggedIn && userInfo && (
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -170,7 +182,6 @@ const ProfilePage: React.FC = () => {
             </div>
           )}
 
-          {/* Guest mode prompt */}
           {!isLoggedIn && (
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
               <p className="text-white/90 text-sm mb-3">
@@ -186,7 +197,6 @@ const ProfilePage: React.FC = () => {
           )}
         </div>
 
-        {/* Menu items */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
           <Link
             to="/dashboard"
@@ -239,7 +249,6 @@ const ProfilePage: React.FC = () => {
           )}
         </div>
 
-        {/* Profile list */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="p-4 border-b border-gray-100 bg-gray-50">
             <h2 className="font-bold text-gray-900 flex items-center gap-2">
@@ -267,13 +276,12 @@ const ProfilePage: React.FC = () => {
                   className="p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">
-                        {profile.input.name || '未命名'}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 truncate">
+                        {normalizeText(profile.input.name || '未命名')}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {profile.input.birthYear}年{profile.input.birthMonth}月
-                        {profile.input.birthDay}日 {profile.input.birthHour}时
+                      <p className="text-sm text-gray-500 mt-1 truncate">
+                        {formatBirthInfo(profile.input)}
                       </p>
                       <p className="text-xs text-gray-400 mt-1">
                         {formatDate(profile.createdAt)}

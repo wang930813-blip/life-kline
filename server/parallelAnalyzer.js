@@ -288,7 +288,7 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
     { type: 'crypto', prompt: AGENT_CRYPTO_PROMPT, priority: 6 },
   ];
 
-  onProgress(`鍚姩 ${agents.length} 涓笓涓欰gent骞惰鍒嗘瀽...`);
+  onProgress(`启动 ${agents.length} 个专业 Agent 并行分析...`);
 
   const results = {};
   const completedAgents = [];
@@ -318,9 +318,9 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
           totalAgents: agents.length,
         });
 
-        onProgress(`鉁?Agent[${agent.type}] 瀹屾垚 (${result.elapsed}s) - 宸插畬鎴?${completedAgents.length}/${agents.length}`);
+        onProgress(`Agent[${agent.type}] 完成 (${result.elapsed}s) - 已完成 ${completedAgents.length}/${agents.length}`);
       } else {
-        onProgress(`鉁?Agent[${agent.type}] 澶辫触: ${result.error}`);
+        onProgress(`Agent[${agent.type}] 失败: ${result.error}`);
         sendSSE(res, `agent_${agent.type}_error`, {
           agentType: agent.type,
           error: result.error,
@@ -336,7 +336,7 @@ export const runParallelAgents = async (input, skeletonData, res, onProgress) =>
   // 姹囨€荤粨鏋?
   const successCount = allResults.filter(r => r.status === 'fulfilled' && r.value?.success).length;
 
-  onProgress(`骞惰鍒嗘瀽瀹屾垚: ${successCount}/${agents.length} 鎴愬姛`);
+  onProgress(`并行分析完成: ${successCount}/${agents.length} 成功`);
 
   return {
     success: successCount > 0,
@@ -437,7 +437,7 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
 
   } else if (hasPastData || hasFutureData) {
     // 閮ㄥ垎鏁版嵁锛氬彧鏈変竴娈礙绾挎暟鎹紝浣跨敤fallback琛ュ叏缂哄け閮ㄥ垎
-    console.warn(`[mergeAgentResults] K绾挎暟鎹笉瀹屾暣: 杩囧幓=${pastPoints.length}骞? 鏈潵=${futurePoints.length}骞达紝浣跨敤fallback琛ュ叏`);
+    console.warn(`[mergeAgentResults] K线数据不完整: 过去=${pastPoints.length}年 未来=${futurePoints.length}年，使用 fallback 补全`);
 
     if (skeletonData) {
       const fallbackPoints = generateFallbackKLine(skeletonData);
@@ -473,7 +473,7 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
   // 鏈€缁堟暟鎹獙璇侊細纭繚鏁版嵁鐐规暟閲忚冻澶燂紙鑷冲皯50骞达級
   const MIN_CHART_POINTS = 50;
   if (chartPoints.length < MIN_CHART_POINTS && skeletonData) {
-    console.warn(`[mergeAgentResults] K绾挎暟鎹笉瓒?${chartPoints.length}鐐?< ${MIN_CHART_POINTS}鐐?锛屼娇鐢ㄥ畬鏁磃allback鏇挎崲`);
+    console.warn(`[mergeAgentResults] K线数据不足: ${chartPoints.length}点 < ${MIN_CHART_POINTS}点，使用完整 fallback 替换`);
     chartPoints = generateFallbackKLine(skeletonData);
     console.log(`[mergeAgentResults] Fallback 生成完成: ${chartPoints.length}年`);
   }
@@ -507,9 +507,9 @@ export const mergeAgentResults = (agentResults, skeletonData = null) => {
     characterSummary: core?.characterSummary || '',
 
     // 浜嬩笟Agent - 浣跨敤fallback濡傛灉鍘熸暟鎹己澶?
-    industry: career?.industry || careerFallback?.industry || '鏆傛棤浜嬩笟鍒嗘瀽锛岃绋嶅悗閲嶈瘯',
+    industry: career?.industry || careerFallback?.industry || '暂无事业分析，请稍后重试',
     industryScore: career?.industryScore || careerFallback?.industryScore || 5,
-    wealth: career?.wealth || careerFallback?.wealth || '鏆傛棤璐㈠瘜鍒嗘瀽锛岃绋嶅悗閲嶈瘯',
+    wealth: career?.wealth || careerFallback?.wealth || '暂无财富分析，请稍后重试',
     wealthScore: career?.wealthScore || careerFallback?.wealthScore || 5,
 
     // 濠氬Щ鍋ュ悍Agent

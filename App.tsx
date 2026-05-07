@@ -125,43 +125,43 @@ const AuthModal: React.FC<{
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-fade-in">
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-white">
+      <div className="scroll-panel w-full max-w-md mx-4 overflow-hidden animate-fade-in">
+        <div className="px-6 py-5 flex items-center justify-between border-b border-[var(--border-ink)] bg-[rgb(18_60_67_/_0.08)]">
+          <div className="flex items-center gap-2 text-[var(--color-qingdai)]">
             {mode === 'login' ? <LogIn className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
             <h3 className="font-bold text-lg">{mode === 'login' ? '登录账号' : '注册/登录'}</h3>
           </div>
-          <button onClick={onClose} className="text-white/80 hover:text-white">
+          <button onClick={onClose} className="ink-ripple text-[var(--color-ink-muted)] hover:text-[var(--color-cinnabar)]">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <p className="text-gray-600 text-sm">
+          <p className="text-[var(--color-ink-muted)] text-sm">
             {mode === 'login'
               ? '登录后可以查看历史记录和点数余额'
               : '注册后可以：保存分析结果、查看历史记录、获得更多测算次数'}
           </p>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">邮箱</label>
+            <label className="block text-sm font-bold text-[var(--color-qingdai)] mb-1">邮箱</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="classical-input w-full px-4 py-2.5 outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">密码</label>
+            <label className="block text-sm font-bold text-[var(--color-qingdai)] mb-1">密码</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="至少6位"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              className="classical-input w-full px-4 py-2.5 outline-none"
             />
           </div>
 
@@ -174,7 +174,7 @@ const AuthModal: React.FC<{
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="ink-ripple classical-button w-full py-3 font-bold transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -198,7 +198,7 @@ const AuthModal: React.FC<{
             <button
               type="button"
               onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-              className="text-sm text-indigo-600 hover:text-indigo-800"
+              className="ink-ripple text-sm text-[var(--color-cinnabar)] hover:text-[var(--color-cinnabar-dark)]"
             >
               {mode === 'login' ? '没有账号？去注册' : '已有账号？去登录'}
             </button>
@@ -430,6 +430,7 @@ const App: React.FC = () => {
                   userInfo={userInfo}
                   onLoginClick={openLoginModal}
                   onLogout={handleLogout}
+                  onHistorySelect={handleHistorySelect}
                 />
               </Suspense>
             }
@@ -443,6 +444,7 @@ const App: React.FC = () => {
                   userInfo={userInfo}
                   onLoginClick={openLoginModal}
                   onLogout={handleLogout}
+                  onHistorySelect={handleHistorySelect}
                 />
               </Suspense>
             }

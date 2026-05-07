@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { LifeDestinyResult, UserInput } from '../../types';
 import { useSiteConfig } from '../../utils/siteConfig';
+import { normalizeText } from '../../utils/normalizeText';
 
 interface HistoryItem {
   id: string;
@@ -42,7 +43,7 @@ const HISTORY_STORAGE_KEY = 'lifekline_history';
 const getLocalHistory = (): HistoryItem[] => {
   try {
     const data = localStorage.getItem(HISTORY_STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    return data ? normalizeText(JSON.parse(data)) : [];
   } catch {
     return [];
   }
@@ -71,13 +72,10 @@ const LeftNav: React.FC<LeftNavProps> = ({
   const isHomePage = location.pathname === '/';
   const siteConfig = useSiteConfig();
 
-  // History state
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [historyExpanded, setHistoryExpanded] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const fetchHistory = async () => {
-    setLoading(true);
     try {
       if (isLoggedIn) {
         const response = await fetch('/api/history', { credentials: 'include' });
@@ -92,29 +90,25 @@ const LeftNav: React.FC<LeftNavProps> = ({
               if (detailRes.ok) {
                 const detail = await detailRes.json();
                 if (detail.item?.input && detail.item?.result) {
-                  fullHistory.push(detail.item);
+                  fullHistory.push(normalizeText(detail.item));
                 }
               }
             } catch {
-              // Skip
+              // Keep loading the rest of the history if one item fails.
             }
           }
 
-          const localHistory = getLocalHistory();
-          const mergedHistory = [...fullHistory, ...localHistory]
+          const mergedHistory = [...fullHistory, ...getLocalHistory()]
             .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             .slice(0, 20);
           setHistory(mergedHistory);
-        } else {
-          setHistory(getLocalHistory());
+          return;
         }
-      } else {
-        setHistory(getLocalHistory());
       }
+
+      setHistory(getLocalHistory());
     } catch {
       setHistory(getLocalHistory());
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -131,8 +125,13 @@ const LeftNav: React.FC<LeftNavProps> = ({
   const handleDelete = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (confirm('确定要删除这条记录吗？')) {
-      const updated = deleteLocalHistoryItem(id);
-      setHistory(updated);
+      setHistory(deleteLocalHistoryItem(id));
+    }
+  };
+
+  const handleSelect = (item: HistoryItem) => {
+    if (item.result && item.input) {
+      onHistorySelect?.(normalizeText(item.result), normalizeText(item.input));
     }
   };
 
@@ -155,16 +154,15 @@ const LeftNav: React.FC<LeftNavProps> = ({
   const displayHistory = historyExpanded ? history : history.slice(0, 3);
 
   return (
-    <div className="flex flex-col h-full p-4 bg-[#fef9f3]">
-      {/* Logo with Pro Badge */}
+    <div className="scroll-panel flex flex-col h-full p-4 bg-[rgb(251_247_234_/_0.88)]">
       <NavLink to="/" className="flex items-center gap-3 mb-8 hover:opacity-80 transition-opacity">
-        <div className="bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 text-white p-2 rounded-lg shadow-md">
+        <div className="bg-[var(--color-qingdai)] text-[var(--color-xuan-paper)] p-2 rounded-lg shadow-md">
           <Sparkles className="w-6 h-6" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-serif-sc font-bold text-gray-900 tracking-wide">{siteConfig.name}</h1>
-            <span className="px-2 py-0.5 text-[10px] font-bold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-white rounded-full shadow-sm">
+            <h1 className="text-xl font-serif-sc font-bold text-[var(--color-qingdai)] tracking-wide">{siteConfig.name}</h1>
+            <span className="px-2 py-0.5 text-[10px] font-bold bg-[var(--color-cinnabar)] text-[var(--color-xuan-paper)] rounded-full shadow-sm">
               Pro
             </span>
           </div>
@@ -172,15 +170,14 @@ const LeftNav: React.FC<LeftNavProps> = ({
         </div>
       </NavLink>
 
-      {/* Navigation Items */}
       <nav className="flex-1 space-y-2 overflow-y-auto">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
+            `ink-ripple flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
               isActive
-                ? 'bg-purple-100 text-purple-700 font-semibold'
-                : 'text-gray-600 hover:bg-[#f5f0ea] hover:text-gray-800'
+                ? 'bg-[rgb(168_50_42_/_0.1)] text-[var(--color-cinnabar)] font-semibold'
+                : 'text-[var(--color-ink-muted)] hover:bg-[rgb(18_60_67_/_0.07)] hover:text-[var(--color-qingdai)]'
             }`
           }
         >
@@ -191,10 +188,10 @@ const LeftNav: React.FC<LeftNavProps> = ({
         <NavLink
           to="/knowledge"
           className={({ isActive }) =>
-            `flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
+            `ink-ripple flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
               isActive
-                ? 'bg-purple-100 text-purple-700 font-semibold'
-                : 'text-gray-600 hover:bg-[#f5f0ea] hover:text-gray-800'
+                ? 'bg-[rgb(168_50_42_/_0.1)] text-[var(--color-cinnabar)] font-semibold'
+                : 'text-[var(--color-ink-muted)] hover:bg-[rgb(18_60_67_/_0.07)] hover:text-[var(--color-qingdai)]'
             }`
           }
         >
@@ -205,10 +202,10 @@ const LeftNav: React.FC<LeftNavProps> = ({
         <NavLink
           to="/cases"
           className={({ isActive }) =>
-            `flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
+            `ink-ripple flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
               isActive
-                ? 'bg-purple-100 text-purple-700 font-semibold'
-                : 'text-gray-600 hover:bg-[#f5f0ea] hover:text-gray-800'
+                ? 'bg-[rgb(168_50_42_/_0.1)] text-[var(--color-cinnabar)] font-semibold'
+                : 'text-[var(--color-ink-muted)] hover:bg-[rgb(18_60_67_/_0.07)] hover:text-[var(--color-qingdai)]'
             }`
           }
         >
@@ -216,15 +213,14 @@ const LeftNav: React.FC<LeftNavProps> = ({
           <span className="text-lg">案例库</span>
         </NavLink>
 
-        {/* Dashboard - Only show when logged in */}
         {isLoggedIn && (
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
+              `ink-ripple flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
                 isActive || location.pathname.startsWith('/dashboard')
-                  ? 'bg-purple-100 text-purple-700 font-semibold'
-                  : 'text-gray-600 hover:bg-[#f5f0ea] hover:text-gray-800'
+                  ? 'bg-[rgb(168_50_42_/_0.1)] text-[var(--color-cinnabar)] font-semibold'
+                  : 'text-[var(--color-ink-muted)] hover:bg-[rgb(18_60_67_/_0.07)] hover:text-[var(--color-qingdai)]'
               }`
             }
           >
@@ -233,10 +229,8 @@ const LeftNav: React.FC<LeftNavProps> = ({
           </NavLink>
         )}
 
-        {/* History Section - Only on homepage */}
         {isHomePage && history.length > 0 && (
           <div className="mt-4 pt-4 border-t border-gray-200">
-            {/* History Header */}
             <button
               onClick={() => setHistoryExpanded(!historyExpanded)}
               className="w-full flex items-center justify-between px-2 py-2 text-gray-600 hover:text-gray-800"
@@ -246,46 +240,34 @@ const LeftNav: React.FC<LeftNavProps> = ({
                 <span className="text-sm font-medium">测算历史</span>
                 <span className="text-xs text-gray-400">({history.length})</span>
               </div>
-              {historyExpanded ? (
-                <ChevronDown className="w-4 h-4" />
-              ) : (
-                <ChevronRight className="w-4 h-4" />
-              )}
+              {historyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
 
-            {/* New Calculation Button */}
             {onNewCalculation && (
               <button
                 onClick={onNewCalculation}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-white rounded-lg hover:shadow-lg hover:shadow-amber-300/40 transition-all text-sm font-medium shadow-md"
+                className="ink-ripple classical-button w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 transition-all text-sm font-medium"
               >
                 <Plus className="w-4 h-4" />
                 新建测算
               </button>
             )}
 
-            {/* History List */}
             <div className="mt-2 space-y-1">
               {displayHistory.map((item) => (
-                <div
-                  key={item.id}
-                  className="group relative"
-                >
+                <div key={item.id} className="group relative">
                   <button
-                    onClick={() => onHistorySelect && item.result && item.input && onHistorySelect(item.result, item.input)}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-left rounded-lg hover:bg-[#f5f0ea] transition-colors"
+                    onClick={() => handleSelect(item)}
+                    className="ink-ripple w-full flex items-center gap-2 px-3 py-2 text-left rounded-lg hover:bg-[rgb(18_60_67_/_0.07)] transition-colors"
                   >
                     <User className="w-4 h-4 text-gray-400 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium text-gray-800 truncate">
-                        {item.input?.name || '匿名'}
+                        {normalizeText(item.input?.name || '匿名')}
                       </div>
-                      <div className="text-xs text-gray-500">
-                        {formatDate(item.createdAt)}
-                      </div>
+                      <div className="text-xs text-gray-500">{formatDate(item.createdAt)}</div>
                     </div>
                   </button>
-                  {/* Delete button */}
                   <button
                     onClick={(e) => handleDelete(item.id, e)}
                     className="absolute right-1 top-1/2 -translate-y-1/2 p-1 opacity-0 group-hover:opacity-100 hover:bg-red-100 rounded transition-all"
@@ -296,11 +278,10 @@ const LeftNav: React.FC<LeftNavProps> = ({
               ))}
             </div>
 
-            {/* Expand/Collapse */}
             {history.length > 3 && (
               <button
                 onClick={() => setHistoryExpanded(!historyExpanded)}
-                className="w-full text-center text-xs text-purple-600 hover:text-purple-700 py-2 font-medium"
+                className="ink-ripple w-full text-center text-xs text-[var(--color-cinnabar)] hover:text-[var(--color-cinnabar-dark)] py-2 font-medium"
               >
                 {historyExpanded ? '收起' : `查看全部 ${history.length} 条`}
               </button>
@@ -309,12 +290,10 @@ const LeftNav: React.FC<LeftNavProps> = ({
         )}
       </nav>
 
-      {/* User Status Section */}
       <div className="mt-auto pt-4 border-t border-amber-200/30">
         {isLoggedIn && userInfo ? (
           <div className="space-y-3">
-            {/* User Info Display */}
-            <div className="bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-600 p-4 rounded-xl shadow-lg">
+            <div className="bamboo-card p-4">
               <div className="flex items-center gap-2 mb-2">
                 <User className="w-4 h-4 text-white/90" />
                 <span className="text-sm font-medium text-white truncate">
@@ -323,17 +302,14 @@ const LeftNav: React.FC<LeftNavProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <Coins className="w-5 h-5 text-amber-400" />
-                <span className="text-lg font-bold text-amber-300">
-                  {userInfo.points}
-                </span>
+                <span className="text-lg font-bold text-amber-300">{userInfo.points}</span>
                 <span className="text-xs text-white/80">点</span>
               </div>
             </div>
 
-            {/* Logout Button */}
             <button
               onClick={onLogout}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-all"
+              className="ink-ripple w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-[var(--color-cinnabar)] hover:bg-[rgb(168_50_42_/_0.08)] rounded-lg transition-all"
             >
               <LogOut className="w-4 h-4" />
               退出登录
@@ -341,19 +317,17 @@ const LeftNav: React.FC<LeftNavProps> = ({
           </div>
         ) : (
           <div className="space-y-2">
-            {/* Login Button */}
             <button
               onClick={onLoginClick}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-purple-700 hover:bg-[#f5f0ea] rounded-lg transition-all border border-gray-300"
+              className="ink-ripple w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-[var(--color-qingdai)] hover:text-[var(--color-cinnabar)] hover:bg-[rgb(18_60_67_/_0.07)] rounded-lg transition-all border border-[var(--border-ink)]"
             >
               <LogIn className="w-4 h-4" />
               登录
             </button>
 
-            {/* Register Button */}
             <button
               onClick={onLoginClick}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 hover:shadow-lg hover:shadow-amber-300/50 rounded-lg shadow-md transition-all"
+              className="ink-ripple classical-button w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold transition-all"
             >
               <UserPlus className="w-4 h-4" />
               注册

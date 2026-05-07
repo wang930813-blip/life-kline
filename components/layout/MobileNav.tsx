@@ -9,22 +9,22 @@ interface MobileNavProps {
 const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
   const location = useLocation();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 scroll-panel border-t border-[var(--border-ink)] z-50 md:hidden">
       <div className="flex items-center justify-around px-2 py-2">
         {/* Home */}
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+            `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
               isActive
-                ? 'text-indigo-600'
-                : 'text-gray-600'
+                ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                : 'text-[var(--color-ink-muted)]'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <Home className={`w-6 h-6 ${isActive ? 'fill-indigo-600' : ''}`} />
+              <Home className={`w-6 h-6 ${isActive ? 'fill-[var(--color-cinnabar)]' : ''}`} />
               <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>
                 首页
               </span>
@@ -36,16 +36,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
         <NavLink
           to="/knowledge"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+            `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
               isActive
-                ? 'text-indigo-600'
-                : 'text-gray-600'
+                ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                : 'text-[var(--color-ink-muted)]'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <BookOpen className={`w-6 h-6 ${isActive ? 'fill-indigo-600' : ''}`} />
+              <BookOpen className={`w-6 h-6 ${isActive ? 'fill-[var(--color-cinnabar)]' : ''}`} />
               <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>
                 知识
               </span>
@@ -57,16 +57,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
         <NavLink
           to="/cases"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+            `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
               isActive
-                ? 'text-indigo-600'
-                : 'text-gray-600'
+                ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                : 'text-[var(--color-ink-muted)]'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <FolderOpen className={`w-6 h-6 ${isActive ? 'fill-indigo-600' : ''}`} />
+              <FolderOpen className={`w-6 h-6 ${isActive ? 'fill-[var(--color-cinnabar)]' : ''}`} />
               <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>
                 案例
               </span>
@@ -78,16 +78,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
         <NavLink
           to="/search"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+            `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
               isActive
-                ? 'text-indigo-600'
-                : 'text-gray-600'
+                ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                : 'text-[var(--color-ink-muted)]'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <Search className={`w-6 h-6 ${isActive ? 'fill-indigo-600' : ''}`} />
+              <Search className={`w-6 h-6 ${isActive ? 'fill-[var(--color-cinnabar)]' : ''}`} />
               <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>
                 搜索
               </span>
@@ -99,16 +99,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
         <NavLink
           to="/profile"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+            `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
               isActive
-                ? 'text-indigo-600'
-                : 'text-gray-600'
+                ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                : 'text-[var(--color-ink-muted)]'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <User className={`w-6 h-6 ${isActive ? 'fill-indigo-600' : ''}`} />
+              <User className={`w-6 h-6 ${isActive ? 'fill-[var(--color-cinnabar)]' : ''}`} />
               <span className={`text-xs ${isActive ? 'font-semibold' : 'font-medium'}`}>
                 我的
               </span>
@@ -121,16 +121,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
+              `ink-ripple flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all flex-1 ${
                 isActive || location.pathname.startsWith('/dashboard')
-                  ? 'text-indigo-600'
-                  : 'text-gray-600'
+                  ? 'text-[var(--color-cinnabar)] bg-[rgb(168_50_42_/_0.08)]'
+                  : 'text-[var(--color-ink-muted)]'
               }`
             }
           >
             {({ isActive }) => (
               <>
-                <LayoutDashboard className={`w-6 h-6 ${isActive || location.pathname.startsWith('/dashboard') ? 'fill-indigo-600' : ''}`} />
+                <LayoutDashboard className={`w-6 h-6 ${isActive || location.pathname.startsWith('/dashboard') ? 'fill-[var(--color-cinnabar)]' : ''}`} />
                 <span className={`text-xs ${isActive || location.pathname.startsWith('/dashboard') ? 'font-semibold' : 'font-medium'}`}>
                   控制台
                 </span>

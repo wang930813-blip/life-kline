@@ -25,10 +25,10 @@ const SidebarMini: React.FC<{
   const navigate = useNavigate();
 
   const miniItems = [
-    { icon: Star, label: '今日', color: 'text-amber-500', onClick: () => navigate('/fortune/daily') },
-    { icon: Calendar, label: '本月', color: 'text-blue-500', onClick: () => navigate('/fortune/monthly') },
-    { icon: TrendingUp, label: '今年', color: 'text-purple-500', onClick: () => navigate('/fortune/yearly') },
-    { icon: Sparkles, label: '测算', color: 'text-indigo-500', onClick: onGenerate },
+    { icon: Star, label: '今日', color: 'text-[var(--color-cinnabar)]', onClick: () => navigate('/fortune/daily') },
+    { icon: Calendar, label: '本月', color: 'text-[var(--color-qingdai)]', onClick: () => navigate('/fortune/monthly') },
+    { icon: TrendingUp, label: '今年', color: 'text-[var(--color-bamboo)]', onClick: () => navigate('/fortune/yearly') },
+    { icon: Sparkles, label: '测算', color: 'text-[var(--color-cinnabar)]', onClick: onGenerate },
   ];
 
   return (
@@ -37,23 +37,23 @@ const SidebarMini: React.FC<{
         <button
           key={index}
           onClick={item.onClick}
-          className="w-12 h-12 flex flex-col items-center justify-center rounded-xl hover:bg-white/80 transition-colors group"
+          className="ink-ripple w-12 h-12 flex flex-col items-center justify-center rounded-xl hover:bg-white/80 transition-colors group"
           title={item.label}
         >
           <item.icon className={`w-5 h-5 ${item.color} group-hover:scale-110 transition-transform`} />
-          <span className="text-[10px] text-gray-500 mt-0.5">{item.label}</span>
+          <span className="text-[10px] text-[var(--color-ink-muted)] mt-0.5">{item.label}</span>
         </button>
       ))}
 
-      <div className="h-px w-8 bg-gray-200 my-2" />
+      <div className="h-px w-8 bg-[var(--border-ink)] my-2" />
 
       <button
         onClick={() => navigate(isLoggedIn ? '/dashboard' : '/')}
-        className="w-12 h-12 flex flex-col items-center justify-center rounded-xl hover:bg-white/80 transition-colors group"
+        className="ink-ripple w-12 h-12 flex flex-col items-center justify-center rounded-xl hover:bg-white/80 transition-colors group"
         title={isLoggedIn ? '个人中心' : '登录'}
       >
-        <User className="w-5 h-5 text-gray-500 group-hover:scale-110 transition-transform" />
-        <span className="text-[10px] text-gray-500 mt-0.5">{isLoggedIn ? '我的' : '登录'}</span>
+        <User className="w-5 h-5 text-[var(--color-ink-muted)] group-hover:scale-110 transition-transform" />
+        <span className="text-[10px] text-[var(--color-ink-muted)] mt-0.5">{isLoggedIn ? '我的' : '登录'}</span>
       </button>
     </div>
   );
@@ -95,12 +95,12 @@ const AppShell: React.FC<AppShellProps> = ({
   const showFullSidebar = isExpanded || isHovered || !isCollapsible;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen paper-texture">
       {/* Desktop: Three-column layout */}
-      <div className="hidden md:flex max-w-[1440px] mx-auto">
+      <div className="hidden md:flex max-w-[1440px] mx-auto scroll-unfurl">
         {/* Left Nav - Fixed/Sticky */}
         <aside className="w-[280px] shrink-0">
-          <div className="fixed top-0 h-screen w-[280px] overflow-y-auto border-r border-gray-200 bg-white">
+          <div className="fixed top-0 h-screen w-[280px] overflow-y-auto border-r border-[rgb(18_60_67_/_0.2)] bg-[rgb(251_247_234_/_0.76)]">
             <LeftNav
               isLoggedIn={isLoggedIn}
               userInfo={userInfo}
@@ -114,7 +114,7 @@ const AppShell: React.FC<AppShellProps> = ({
 
         {/* Main Column - Scrollable, width adjusts based on sidebar */}
         <main
-          className="flex-1 min-w-0 border-r border-gray-200 bg-white min-h-screen transition-all duration-300"
+          className="flex-1 min-w-0 border-r border-[rgb(18_60_67_/_0.2)] bg-[rgb(251_247_234_/_0.78)] min-h-screen transition-all duration-300"
           style={{ maxWidth: isCollapsible && !showFullSidebar ? '800px' : '680px' }}
         >
           <Outlet />
@@ -126,7 +126,7 @@ const AppShell: React.FC<AppShellProps> = ({
           style={{ width: sidebarWidth }}
         >
           <div
-            className={`fixed top-0 h-screen overflow-y-auto bg-gray-50 transition-all duration-300 ease-in-out ${
+            className={`fixed top-0 h-screen overflow-y-auto bg-[rgb(244_234_210_/_0.72)] transition-all duration-300 ease-in-out ${
               isCollapsible && !showFullSidebar ? 'overflow-hidden' : ''
             }`}
             style={{ width: sidebarWidth }}
@@ -137,7 +137,7 @@ const AppShell: React.FC<AppShellProps> = ({
             {isCollapsible && (
               <button
                 onClick={toggleExpanded}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-6 h-12 bg-white border border-gray-200 rounded-full shadow-md hover:shadow-lg hover:bg-gray-50 flex items-center justify-center transition-all duration-200"
+                className="ink-ripple absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-6 h-12 bg-[var(--color-xuan-paper)] border border-[var(--border-ink)] rounded-full shadow-md hover:shadow-lg hover:bg-[var(--color-rice-paper)] flex items-center justify-center transition-all duration-200"
                 title={isExpanded || isHovered ? '收起侧边栏' : '展开侧边栏'}
               >
                 {isExpanded || isHovered ? (
@@ -175,8 +175,8 @@ const AppShell: React.FC<AppShellProps> = ({
       </div>
 
       {/* Mobile: Single column with bottom nav */}
-      <div className="md:hidden">
-        <main className="pb-16">
+      <div className="md:hidden scroll-unfurl">
+        <main className="pb-20">
           <Outlet />
         </main>
         <MobileNav isLoggedIn={isLoggedIn} />

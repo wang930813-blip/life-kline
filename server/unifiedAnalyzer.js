@@ -256,7 +256,7 @@ const makeUnifiedRequest = async (model, apiBaseUrl, apiKey, systemPrompt, userP
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    console.log(`[UnifiedAgent] 浣跨敤妯″瀷 ${model} 寮€濮嬭姹?..`);
+    console.log(`[UnifiedAgent] 使用模型 ${model} 开始请求...`);
     const startTime = Date.now();
 
     const response = await fetch(`${apiBaseUrl}/chat/completions`, {
@@ -282,7 +282,7 @@ const makeUnifiedRequest = async (model, apiBaseUrl, apiKey, systemPrompt, userP
 
     if (!response.ok) {
       const errText = await response.text();
-      console.warn(`[UnifiedAgent] 璇锋眰澶辫触 (${elapsed}s): ${response.status}`);
+      console.warn(`[UnifiedAgent] 请求失败 (${elapsed}s): ${response.status}`);
       return { success: false, error: `HTTP ${response.status}`, elapsed };
     }
 
@@ -291,7 +291,7 @@ const makeUnifiedRequest = async (model, apiBaseUrl, apiKey, systemPrompt, userP
     try {
       jsonResult = JSON.parse(responseText);
     } catch (e) {
-      console.warn(`[UnifiedAgent] JSON瑙ｆ瀽澶辫触 (${elapsed}s)`);
+      console.warn(`[UnifiedAgent] JSON 解析失败 (${elapsed}s)`);
       return { success: false, error: 'INVALID_API_RESPONSE', elapsed };
     }
 
@@ -319,20 +319,20 @@ const makeUnifiedRequest = async (model, apiBaseUrl, apiKey, systemPrompt, userP
     try {
       data = JSON.parse(content);
     } catch (parseErr) {
-      console.warn(`[UnifiedAgent] 鍐呭JSON瑙ｆ瀽澶辫触 (${elapsed}s)`);
+      console.warn(`[UnifiedAgent] 内容 JSON 解析失败 (${elapsed}s)`);
       return { success: false, error: 'INVALID_JSON_FORMAT', elapsed };
     }
 
-    console.log(`[UnifiedAgent] 鉁?鎴愬姛 (${elapsed}s)`);
+    console.log(`[UnifiedAgent] 成功 (${elapsed}s)`);
     return { success: true, data, elapsed, model };
 
   } catch (error) {
     clearTimeout(timeoutId);
     if (error.name === 'AbortError') {
-      console.warn(`[UnifiedAgent] 璇锋眰瓒呮椂`);
+      console.warn('[UnifiedAgent] 请求超时');
       return { success: false, error: 'TIMEOUT' };
     }
-    console.warn(`[UnifiedAgent] 璇锋眰寮傚父: ${error.message}`);
+    console.warn(`[UnifiedAgent] 请求异常: ${error.message}`);
     return { success: false, error: error.message };
   }
 };
@@ -352,12 +352,12 @@ const makeUnifiedRequestWithFallback = async (apiBaseUrl, apiKey, systemPrompt, 
         if (validateUnifiedResponse(result.data)) {
           return result;
         }
-        console.warn(`[UnifiedAgent] 妯″瀷 ${model} 杩斿洖鏁版嵁涓嶅畬鏁达紝灏濊瘯閲嶆柊璇锋眰...`);
+        console.warn(`[UnifiedAgent] 模型 ${model} 返回数据不完整，尝试重新请求...`);
       }
 
       // 濡傛灉鏄渶鍚庝竴娆″皾璇曡繖涓ā鍨嬶紝鍒囨崲鍒颁笅涓€涓ā鍨?
       if (attempt === maxRetries) {
-        console.warn(`[UnifiedAgent] 妯″瀷 ${model} 澶辫触锛屽皾璇曞鐢ㄦā鍨?..`);
+        console.warn(`[UnifiedAgent] 模型 ${model} 失败，尝试备用模型...`);
       } else {
         // 绛夊緟鍚庨噸璇?
         await new Promise(r => setTimeout(r, 1500));
@@ -382,7 +382,7 @@ const validateUnifiedResponse = (data) => {
 
   for (const field of requiredFields) {
     if (!data[field]) {
-      console.warn(`[UnifiedAgent] 瀛楁 ${field} 缂哄け`);
+      console.warn(`[UnifiedAgent] 字段 ${field} 缺失`);
       return false;
     }
   }
@@ -407,7 +407,7 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
   const apiBaseUrl = DEFAULT_API_BASE_URL;
   const apiKey = DEFAULT_API_KEY;
 
-  onProgress('鍚姩缁熶竴鍒嗘瀽Agent...');
+  onProgress('启动统一分析 Agent...');
 
   const userPrompt = buildUnifiedUserPrompt(input, skeletonData);
 
@@ -420,15 +420,15 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
   );
 
   if (!result.success) {
-    console.error('[UnifiedAgent] 鎵€鏈夊皾璇曞潎澶辫触');
-    onProgress(`鉁?缁熶竴鍒嗘瀽澶辫触: ${result.error}`);
+    console.error('[UnifiedAgent] 所有尝试均失败');
+    onProgress(`统一分析失败: ${result.error}`);
     return {
       success: false,
       error: result.error,
     };
   }
 
-  onProgress(`鉁?缁熶竴鍒嗘瀽瀹屾垚 (${result.elapsed}s锛屼娇鐢ㄦā鍨? ${result.model})`);
+  onProgress(`统一分析完成 (${result.elapsed}s，使用模型 ${result.model})`);
 
   // 澶勭悊K绾挎暟鎹檷绾?
   let chartPoints = result.data.chartPoints || [];
@@ -444,7 +444,7 @@ export const runUnifiedAnalyzer = async (input, skeletonData, res, onProgress) =
   const mergedResult = {
     // 鍩虹淇℃伅
     bazi: result.data.bazi || skeletonData.bazi || [],
-    summary: result.data.summary || '鍛界悊鍒嗘瀽瀹屾垚',
+    summary: result.data.summary || '命理分析完成',
     summaryScore: result.data.summaryScore || 5,
 
     // 鏍稿績鍒嗘瀽

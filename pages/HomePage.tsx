@@ -14,7 +14,6 @@ import SaveProfileDialog from '../components/SaveProfileDialog';
 // Lazy load heavy components
 const LifeKLineChart = lazy(() => import('../components/LifeKLineChart'));
 const AnalysisResult = lazy(() => import('../components/AnalysisResult'));
-const HelpGuide = lazy(() => import('../components/HelpGuide'));
 const KLineTextTable = lazy(() => import('../components/KLineTextTable'));
 
 const LoadingFallback = () => (
@@ -341,14 +340,14 @@ const HomePage: React.FC<HomePageProps> = ({
           <div className="max-w-5xl mx-auto px-4 py-8">
             {/* 无结果：显示表单 */}
             {!result && (
-              <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8 animate-fade-in">
+              <div className="mobile-compact-home flex flex-col items-center justify-start gap-3 md:gap-6 animate-fade-in">
                 <div className="text-center max-w-2xl">
-                  <h2 className="text-4xl md:text-5xl font-serif-sc font-bold mb-6">
-                    <span className="bg-gradient-to-r from-purple-600 via-purple-500 to-golden-400 bg-clip-text text-transparent">
+                  <h2 className="text-4xl md:text-5xl font-serif-sc font-bold mb-4 md:mb-6">
+                    <span className="classical-hero-title">
                       洞悉命运起伏 预见人生轨迹
                     </span>
                   </h2>
-                  <p className="text-gray-500 text-lg leading-relaxed mb-8">
+                  <p className="text-gray-500 text-lg leading-relaxed mb-1 md:mb-4">
                     结合<strong>传统八字命理</strong>与<strong>金融可视化技术</strong>，将您的一生运势绘制成类似股票行情的K线图。
                   </p>
                 </div>
@@ -362,8 +361,6 @@ const HomePage: React.FC<HomePageProps> = ({
                   <span>|</span>
                   <Link to="/cases" className="flex items-center gap-1 hover:text-indigo-600"><Users className="w-4 h-4" /> 案例库</Link>
                 </div>
-
-                <Suspense fallback={<LoadingFallback />}><HelpGuide /></Suspense>
               </div>
             )}
 

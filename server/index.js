@@ -298,7 +298,8 @@ app.get('/api/history/:id', requireAuth(JWT_SECRET), (req, res) => {
       result: {
         chartData: analysis.chartData,
         analysis: analysis.analysisData,
-      }
+      },
+      input: analysis.input
     }
   });
 });
@@ -2581,8 +2582,8 @@ function calculateBasicDailyFortune(bazi, date, dayGanZhi, lunar) {
   return {
     overallScore: baseScore,
     overallTrend: getTrend(baseScore),
-    overallSummary: baseScore > 70 ? '浠婃棩杩愬娍鑹ソ锛岄€傚悎涓诲姩鍑哄嚮' :
-                    baseScore < 45 ? '浠婃棩杩愬娍杈冨急锛屽疁闈欎笉瀹滃姩' :
+    overallSummary: baseScore > 70 ? '今日运势良好，适合主动出击' :
+                    baseScore < 45 ? '今日运势较弱，宜静不宜动' :
                     '今日运势平稳，宜稳中求进',
     career: {
       score: careerScore,
@@ -2701,21 +2702,21 @@ function calculateBasicYearlyFortune(bazi, year) {
 // AI澧炲己鐗堟瘡鏃ヨ繍鍔跨敓鎴?
 async function generateDailyFortuneAI(bazi, dateKey, dayGanZhi, lunarDateStr, profile) {
   const userPrompt = `
-璇蜂负浠ヤ笅鍛戒富鐢熸垚${dateKey}鐨勮缁嗘瘡鏃ヨ繍鍔垮垎鏋愩€?
+请为以下命主生成 ${dateKey} 的详细每日运势分析。
 
-**鍛戒富鍏瓧锛?*
-骞存煴锛?{bazi.yearPillar}
-鏈堟煴锛?{bazi.monthPillar}
-鏃ユ煴锛?{bazi.dayPillar}
-鏃舵煴锛?{bazi.hourPillar}
-鎬у埆锛?{bazi.gender === 'male' ? '鐢? : '濂?}
+**命主八字：**
+年柱：${bazi.yearPillar}
+月柱：${bazi.monthPillar}
+日柱：${bazi.dayPillar}
+时柱：${bazi.hourPillar}
+性别：${bazi.gender === 'male' ? '男' : '女'}
 
-**浠婃棩淇℃伅锛?*
-闃冲巻锛?{dateKey}
-鍐滃巻锛?{lunarDateStr}
-娴佹棩骞叉敮锛?{dayGanZhi}
+**今日信息：**
+阳历：${dateKey}
+农历：${lunarDateStr}
+流日干支：${dayGanZhi}
 
-璇蜂弗鏍兼寜鐓SON鏍煎紡杈撳嚭锛屽寘鍚繁搴﹀垎鏋愬拰鍏蜂綋寤鸿銆?
+请严格按照 JSON 格式输出，包含深度分析和具体建议。
 `;
 
   try {
