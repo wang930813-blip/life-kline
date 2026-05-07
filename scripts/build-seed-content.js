@@ -207,6 +207,8 @@ const makeCelebrity = ([id, name, nameCn, category, birthDate, city, events, ref
       note: event.replace(/^\d{4}:\s*/, ''),
     };
   });
+  const analysisData = buildCelebrityAnalysisData(nameCn, category, events, refs);
+  const scores = buildCelebrityScores(category, chartData);
   return {
     id,
     name,
@@ -227,11 +229,84 @@ const makeCelebrity = ([id, name, nameCn, category, birthDate, city, events, ref
     highlights,
     events,
     sourceRefs: refs,
+    analysis_data: analysisData,
+    scores,
+    financial_data: buildFinancialData(category, nameCn),
+    honors: buildHonors(events),
+    analysis_generated_at: new Date(Date.UTC(2025, 0, 15 + index)).toISOString(),
+    analysis_version: 1,
     hotness_score: Math.max(60, 98 - index),
     view_count: 0,
     published: true,
   };
 };
+
+const categoryTone = {
+  sudden_downfall: '高光之后出现剧烈回落，适合观察风险暴露、健康压力、舆论周期和人生无常。',
+  rising_power: '早期积累较长，后续通过关键机会实现跃迁，适合观察低谷蓄势和爆发窗口。',
+  corporate_fate: '事业曲线带有明显组织周期，适合观察长期复利、平台选择和权力交接。',
+  ai_tech: '技术浪潮推动个人与组织快速上行，适合观察时代风口和认知杠杆。',
+  crypto_macro: '波动强、周期短、风险释放猛烈，适合观察财富弹性与风控边界。',
+};
+
+function buildCelebrityAnalysisData(nameCn, category, events, refs) {
+  const eventText = events.map((event) => event.replace(':', ' 年：')).join('；');
+  const tone = categoryTone[category];
+  const sourceText = refs.join('、');
+
+  return {
+    summary: `${nameCn}的公开人生轨迹显示出「${tone}」这一类样本特征。这里的命理分析不依赖未经证实的出生时辰，而是把公开年份事件放入人生K线中观察：${eventText}。从复盘角度看，关键不是把某一年简单判成吉凶，而是理解资源、压力、选择和时代环境如何共同改变曲线。参考公开资料：${sourceText}。`,
+    personality: `${nameCn}的案例提示我们，人物性格不能只用单一标签解释。公开事件中的持续投入、关键转向和危机反应，往往比抽象描述更能说明问题。若按人生K线阅读，此类人物通常在高压阶段展现强目标感和强行动力，但也可能因为节奏过快、外部期待过高而承受额外消耗。学习这个案例时，应重点看其如何处理机会、声誉、团队关系与长期压力。`,
+    career: `${nameCn}的事业线最值得观察的是关键节点之间的连接，而不是孤立的成败。公开资料中的年份事件提供了可复盘坐标：${eventText}。当曲线连续上行时，往往对应平台扩张、作品突破、资本关注或技术浪潮；当曲线回落时，常见原因包括周期结束、管理失衡、外部冲击或个人健康压力。这个案例适合用来训练“先看趋势，再看节点”的阅读方式。`,
+    wealth: `${nameCn}相关的财富或资源变化，应被理解为影响力、资产、声誉和选择权的综合变化。人生K线中的高点并不等于绝对安全，高点也可能伴随更高曝光和更高风险；低点也不必然意味着失败，低点有时是资源重组和策略调整的窗口。这个案例提醒用户，在上行阶段要保留冗余，在波动阶段要降低不可逆风险。`,
+    marriage: `${nameCn}的公开资料主要集中在事业和社会事件，私人关系部分不宜过度推断。因此本模块只给方法提示：阅读名人案例时，关系维度应关注责任、支持系统、压力分担和舆论边界，而不是把公开事件直接等同于亲密关系结论。若缺少可靠资料，应主动降低判断强度，避免用命理语言包装猜测。`,
+    health: `${nameCn}的曲线复盘也提醒我们，健康和心理承压是人生K线中容易被忽略的底层变量。高强度上行期常伴随睡眠、情绪、决策疲劳和身体透支；剧烈回落期则可能放大焦虑和孤立感。无论命理评分如何，健康都应被视为长期复利的地基。案例阅读的实用结论是：越在高点，越要建立休息、体检、运动和支持系统。`,
+    lifeTrajectory: `${nameCn}的轨迹可以拆成三个层次：第一是公开事件层，记录关键年份发生了什么；第二是趋势层，观察这些年份之间是连续上行、震荡还是断崖回落；第三是策略层，思考如果处在相似阶段，应如何管理机会和风险。人生K线的价值正在于把这三层放在同一张图上，帮助用户从故事转向复盘。`,
+    fengShui: `此处的风水建议采用现代化解释：环境就是长期行为的容器。学习${nameCn}这类案例时，可以把“风水”理解为信息环境、人际环境、工作节奏和风险边界。若曲线处于上升期，应让环境支持专注和恢复；若曲线处于震荡期，应减少噪音、整理资产和关系账本，先稳住系统。`,
+  };
+}
+
+function buildCelebrityScores(category, chartData) {
+  const avg = Math.round(chartData.reduce((sum, item) => sum + item.score, 0) / chartData.length);
+  const categoryBias = {
+    sudden_downfall: -8,
+    rising_power: 10,
+    corporate_fate: 8,
+    ai_tech: 12,
+    crypto_macro: -2,
+  }[category] || 0;
+  const clamp = (value) => Math.max(35, Math.min(96, value));
+
+  return {
+    overall: clamp(avg + categoryBias),
+    personality: clamp(avg + 8),
+    career: clamp(avg + categoryBias + 10),
+    wealth: clamp(avg + categoryBias + 5),
+    marriage: clamp(avg - 2),
+    health: clamp(avg - (category === 'sudden_downfall' ? 15 : 4)),
+  };
+}
+
+function buildFinancialData(category, nameCn) {
+  if (!['corporate_fate', 'ai_tech', 'crypto_macro', 'rising_power'].includes(category)) return null;
+  return {
+    netWorth: '以公开资料和媒体报道为参考，具体数值随时间变化',
+    marketCap: category === 'corporate_fate' || category === 'ai_tech' ? '关联企业市值随市场周期变化' : undefined,
+    peakNetWorth: category === 'crypto_macro' ? '高波动周期中峰值变化较大' : undefined,
+    majorHoldings: [nameCn, categoryCn[category], '公开资料复盘'],
+  };
+}
+
+function buildHonors(events) {
+  return events.slice(0, 5).map((event) => {
+    const year = Number(event.slice(0, 4));
+    return {
+      year,
+      title: event.replace(/^\d{4}:\s*/, ''),
+      category: '公开事件',
+    };
+  });
+}
 
 fs.mkdirSync(seedDir, { recursive: true });
 

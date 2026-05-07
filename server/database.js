@@ -1363,6 +1363,12 @@ export const getCelebrityCaseById = (id) => {
     highlights: row.highlights ? JSON.parse(row.highlights) : [],
     hotness_score: row.hotness_score,
     view_count: row.view_count,
+    analysis_data: row.analysis_data,
+    scores: row.scores,
+    financial_data: row.financial_data,
+    honors: row.honors,
+    analysis_generated_at: row.analysis_generated_at,
+    analysis_version: row.analysis_version,
     createdAt: row.created_at,
   };
 };

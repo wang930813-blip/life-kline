@@ -67,8 +67,9 @@ const seedCelebrityCases = (cases) => {
       id, name, name_cn, category, category_cn, birth_date, birth_location_city,
       birth_location_lat, birth_location_lng, description, tags, year_pillar,
       month_pillar, day_pillar, hour_pillar, chart_data, highlights,
-      hotness_score, view_count, created_at, published
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      hotness_score, view_count, created_at, published,
+      analysis_data, scores, financial_data, honors, analysis_generated_at, analysis_version
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name = excluded.name,
       name_cn = excluded.name_cn,
@@ -87,7 +88,13 @@ const seedCelebrityCases = (cases) => {
       chart_data = excluded.chart_data,
       highlights = excluded.highlights,
       hotness_score = excluded.hotness_score,
-      published = excluded.published
+      published = excluded.published,
+      analysis_data = excluded.analysis_data,
+      scores = excluded.scores,
+      financial_data = excluded.financial_data,
+      honors = excluded.honors,
+      analysis_generated_at = excluded.analysis_generated_at,
+      analysis_version = excluded.analysis_version
   `);
 
   const insertMany = db.transaction((items) => {
@@ -113,7 +120,13 @@ const seedCelebrityCases = (cases) => {
         item.hotness_score || 60,
         item.view_count || 0,
         item.createdAt || nowIso(),
-        item.published === false ? 0 : 1
+        item.published === false ? 0 : 1,
+        item.analysis_data ? JSON.stringify(item.analysis_data) : null,
+        item.scores ? JSON.stringify(item.scores) : null,
+        item.financial_data ? JSON.stringify(item.financial_data) : null,
+        item.honors ? JSON.stringify(item.honors) : null,
+        item.analysis_generated_at || nowIso(),
+        item.analysis_version || 1
       );
     }
   });

@@ -94,6 +94,9 @@ for (const item of celebrityCases) {
   if (!Array.isArray(item.tags) || item.tags.length < 2) fail(`celebrity case ${item.id} needs at least 2 tags`);
   if (!Array.isArray(item.events) || item.events.length < 3) fail(`celebrity case ${item.id} needs at least 3 events`);
   if (!Array.isArray(item.sourceRefs) || item.sourceRefs.length < 1) fail(`celebrity case ${item.id} needs sourceRefs`);
+  if (!item.analysis_data?.summary) fail(`celebrity case ${item.id} needs cached analysis_data.summary`);
+  if (item.analysis_data.summary.length < 100) fail(`celebrity case ${item.id} cached summary is too short`);
+  if (typeof item.scores?.overall !== 'number') fail(`celebrity case ${item.id} needs numeric scores.overall`);
   if (!hasChineseText(item.name_cn) || !hasChineseText(item.description)) fail(`celebrity case ${item.id} must contain Chinese text`);
 }
 
