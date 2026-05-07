@@ -1,0 +1,6512 @@
+[
+  {
+    "id": "steve-jobs",
+    "name": "Steve Jobs",
+    "name_cn": "史蒂夫·乔布斯",
+    "category": "sudden_downfall",
+    "category_cn": "巨星陨落与意外",
+    "birth_date": "1955-02-24",
+    "birth_location_city": "San Francisco, California, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "史蒂夫·乔布斯的公开轨迹适合作为「巨星陨落与意外」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "巨星陨落与意外",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1956,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1961,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1966,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1971,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 30,
+        "year": 1985,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "left Apple"
+      },
+      {
+        "age": 31,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 42,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "returned to Apple"
+      },
+      {
+        "age": 46,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 21,
+        "year": 1976,
+        "type": "peak",
+        "note": "co-founded Apple"
+      },
+      {
+        "age": 30,
+        "year": 1985,
+        "type": "trough",
+        "note": "left Apple"
+      },
+      {
+        "age": 42,
+        "year": 1997,
+        "type": "peak",
+        "note": "returned to Apple"
+      },
+      {
+        "age": 56,
+        "year": 2011,
+        "type": "trough",
+        "note": "died"
+      }
+    ],
+    "events": [
+      "1976: co-founded Apple",
+      "1985: left Apple",
+      "1997: returned to Apple",
+      "2011: died"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Steve_Jobs",
+      "https://www.britannica.com/biography/Steve-Jobs"
+    ],
+    "hotness_score": 98,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "kobe-bryant",
+    "name": "Kobe Bryant",
+    "name_cn": "科比·布莱恩特",
+    "category": "sudden_downfall",
+    "category_cn": "巨星陨落与意外",
+    "birth_date": "1978-08-23",
+    "birth_location_city": "Philadelphia, Pennsylvania, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "科比·布莱恩特的公开轨迹适合作为「巨星陨落与意外」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "巨星陨落与意外",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1979,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1984,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1989,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1994,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 18,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "entered NBA"
+      },
+      {
+        "age": 21,
+        "year": 1999,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 22,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "first NBA title era"
+      },
+      {
+        "age": 26,
+        "year": 2004,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2009,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 38,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "final game"
+      },
+      {
+        "age": 41,
+        "year": 2019,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 42,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "died in accident"
+      },
+      {
+        "age": 46,
+        "year": 2024,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2029,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2034,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2039,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2044,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2049,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2054,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 18,
+        "year": 1996,
+        "type": "trough",
+        "note": "entered NBA"
+      },
+      {
+        "age": 22,
+        "year": 2000,
+        "type": "peak",
+        "note": "first NBA title era"
+      },
+      {
+        "age": 38,
+        "year": 2016,
+        "type": "trough",
+        "note": "final game"
+      },
+      {
+        "age": 42,
+        "year": 2020,
+        "type": "trough",
+        "note": "died in accident"
+      }
+    ],
+    "events": [
+      "1996: entered NBA",
+      "2000: first NBA title era",
+      "2016: final game",
+      "2020: died in accident"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Kobe_Bryant"
+    ],
+    "hotness_score": 97,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "bruce-lee",
+    "name": "Bruce Lee",
+    "name_cn": "李小龙",
+    "category": "sudden_downfall",
+    "category_cn": "巨星陨落与意外",
+    "birth_date": "1940-11-27",
+    "birth_location_city": "San Francisco, California, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "李小龙的公开轨迹适合作为「巨星陨落与意外」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "巨星陨落与意外",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1941,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1946,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1951,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1956,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 19,
+        "year": 1959,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "moved to United States"
+      },
+      {
+        "age": 21,
+        "year": 1961,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1966,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1971,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 33,
+        "year": 1973,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "died"
+      },
+      {
+        "age": 36,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 19,
+        "year": 1959,
+        "type": "trough",
+        "note": "moved to United States"
+      },
+      {
+        "age": 31,
+        "year": 1971,
+        "type": "peak",
+        "note": "The Big Boss released"
+      },
+      {
+        "age": 33,
+        "year": 1973,
+        "type": "trough",
+        "note": "died"
+      },
+      {
+        "age": 33,
+        "year": 1973,
+        "type": "peak",
+        "note": "Enter the Dragon released"
+      }
+    ],
+    "events": [
+      "1959: moved to United States",
+      "1971: The Big Boss released",
+      "1973: died",
+      "1973: Enter the Dragon released"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Bruce_Lee"
+    ],
+    "hotness_score": 96,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "leslie-cheung",
+    "name": "Leslie Cheung",
+    "name_cn": "张国荣",
+    "category": "sudden_downfall",
+    "category_cn": "巨星陨落与意外",
+    "birth_date": "1956-09-12",
+    "birth_location_city": "Hong Kong",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "张国荣的公开轨迹适合作为「巨星陨落与意外」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "巨星陨落与意外",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1957,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1962,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1967,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1972,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1977,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1982,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 30,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "A Better Tomorrow"
+      },
+      {
+        "age": 31,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 37,
+        "year": 1993,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "Farewell My Concubine"
+      },
+      {
+        "age": 41,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 47,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "died"
+      },
+      {
+        "age": 51,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 21,
+        "year": 1977,
+        "type": "trough",
+        "note": "entered music industry"
+      },
+      {
+        "age": 30,
+        "year": 1986,
+        "type": "trough",
+        "note": "A Better Tomorrow"
+      },
+      {
+        "age": 37,
+        "year": 1993,
+        "type": "trough",
+        "note": "Farewell My Concubine"
+      },
+      {
+        "age": 47,
+        "year": 2003,
+        "type": "trough",
+        "note": "died"
+      }
+    ],
+    "events": [
+      "1977: entered music industry",
+      "1986: A Better Tomorrow",
+      "1993: Farewell My Concubine",
+      "2003: died"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Leslie_Cheung"
+    ],
+    "hotness_score": 95,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "elizabeth-holmes",
+    "name": "Elizabeth Holmes",
+    "name_cn": "伊丽莎白·霍姆斯",
+    "category": "sudden_downfall",
+    "category_cn": "巨星陨落与意外",
+    "birth_date": "1984-02-03",
+    "birth_location_city": "Washington, D.C., USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "伊丽莎白·霍姆斯的公开轨迹适合作为「巨星陨落与意外」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "巨星陨落与意外",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1985,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1990,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 19,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Theranos"
+      },
+      {
+        "age": 21,
+        "year": 2005,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 30,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "public peak"
+      },
+      {
+        "age": 31,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 38,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "convicted"
+      },
+      {
+        "age": 41,
+        "year": 2025,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2030,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2035,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2040,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2045,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2050,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2055,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2060,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 19,
+        "year": 2003,
+        "type": "peak",
+        "note": "founded Theranos"
+      },
+      {
+        "age": 30,
+        "year": 2014,
+        "type": "trough",
+        "note": "public peak"
+      },
+      {
+        "age": 31,
+        "year": 2015,
+        "type": "trough",
+        "note": "investigations began"
+      },
+      {
+        "age": 38,
+        "year": 2022,
+        "type": "trough",
+        "note": "convicted"
+      }
+    ],
+    "events": [
+      "2003: founded Theranos",
+      "2014: public peak",
+      "2015: investigations began",
+      "2022: convicted"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Elizabeth_Holmes",
+      "https://en.wikipedia.org/wiki/Theranos"
+    ],
+    "hotness_score": 94,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "j-k-rowling",
+    "name": "J. K. Rowling",
+    "name_cn": "J.K.罗琳",
+    "category": "rising_power",
+    "category_cn": "逆袭与实力爆发",
+    "birth_date": "1965-07-31",
+    "birth_location_city": "Yate, England",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "J.K.罗琳的公开轨迹适合作为「逆袭与实力爆发」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "逆袭与实力爆发",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1966,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1971,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 32,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Harry Potter first published"
+      },
+      {
+        "age": 36,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 39,
+        "year": 2004,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "became billionaire author"
+      },
+      {
+        "age": 41,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2036,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2041,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 32,
+        "year": 1997,
+        "type": "peak",
+        "note": "Harry Potter first published"
+      },
+      {
+        "age": 36,
+        "year": 2001,
+        "type": "peak",
+        "note": "first film released"
+      },
+      {
+        "age": 39,
+        "year": 2004,
+        "type": "peak",
+        "note": "became billionaire author"
+      }
+    ],
+    "events": [
+      "1997: Harry Potter first published",
+      "2001: first film released",
+      "2004: became billionaire author"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/J._K._Rowling"
+    ],
+    "hotness_score": 93,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "elon-musk",
+    "name": "Elon Musk",
+    "name_cn": "埃隆·马斯克",
+    "category": "rising_power",
+    "category_cn": "逆袭与实力爆发",
+    "birth_date": "1971-06-28",
+    "birth_location_city": "Pretoria, South Africa",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "埃隆·马斯克的公开轨迹适合作为「逆袭与实力爆发」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "逆袭与实力爆发",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1972,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1977,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1982,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 24,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Zip2"
+      },
+      {
+        "age": 26,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 37,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "Tesla crisis and recovery"
+      },
+      {
+        "age": 41,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 49,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Tesla market value surged"
+      },
+      {
+        "age": 51,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 24,
+        "year": 1995,
+        "type": "peak",
+        "note": "founded Zip2"
+      },
+      {
+        "age": 31,
+        "year": 2002,
+        "type": "peak",
+        "note": "founded SpaceX"
+      },
+      {
+        "age": 37,
+        "year": 2008,
+        "type": "trough",
+        "note": "Tesla crisis and recovery"
+      },
+      {
+        "age": 49,
+        "year": 2020,
+        "type": "peak",
+        "note": "Tesla market value surged"
+      }
+    ],
+    "events": [
+      "1995: founded Zip2",
+      "2002: founded SpaceX",
+      "2008: Tesla crisis and recovery",
+      "2020: Tesla market value surged"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Elon_Musk"
+    ],
+    "hotness_score": 92,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "oprah-winfrey",
+    "name": "Oprah Winfrey",
+    "name_cn": "奥普拉·温弗瑞",
+    "category": "rising_power",
+    "category_cn": "逆袭与实力爆发",
+    "birth_date": "1954-01-29",
+    "birth_location_city": "Kosciusko, Mississippi, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "奥普拉·温弗瑞的公开轨迹适合作为「逆袭与实力爆发」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "逆袭与实力爆发",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1955,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1960,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1965,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1970,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1975,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1980,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1985,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 32,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "The Oprah Winfrey Show nationally syndicated"
+      },
+      {
+        "age": 36,
+        "year": 1990,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 44,
+        "year": 1998,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Harpo projects"
+      },
+      {
+        "age": 46,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2005,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 59,
+        "year": 2013,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "Presidential Medal of Freedom"
+      },
+      {
+        "age": 61,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2025,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2030,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 32,
+        "year": 1986,
+        "type": "trough",
+        "note": "The Oprah Winfrey Show nationally syndicated"
+      },
+      {
+        "age": 44,
+        "year": 1998,
+        "type": "peak",
+        "note": "founded Harpo projects"
+      },
+      {
+        "age": 59,
+        "year": 2013,
+        "type": "trough",
+        "note": "Presidential Medal of Freedom"
+      }
+    ],
+    "events": [
+      "1986: The Oprah Winfrey Show nationally syndicated",
+      "1998: founded Harpo projects",
+      "2013: Presidential Medal of Freedom"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Oprah_Winfrey"
+    ],
+    "hotness_score": 91,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "jack-ma",
+    "name": "Jack Ma",
+    "name_cn": "马云",
+    "category": "rising_power",
+    "category_cn": "逆袭与实力爆发",
+    "birth_date": "1964-09-10",
+    "birth_location_city": "Hangzhou, China",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "马云的公开轨迹适合作为「逆袭与实力爆发」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "逆袭与实力爆发",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1965,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1970,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1975,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1980,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1985,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1990,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 35,
+        "year": 1999,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Alibaba"
+      },
+      {
+        "age": 36,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2005,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 50,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Alibaba IPO"
+      },
+      {
+        "age": 51,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2025,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2030,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2035,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2040,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 35,
+        "year": 1999,
+        "type": "peak",
+        "note": "founded Alibaba"
+      },
+      {
+        "age": 50,
+        "year": 2014,
+        "type": "peak",
+        "note": "Alibaba IPO"
+      },
+      {
+        "age": 56,
+        "year": 2020,
+        "type": "trough",
+        "note": "Ant Group IPO suspended"
+      }
+    ],
+    "events": [
+      "1999: founded Alibaba",
+      "2014: Alibaba IPO",
+      "2020: Ant Group IPO suspended"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Jack_Ma"
+    ],
+    "hotness_score": 90,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "cristiano-ronaldo",
+    "name": "Cristiano Ronaldo",
+    "name_cn": "克里斯蒂亚诺·罗纳尔多",
+    "category": "rising_power",
+    "category_cn": "逆袭与实力爆发",
+    "birth_date": "1985-02-05",
+    "birth_location_city": "Funchal, Madeira, Portugal",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "克里斯蒂亚诺·罗纳尔多的公开轨迹适合作为「逆袭与实力爆发」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "逆袭与实力爆发",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 18,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "joined Manchester United"
+      },
+      {
+        "age": 21,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 23,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "first Ballon d Or"
+      },
+      {
+        "age": 26,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2036,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2041,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2046,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2051,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2056,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2061,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 18,
+        "year": 2003,
+        "type": "trough",
+        "note": "joined Manchester United"
+      },
+      {
+        "age": 23,
+        "year": 2008,
+        "type": "peak",
+        "note": "first Ballon d Or"
+      },
+      {
+        "age": 31,
+        "year": 2016,
+        "type": "peak",
+        "note": "European champion"
+      }
+    ],
+    "events": [
+      "2003: joined Manchester United",
+      "2008: first Ballon d Or",
+      "2016: European champion"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Cristiano_Ronaldo"
+    ],
+    "hotness_score": 89,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "warren-buffett",
+    "name": "Warren Buffett",
+    "name_cn": "沃伦·巴菲特",
+    "category": "corporate_fate",
+    "category_cn": "商业帝国运势",
+    "birth_date": "1930-08-30",
+    "birth_location_city": "Omaha, Nebraska, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "沃伦·巴菲特的公开轨迹适合作为「商业帝国运势」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "商业帝国运势",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1931,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1936,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1941,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1946,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1951,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1956,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1961,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 35,
+        "year": 1965,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "took control of Berkshire Hathaway"
+      },
+      {
+        "age": 36,
+        "year": 1966,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 1971,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 58,
+        "year": 1988,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "began Coca-Cola investment"
+      },
+      {
+        "age": 61,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 35,
+        "year": 1965,
+        "type": "trough",
+        "note": "took control of Berkshire Hathaway"
+      },
+      {
+        "age": 58,
+        "year": 1988,
+        "type": "trough",
+        "note": "began Coca-Cola investment"
+      },
+      {
+        "age": 76,
+        "year": 2006,
+        "type": "trough",
+        "note": "pledged philanthropy"
+      }
+    ],
+    "events": [
+      "1965: took control of Berkshire Hathaway",
+      "1988: began Coca-Cola investment",
+      "2006: pledged philanthropy"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Warren_Buffett"
+    ],
+    "hotness_score": 88,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "bill-gates",
+    "name": "Bill Gates",
+    "name_cn": "比尔·盖茨",
+    "category": "corporate_fate",
+    "category_cn": "商业帝国运势",
+    "birth_date": "1955-10-28",
+    "birth_location_city": "Seattle, Washington, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "比尔·盖茨的公开轨迹适合作为「商业帝国运势」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "商业帝国运势",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1956,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1961,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1966,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1971,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 20,
+        "year": 1975,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Microsoft"
+      },
+      {
+        "age": 21,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 45,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "stepped down as CEO"
+      },
+      {
+        "age": 46,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 20,
+        "year": 1975,
+        "type": "peak",
+        "note": "founded Microsoft"
+      },
+      {
+        "age": 31,
+        "year": 1986,
+        "type": "peak",
+        "note": "Microsoft IPO"
+      },
+      {
+        "age": 45,
+        "year": 2000,
+        "type": "trough",
+        "note": "stepped down as CEO"
+      }
+    ],
+    "events": [
+      "1975: founded Microsoft",
+      "1986: Microsoft IPO",
+      "2000: stepped down as CEO"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Bill_Gates"
+    ],
+    "hotness_score": 87,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "jeff-bezos",
+    "name": "Jeff Bezos",
+    "name_cn": "杰夫·贝索斯",
+    "category": "corporate_fate",
+    "category_cn": "商业帝国运势",
+    "birth_date": "1964-01-12",
+    "birth_location_city": "Albuquerque, New Mexico, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "杰夫·贝索斯的公开轨迹适合作为「商业帝国运势」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "商业帝国运势",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1965,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1970,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1975,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1980,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1985,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1990,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 30,
+        "year": 1994,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Amazon"
+      },
+      {
+        "age": 31,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 33,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Amazon IPO"
+      },
+      {
+        "age": 36,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2005,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 57,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "stepped down as CEO"
+      },
+      {
+        "age": 61,
+        "year": 2025,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2030,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2035,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2040,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 30,
+        "year": 1994,
+        "type": "peak",
+        "note": "founded Amazon"
+      },
+      {
+        "age": 33,
+        "year": 1997,
+        "type": "peak",
+        "note": "Amazon IPO"
+      },
+      {
+        "age": 57,
+        "year": 2021,
+        "type": "trough",
+        "note": "stepped down as CEO"
+      }
+    ],
+    "events": [
+      "1994: founded Amazon",
+      "1997: Amazon IPO",
+      "2021: stepped down as CEO"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Jeff_Bezos"
+    ],
+    "hotness_score": 86,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "satya-nadella",
+    "name": "Satya Nadella",
+    "name_cn": "萨提亚·纳德拉",
+    "category": "corporate_fate",
+    "category_cn": "商业帝国运势",
+    "birth_date": "1967-08-19",
+    "birth_location_city": "Hyderabad, India",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "萨提亚·纳德拉的公开轨迹适合作为「商业帝国运势」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "商业帝国运势",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1968,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1973,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1978,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1983,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1988,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 25,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "joined Microsoft"
+      },
+      {
+        "age": 26,
+        "year": 1993,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 1998,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2013,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 47,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "became CEO"
+      },
+      {
+        "age": 51,
+        "year": 2018,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2023,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2028,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2033,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2038,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2043,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 25,
+        "year": 1992,
+        "type": "trough",
+        "note": "joined Microsoft"
+      },
+      {
+        "age": 47,
+        "year": 2014,
+        "type": "peak",
+        "note": "became CEO"
+      },
+      {
+        "age": 56,
+        "year": 2023,
+        "type": "trough",
+        "note": "AI strategy accelerated"
+      }
+    ],
+    "events": [
+      "1992: joined Microsoft",
+      "2014: became CEO",
+      "2023: AI strategy accelerated"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Satya_Nadella"
+    ],
+    "hotness_score": 85,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "pony-ma",
+    "name": "Pony Ma",
+    "name_cn": "马化腾",
+    "category": "corporate_fate",
+    "category_cn": "商业帝国运势",
+    "birth_date": "1971-10-29",
+    "birth_location_city": "Shantou, China",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "马化腾的公开轨迹适合作为「商业帝国运势」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "商业帝国运势",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1972,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1977,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1982,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 27,
+        "year": 1998,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "co-founded Tencent"
+      },
+      {
+        "age": 31,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 33,
+        "year": 2004,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Tencent IPO"
+      },
+      {
+        "age": 36,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 40,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "WeChat launched"
+      },
+      {
+        "age": 41,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 27,
+        "year": 1998,
+        "type": "peak",
+        "note": "co-founded Tencent"
+      },
+      {
+        "age": 33,
+        "year": 2004,
+        "type": "peak",
+        "note": "Tencent IPO"
+      },
+      {
+        "age": 40,
+        "year": 2011,
+        "type": "peak",
+        "note": "WeChat launched"
+      }
+    ],
+    "events": [
+      "1998: co-founded Tencent",
+      "2004: Tencent IPO",
+      "2011: WeChat launched"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Pony_Ma"
+    ],
+    "hotness_score": 84,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "sam-altman",
+    "name": "Sam Altman",
+    "name_cn": "山姆·奥特曼",
+    "category": "ai_tech",
+    "category_cn": "AI纪元与科技新贵",
+    "birth_date": "1985-04-22",
+    "birth_location_city": "Chicago, Illinois, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "山姆·奥特曼的公开轨迹适合作为「AI纪元与科技新贵」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "AI纪元与科技新贵",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 29,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "became Y Combinator president"
+      },
+      {
+        "age": 31,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 34,
+        "year": 2019,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "became OpenAI CEO"
+      },
+      {
+        "age": 36,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 37,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "ChatGPT released"
+      },
+      {
+        "age": 38,
+        "year": 2023,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "returned as OpenAI CEO"
+      },
+      {
+        "age": 41,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2036,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2041,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2046,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2051,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2056,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2061,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 29,
+        "year": 2014,
+        "type": "peak",
+        "note": "became Y Combinator president"
+      },
+      {
+        "age": 34,
+        "year": 2019,
+        "type": "peak",
+        "note": "became OpenAI CEO"
+      },
+      {
+        "age": 37,
+        "year": 2022,
+        "type": "peak",
+        "note": "ChatGPT released"
+      },
+      {
+        "age": 38,
+        "year": 2023,
+        "type": "peak",
+        "note": "returned as OpenAI CEO"
+      }
+    ],
+    "events": [
+      "2014: became Y Combinator president",
+      "2019: became OpenAI CEO",
+      "2022: ChatGPT released",
+      "2023: returned as OpenAI CEO"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Sam_Altman",
+      "https://arstechnica.com/information-technology/2023/11/sam-altman-officially-back-as-openai-ceo-we-didnt-lose-a-single-employee/"
+    ],
+    "hotness_score": 83,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "jensen-huang",
+    "name": "Jensen Huang",
+    "name_cn": "黄仁勋",
+    "category": "ai_tech",
+    "category_cn": "AI纪元与科技新贵",
+    "birth_date": "1963-02-17",
+    "birth_location_city": "Tainan, Taiwan",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "黄仁勋的公开轨迹适合作为「AI纪元与科技新贵」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "AI纪元与科技新贵",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1964,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1969,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1974,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1979,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1984,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 1989,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 30,
+        "year": 1993,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded NVIDIA"
+      },
+      {
+        "age": 31,
+        "year": 1994,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 1999,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2004,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2009,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2019,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 60,
+        "year": 2023,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "AI chip demand surged"
+      },
+      {
+        "age": 61,
+        "year": 2024,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2029,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2034,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2039,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 30,
+        "year": 1993,
+        "type": "peak",
+        "note": "founded NVIDIA"
+      },
+      {
+        "age": 36,
+        "year": 1999,
+        "type": "peak",
+        "note": "NVIDIA IPO"
+      },
+      {
+        "age": 60,
+        "year": 2023,
+        "type": "peak",
+        "note": "AI chip demand surged"
+      }
+    ],
+    "events": [
+      "1993: founded NVIDIA",
+      "1999: NVIDIA IPO",
+      "2023: AI chip demand surged"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Jensen_Huang",
+      "https://nvidianews.nvidia.com/_gallery/download_pdf/54481904f6091d2735000003/",
+      "https://www.britannica.com/biography/Jensen-Huang"
+    ],
+    "hotness_score": 82,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "demis-hassabis",
+    "name": "Demis Hassabis",
+    "name_cn": "戴密斯·哈萨比斯",
+    "category": "ai_tech",
+    "category_cn": "AI纪元与科技新贵",
+    "birth_date": "1976-07-27",
+    "birth_location_city": "London, England",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "戴密斯·哈萨比斯的公开轨迹适合作为「AI纪元与科技新贵」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "AI纪元与科技新贵",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1977,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1982,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 34,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "co-founded DeepMind"
+      },
+      {
+        "age": 36,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 38,
+        "year": 2014,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "Google acquired DeepMind"
+      },
+      {
+        "age": 41,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 48,
+        "year": 2024,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Nobel Prize in Chemistry"
+      },
+      {
+        "age": 51,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2052,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 34,
+        "year": 2010,
+        "type": "peak",
+        "note": "co-founded DeepMind"
+      },
+      {
+        "age": 38,
+        "year": 2014,
+        "type": "trough",
+        "note": "Google acquired DeepMind"
+      },
+      {
+        "age": 48,
+        "year": 2024,
+        "type": "peak",
+        "note": "Nobel Prize in Chemistry"
+      }
+    ],
+    "events": [
+      "2010: co-founded DeepMind",
+      "2014: Google acquired DeepMind",
+      "2024: Nobel Prize in Chemistry"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Demis_Hassabis"
+    ],
+    "hotness_score": 81,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "ilya-sutskever",
+    "name": "Ilya Sutskever",
+    "name_cn": "伊利亚·苏茨克维",
+    "category": "ai_tech",
+    "category_cn": "AI纪元与科技新贵",
+    "birth_date": "1986-12-08",
+    "birth_location_city": "Nizhny Novgorod, Russia",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "伊利亚·苏茨克维的公开轨迹适合作为「AI纪元与科技新贵」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "AI纪元与科技新贵",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 29,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "co-founded OpenAI"
+      },
+      {
+        "age": 31,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 38,
+        "year": 2024,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Safe Superintelligence"
+      },
+      {
+        "age": 41,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2052,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2057,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2062,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 26,
+        "year": 2012,
+        "type": "trough",
+        "note": "AlexNet era"
+      },
+      {
+        "age": 29,
+        "year": 2015,
+        "type": "peak",
+        "note": "co-founded OpenAI"
+      },
+      {
+        "age": 38,
+        "year": 2024,
+        "type": "peak",
+        "note": "founded Safe Superintelligence"
+      }
+    ],
+    "events": [
+      "2012: AlexNet era",
+      "2015: co-founded OpenAI",
+      "2024: founded Safe Superintelligence"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Ilya_Sutskever",
+      "https://apnews.com/article/c6b48a3675fb3fb459859dece2b45499"
+    ],
+    "hotness_score": 80,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "fei-fei-li",
+    "name": "Fei-Fei Li",
+    "name_cn": "李飞飞",
+    "category": "ai_tech",
+    "category_cn": "AI纪元与科技新贵",
+    "birth_date": "1976-07-03",
+    "birth_location_city": "Beijing, China",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "李飞飞的公开轨迹适合作为「AI纪元与科技新贵」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "AI纪元与科技新贵",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1977,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1982,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1987,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 33,
+        "year": 2009,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "ImageNet launched"
+      },
+      {
+        "age": 36,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 48,
+        "year": 2024,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "launched World Labs"
+      },
+      {
+        "age": 51,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2052,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 33,
+        "year": 2009,
+        "type": "peak",
+        "note": "ImageNet launched"
+      },
+      {
+        "age": 41,
+        "year": 2017,
+        "type": "trough",
+        "note": "joined Google Cloud AI"
+      },
+      {
+        "age": 48,
+        "year": 2024,
+        "type": "peak",
+        "note": "launched World Labs"
+      }
+    ],
+    "events": [
+      "2009: ImageNet launched",
+      "2017: joined Google Cloud AI",
+      "2024: launched World Labs"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Fei-Fei_Li"
+    ],
+    "hotness_score": 79,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "vitalik-buterin",
+    "name": "Vitalik Buterin",
+    "name_cn": "维塔利克·布特林",
+    "category": "crypto_macro",
+    "category_cn": "虚拟资产与宏观",
+    "birth_date": "1994-01-31",
+    "birth_location_city": "Kolomna, Russia",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "维塔利克·布特林的公开轨迹适合作为「虚拟资产与宏观」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "虚拟资产与宏观",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1995,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 2000,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 2005,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 17,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "co-founded Bitcoin Magazine"
+      },
+      {
+        "age": 19,
+        "year": 2013,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "Ethereum idea proposed"
+      },
+      {
+        "age": 21,
+        "year": 2015,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2020,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2025,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2030,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2035,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2040,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2045,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2050,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2055,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2060,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2065,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2070,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 17,
+        "year": 2011,
+        "type": "peak",
+        "note": "co-founded Bitcoin Magazine"
+      },
+      {
+        "age": 19,
+        "year": 2013,
+        "type": "trough",
+        "note": "Ethereum idea proposed"
+      },
+      {
+        "age": 21,
+        "year": 2015,
+        "type": "peak",
+        "note": "Ethereum launched"
+      }
+    ],
+    "events": [
+      "2011: co-founded Bitcoin Magazine",
+      "2013: Ethereum idea proposed",
+      "2015: Ethereum launched"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Vitalik_Buterin",
+      "https://en.wikipedia.org/wiki/Ethereum"
+    ],
+    "hotness_score": 78,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "satoshi-nakamoto",
+    "name": "Satoshi Nakamoto",
+    "name_cn": "中本聪",
+    "category": "crypto_macro",
+    "category_cn": "虚拟资产与宏观",
+    "birth_date": "1975-04-05",
+    "birth_location_city": "Unknown",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "中本聪的公开轨迹适合作为「虚拟资产与宏观」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "虚拟资产与宏观",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1976,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1981,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1986,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1991,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1996,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2001,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2006,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 33,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Bitcoin white paper published"
+      },
+      {
+        "age": 34,
+        "year": 2009,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Bitcoin network launched"
+      },
+      {
+        "age": 35,
+        "year": 2010,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "withdrew from public activity"
+      },
+      {
+        "age": 36,
+        "year": 2011,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2016,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2026,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2031,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2036,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2041,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2046,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2051,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 33,
+        "year": 2008,
+        "type": "peak",
+        "note": "Bitcoin white paper published"
+      },
+      {
+        "age": 34,
+        "year": 2009,
+        "type": "peak",
+        "note": "Bitcoin network launched"
+      },
+      {
+        "age": 35,
+        "year": 2010,
+        "type": "trough",
+        "note": "withdrew from public activity"
+      }
+    ],
+    "events": [
+      "2008: Bitcoin white paper published",
+      "2009: Bitcoin network launched",
+      "2010: withdrew from public activity"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Satoshi_Nakamoto",
+      "https://en.wikipedia.org/wiki/Bitcoin"
+    ],
+    "hotness_score": 77,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "changpeng-zhao",
+    "name": "Changpeng Zhao",
+    "name_cn": "赵长鹏",
+    "category": "crypto_macro",
+    "category_cn": "虚拟资产与宏观",
+    "birth_date": "1977-09-10",
+    "birth_location_city": "Jiangsu, China",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "赵长鹏的公开轨迹适合作为「虚拟资产与宏观」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "虚拟资产与宏观",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1978,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1983,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 1988,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 1993,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 1998,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 31,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2013,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 40,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded Binance"
+      },
+      {
+        "age": 41,
+        "year": 2018,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 44,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "Binance became dominant exchange"
+      },
+      {
+        "age": 46,
+        "year": 2023,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2028,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2033,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2038,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2043,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2048,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2053,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 40,
+        "year": 2017,
+        "type": "peak",
+        "note": "founded Binance"
+      },
+      {
+        "age": 44,
+        "year": 2021,
+        "type": "peak",
+        "note": "Binance became dominant exchange"
+      },
+      {
+        "age": 46,
+        "year": 2023,
+        "type": "trough",
+        "note": "stepped down as CEO"
+      }
+    ],
+    "events": [
+      "2017: founded Binance",
+      "2021: Binance became dominant exchange",
+      "2023: stepped down as CEO"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Changpeng_Zhao",
+      "https://en.wikipedia.org/wiki/Binance"
+    ],
+    "hotness_score": 76,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "sam-bankman-fried",
+    "name": "Sam Bankman-Fried",
+    "name_cn": "萨姆·班克曼-弗里德",
+    "category": "crypto_macro",
+    "category_cn": "虚拟资产与宏观",
+    "birth_date": "1992-03-06",
+    "birth_location_city": "Stanford, California, USA",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "萨姆·班克曼-弗里德的公开轨迹适合作为「虚拟资产与宏观」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "虚拟资产与宏观",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1993,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1998,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 2003,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2008,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 2013,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2018,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 27,
+        "year": 2019,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "founded FTX"
+      },
+      {
+        "age": 29,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "crypto boom peak"
+      },
+      {
+        "age": 30,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 18,
+        "close": 28,
+        "high": 36,
+        "low": 10,
+        "score": 28,
+        "reason": "FTX collapsed"
+      },
+      {
+        "age": 31,
+        "year": 2023,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2028,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2033,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2038,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2043,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2048,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2053,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2058,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2063,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2068,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 27,
+        "year": 2019,
+        "type": "peak",
+        "note": "founded FTX"
+      },
+      {
+        "age": 29,
+        "year": 2021,
+        "type": "trough",
+        "note": "crypto boom peak"
+      },
+      {
+        "age": 30,
+        "year": 2022,
+        "type": "trough",
+        "note": "FTX collapsed"
+      },
+      {
+        "age": 31,
+        "year": 2023,
+        "type": "trough",
+        "note": "convicted"
+      }
+    ],
+    "events": [
+      "2019: founded FTX",
+      "2021: crypto boom peak",
+      "2022: FTX collapsed",
+      "2023: convicted"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Sam_Bankman-Fried",
+      "https://en.wikipedia.org/wiki/FTX"
+    ],
+    "hotness_score": 75,
+    "view_count": 0,
+    "published": true
+  },
+  {
+    "id": "do-kwon",
+    "name": "Do Kwon",
+    "name_cn": "权道亨",
+    "category": "crypto_macro",
+    "category_cn": "虚拟资产与宏观",
+    "birth_date": "1991-09-06",
+    "birth_location_city": "Seoul, South Korea",
+    "birth_location_lat": 0,
+    "birth_location_lng": 0,
+    "description": "权道亨的公开轨迹适合作为「虚拟资产与宏观」样本：从公开履历中的关键年份出发，观察高光、转折和风险释放如何在一条人生K线中呈现。公开资料通常没有可靠出生时辰，本案例不伪造精确四柱，主要用于学习事件节奏与趋势复盘。",
+    "tags": [
+      "虚拟资产与宏观",
+      "公开资料",
+      "人生K线"
+    ],
+    "year_pillar": "未详",
+    "month_pillar": "未详",
+    "day_pillar": "未详",
+    "hour_pillar": "未详",
+    "chart_data": [
+      {
+        "age": 1,
+        "year": 1992,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 6,
+        "year": 1997,
+        "ganZhi": "",
+        "open": 53,
+        "close": 58,
+        "high": 66,
+        "low": 46,
+        "score": 58,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 11,
+        "year": 2002,
+        "ganZhi": "",
+        "open": 57,
+        "close": 62,
+        "high": 70,
+        "low": 50,
+        "score": 62,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 16,
+        "year": 2007,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 21,
+        "year": 2012,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 26,
+        "year": 2017,
+        "ganZhi": "",
+        "open": 41,
+        "close": 46,
+        "high": 54,
+        "low": 34,
+        "score": 46,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 27,
+        "year": 2018,
+        "ganZhi": "",
+        "open": 76,
+        "close": 86,
+        "high": 94,
+        "low": 68,
+        "score": 86,
+        "reason": "co-founded Terraform Labs"
+      },
+      {
+        "age": 30,
+        "year": 2021,
+        "ganZhi": "",
+        "open": 52,
+        "close": 62,
+        "high": 70,
+        "low": 44,
+        "score": 62,
+        "reason": "Terra ecosystem expanded"
+      },
+      {
+        "age": 31,
+        "year": 2022,
+        "ganZhi": "",
+        "open": 37,
+        "close": 42,
+        "high": 50,
+        "low": 30,
+        "score": 42,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 36,
+        "year": 2027,
+        "ganZhi": "",
+        "open": 39,
+        "close": 44,
+        "high": 52,
+        "low": 32,
+        "score": 44,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 41,
+        "year": 2032,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 46,
+        "year": 2037,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 51,
+        "year": 2042,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 56,
+        "year": 2047,
+        "ganZhi": "",
+        "open": 65,
+        "close": 70,
+        "high": 78,
+        "low": 58,
+        "score": 70,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 61,
+        "year": 2052,
+        "ganZhi": "",
+        "open": 62,
+        "close": 67,
+        "high": 75,
+        "low": 55,
+        "score": 67,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 66,
+        "year": 2057,
+        "ganZhi": "",
+        "open": 55,
+        "close": 60,
+        "high": 68,
+        "low": 48,
+        "score": 60,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 71,
+        "year": 2062,
+        "ganZhi": "",
+        "open": 48,
+        "close": 53,
+        "high": 61,
+        "low": 41,
+        "score": 53,
+        "reason": "阶段性背景走势"
+      },
+      {
+        "age": 76,
+        "year": 2067,
+        "ganZhi": "",
+        "open": 45,
+        "close": 50,
+        "high": 58,
+        "low": 38,
+        "score": 50,
+        "reason": "阶段性背景走势"
+      }
+    ],
+    "highlights": [
+      {
+        "age": 27,
+        "year": 2018,
+        "type": "peak",
+        "note": "co-founded Terraform Labs"
+      },
+      {
+        "age": 30,
+        "year": 2021,
+        "type": "trough",
+        "note": "Terra ecosystem expanded"
+      },
+      {
+        "age": 31,
+        "year": 2022,
+        "type": "trough",
+        "note": "TerraUSD and Luna collapsed"
+      }
+    ],
+    "events": [
+      "2018: co-founded Terraform Labs",
+      "2021: Terra ecosystem expanded",
+      "2022: TerraUSD and Luna collapsed"
+    ],
+    "sourceRefs": [
+      "https://en.wikipedia.org/wiki/Do_Kwon",
+      "https://en.wikipedia.org/wiki/Terra_(blockchain)"
+    ],
+    "hotness_score": 74,
+    "view_count": 0,
+    "published": true
+  }
+]

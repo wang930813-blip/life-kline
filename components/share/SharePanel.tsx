@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Share2, Download, Twitter, Send, Copy, Check, QrCode, X, Image, Eye, Plus, Gift } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { QRCodeSVG } from 'qrcode.react';
@@ -6,6 +7,7 @@ import { QRCodeSVG } from 'qrcode.react';
 interface SharePanelProps {
   userName?: string;
   resultRef: React.RefObject<HTMLDivElement>;
+  captureElementId?: string;
   shareUrl?: string;
   onShareSuccess?: (points: number) => void;
   userId?: string;
@@ -15,6 +17,7 @@ interface SharePanelProps {
 const SharePanel: React.FC<SharePanelProps> = ({
   userName,
   resultRef,
+  captureElementId,
   shareUrl,
   onShareSuccess,
   userId,
@@ -37,6 +40,44 @@ const SharePanel: React.FC<SharePanelProps> = ({
   // Generate unique share ID
   const generateShareId = () => {
     return `share_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  const getCaptureElement = () => {
+    if (captureElementId) {
+      const element = document.getElementById(captureElementId);
+      if (element) return element;
+    }
+    return resultRef.current;
+  };
+
+  const captureReportImage = async (options: { xcom?: boolean } = {}) => {
+    const element = getCaptureElement();
+    if (!element) throw new Error('未找到可生成图片的报告内容');
+
+    const rect = element.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0 || element.scrollWidth === 0 || element.scrollHeight === 0) {
+      throw new Error('报告内容当前不可见，无法生成图片');
+    }
+
+    const canvas = await html2canvas(element, {
+      scale: Math.min(2, window.devicePixelRatio || 1.5),
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#fbf7ea',
+      logging: false,
+      scrollX: 0,
+      scrollY: -window.scrollY,
+      windowWidth: Math.max(document.documentElement.clientWidth, element.scrollWidth),
+      windowHeight: Math.max(document.documentElement.clientHeight, element.scrollHeight),
+      width: options.xcom ? Math.min(1200, element.scrollWidth) : element.scrollWidth,
+      height: options.xcom ? Math.min(630, element.scrollHeight) : element.scrollHeight,
+    });
+
+    if (canvas.width === 0 || canvas.height === 0) {
+      throw new Error('图片画布生成失败');
+    }
+
+    return canvas;
   };
 
   // Track share reward
@@ -76,15 +117,9 @@ const SharePanel: React.FC<SharePanelProps> = ({
 
   // Preview image before export/share
   const handlePreviewImage = async () => {
-    if (!resultRef.current) return;
-
     try {
-      const canvas = await html2canvas(resultRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-      });
+      setIsOpen(false);
+      const canvas = await captureReportImage();
       setPreviewImage(canvas.toDataURL('image/png'));
       setShowPreview(true);
     } catch (error) {
@@ -94,18 +129,10 @@ const SharePanel: React.FC<SharePanelProps> = ({
 
   // 导出为图片
   const handleExportImage = async (isXCom: boolean = false) => {
-    if (!resultRef.current) return;
     setExporting(true);
 
     try {
-      const canvas = await html2canvas(resultRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: isXCom ? 1200 : undefined,
-        height: isXCom ? 630 : undefined,
-      });
+      const canvas = await captureReportImage({ xcom: isXCom });
 
       const link = document.createElement('a');
       link.download = `${userName || 'LifeKLine'}_Report_${isXCom ? 'Xcom_' : ''}${Date.now()}.png`;
@@ -331,7 +358,7 @@ const SharePanel: React.FC<SharePanelProps> = ({
       )}
 
       {/* QR Code Modal */}
-      {showQR && (
+      {showQR && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl p-6 mx-4 max-w-sm w-full animate-fade-in">
             <div className="flex justify-between items-center mb-4">
@@ -359,11 +386,12 @@ const SharePanel: React.FC<SharePanelProps> = ({
               使用微信扫描二维码分享给好友
             </p>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Reward Notification */}
-      {showRewardNotification && (
+      {showRewardNotification && createPortal(
         <div className="fixed top-4 right-4 z-50 animate-slide-in">
           <div className="bg-white rounded-lg shadow-lg border border-green-200 px-4 py-3 flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
@@ -374,13 +402,14 @@ const SharePanel: React.FC<SharePanelProps> = ({
               <p className="text-sm text-gray-600">感谢您的分享</p>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Preview Modal */}
-      {showPreview && (
+      {showPreview && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl max-h-[90vh] overflow-auto animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl w-[min(92vw,960px)] max-h-[88vh] overflow-auto animate-fade-in">
             <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center">
               <h3 className="text-lg font-bold text-gray-800">图片预览</h3>
               <button
@@ -420,15 +449,17 @@ const SharePanel: React.FC<SharePanelProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Click outside to close */}
-      {isOpen && (
+      {isOpen && createPortal(
         <div
           className="fixed inset-0 z-40"
           onClick={() => setIsOpen(false)}
-        />
+        />,
+        document.body
       )}
     </>
   );

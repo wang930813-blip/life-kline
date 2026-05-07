@@ -370,6 +370,7 @@ const App: React.FC = () => {
                   setIsGuest={setIsGuest}
                   setIsLoggedIn={setIsLoggedIn}
                   setUserInfo={setUserInfo}
+                  openLoginModal={openLoginModal}
                   openRegisterModal={openRegisterModal}
                   refreshUserInfo={refreshUserInfo}
                   historyResult={historyResult}

@@ -109,7 +109,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
-      <div className="grid grid-cols-[minmax(7.5rem,1.2fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2">
+      <div className="grid grid-cols-[minmax(7.25rem,1.15fr)_minmax(4.75rem,0.9fr)_minmax(4.75rem,0.9fr)] gap-2">
         <div className="relative">
           <button
             type="button"
@@ -124,7 +124,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
             } bg-white`}
           >
             <div className="min-w-0 flex flex-col gap-1">
-              <span className={`block truncate ${year ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+              <span className={`block whitespace-nowrap ${year ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
                 {year ? `${year}年` : '年'}
               </span>
               {yearInfo && (
@@ -221,12 +221,12 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
               setShowYearPicker(false);
               setShowDayPicker(false);
             }}
-            className={`w-full min-h-[4.25rem] px-3 py-2.5 border rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${
+            className={`w-full min-h-[4.25rem] px-2.5 py-2.5 border rounded-xl text-left flex items-center justify-between gap-1.5 transition-colors ${
               showMonthPicker ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-indigo-200 hover:border-indigo-300'
             } bg-white ${!year ? 'opacity-60' : ''}`}
             disabled={!year}
           >
-            <span className={`truncate ${month ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+            <span className={`whitespace-nowrap text-base ${month ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
               {month ? `${month}月` : '月'}
             </span>
             <ChevronDown className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${showMonthPicker ? 'rotate-180' : ''}`} />
@@ -260,12 +260,12 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
               setShowYearPicker(false);
               setShowMonthPicker(false);
             }}
-            className={`w-full min-h-[4.25rem] px-3 py-2.5 border rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${
+            className={`w-full min-h-[4.25rem] px-2.5 py-2.5 border rounded-xl text-left flex items-center justify-between gap-1.5 transition-colors ${
               showDayPicker ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-indigo-200 hover:border-indigo-300'
             } bg-white ${!year || !month ? 'opacity-60' : ''}`}
             disabled={!year || !month}
           >
-            <span className={`truncate ${day ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+            <span className={`whitespace-nowrap text-base ${day ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
               {day ? `${day}日` : '日'}
             </span>
             <ChevronDown className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${showDayPicker ? 'rotate-180' : ''}`} />

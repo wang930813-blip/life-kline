@@ -52,6 +52,57 @@ const AgentStatusBadge: React.FC<{ agentType: AgentType; status: AgentStatus; na
   );
 };
 
+const getAgentPreview = (type: AgentType, data: any) => {
+  if (!data) return '';
+  const pick = (...values: unknown[]) => values.find((value) => typeof value === 'string' && value.trim().length > 0) as string | undefined;
+
+  const text =
+    type === 'core' ? pick(data.summary, data.personality, data.family, data.fengShui) :
+    type === 'kline' ? pick(data.summary, data.pastEvents?.[0]?.event, data.futureEvents?.[0]?.event, data.chartPoints?.[0]?.reason) :
+    type === 'career' ? pick(data.industry, data.wealth) :
+    type === 'marriage' ? pick(data.marriage, data.health) :
+    type === 'crypto' ? pick(data.crypto, data.cryptoStyle, data.cryptoYear) :
+    '';
+
+  if (!text) return '该模块已完成，正在合并结果。';
+  return text;
+};
+
+const mergeByYearAndAge = (items: any[] = []) => {
+  return items
+    .filter(Boolean)
+    .filter((point, index, points) => points.findIndex(item => item?.year === point.year && item?.age === point.age) === index)
+    .sort((a, b) => (a.age || 0) - (b.age || 0));
+};
+
+const mergeEvents = (items: any[] = []) => {
+  return items
+    .filter(Boolean)
+    .filter((event, index, events) => {
+      const key = `${event?.year || ''}-${event?.event || event?.reason || JSON.stringify(event)}`;
+      return events.findIndex(item => `${item?.year || ''}-${item?.event || item?.reason || JSON.stringify(item)}` === key) === index;
+    });
+};
+
+const LoginRequiredCard: React.FC<{ onLogin: () => void; onRegister: () => void }> = ({ onLogin, onRegister }) => (
+  <div className="bamboo-card w-full max-w-md p-8 text-center space-y-5">
+    <div>
+      <h3 className="text-2xl font-serif-sc font-bold text-[var(--color-qingdai)] mb-2">登录后开始排盘</h3>
+      <p className="text-sm leading-relaxed text-[var(--color-ink-muted)]">
+        为了保存命盘、扣减点数并同步历史记录，请先登录账号后再填写出生信息。
+      </p>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      <button type="button" onClick={onLogin} className="classical-button py-3 font-bold">
+        登录
+      </button>
+      <button type="button" onClick={onRegister} className="ink-ripple py-3 font-bold rounded-full border border-[var(--border-ink)] text-[var(--color-qingdai)] bg-[var(--color-xuan-paper)]">
+        注册
+      </button>
+    </div>
+  </div>
+);
+
 const ParallelAnalysisProgress: React.FC<{
   agentStatuses: Record<AgentType, AgentStatus>;
   progressMessage: string;
@@ -65,7 +116,6 @@ const ParallelAnalysisProgress: React.FC<{
   const completedCount = Object.values(agentStatuses).filter(s => s.status === 'completed').length;
   const totalAgents = Object.keys(agentStatuses).length;
   const hasCompletedAgents = completedCount > 0;
-  const isKlineStillRunning = agentStatuses.kline.status === 'running' || agentStatuses.kline.status === 'pending';
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -85,13 +135,29 @@ const ParallelAnalysisProgress: React.FC<{
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-          {(Object.keys(agentStatuses) as AgentType[]).map(type => (
-            <AgentStatusBadge key={type} agentType={type} status={agentStatuses[type]} name={agentNames[type]} />
-          ))}
+        <div className="space-y-3 mb-4">
+          {(Object.keys(agentStatuses) as AgentType[]).map(type => {
+            const status = agentStatuses[type];
+            return (
+              <div key={type} className="rounded-xl border border-[var(--border-ink)] bg-[rgb(251_247_234_/_0.78)] p-3 text-left">
+                <div className="flex items-center justify-between gap-3">
+                  <AgentStatusBadge agentType={type} status={status} name={agentNames[type]} />
+                  {status.elapsed && <span className="text-xs text-gray-400">{status.elapsed}s</span>}
+                </div>
+                {(status.status === 'completed' || (type === 'kline' && status.data)) && (
+                  <p className="mt-2 text-sm leading-relaxed break-words whitespace-pre-wrap text-[var(--color-qingdai)]">
+                    {getAgentPreview(type, status.data)}
+                  </p>
+                )}
+                {status.status === 'failed' && (
+                  <p className="mt-2 text-sm text-red-600">{status.error || '该模块暂时失败，系统会尽量合并已完成结果。'}</p>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {hasCompletedAgents && isKlineStillRunning && onShowPartialResults && (
+        {hasCompletedAgents && onShowPartialResults && (
           <div className="mb-4">
             <button onClick={onShowPartialResults} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all font-medium shadow-sm">
               <Eye className="w-4 h-4" />
@@ -160,6 +226,7 @@ interface HomePageProps {
   setIsGuest: (value: boolean) => void;
   setIsLoggedIn: (value: boolean) => void;
   setUserInfo: (info: { email: string; points: number } | null) => void;
+  openLoginModal?: () => void;
   openRegisterModal: () => void;
   refreshUserInfo: () => void;
   // From App: history selection
@@ -171,7 +238,7 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({
-  isLoggedIn, isGuest, setIsGuest, setIsLoggedIn, setUserInfo, openRegisterModal, refreshUserInfo,
+  isLoggedIn, isGuest, setIsGuest, setIsLoggedIn, setUserInfo, openLoginModal, openRegisterModal, refreshUserInfo,
   historyResult, historyInput, onClearHistory, onAnalysisPanelChange,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -261,6 +328,11 @@ const HomePage: React.FC<HomePageProps> = ({
 
   const handleFormSubmit = async (data: UserInput) => {
     if (API_STATUS === 0) { setError("System is under maintenance"); return; }
+    if (!isLoggedIn) {
+      openLoginModal?.();
+      setError('请先登录后再生成分析。');
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -275,7 +347,47 @@ const HomePage: React.FC<HomePageProps> = ({
 
     const callbacks: ParallelAnalysisCallbacks = {
       onProgress: setProgressMessage,
-      onAgentUpdate: (agentType, status) => setAgentStatuses(prev => ({ ...prev, [agentType]: status })),
+      onAgentUpdate: (agentType, status) => setAgentStatuses(prev => {
+        const previous = prev[agentType];
+        const mergedData = agentType === 'kline'
+          ? {
+              ...(previous.data || {}),
+              ...(status.data || {}),
+              agentParts: Array.from(new Set([
+                ...((previous.data?.agentParts || []) as string[]),
+                ...(status.data?.agentPart ? [status.data.agentPart] : []),
+              ])),
+              chartPoints: mergeByYearAndAge([
+                ...((previous.data?.chartPoints || []) as any[]),
+                ...((status.data?.chartPoints || []) as any[]),
+              ]),
+              pastEvents: mergeEvents([
+                ...((previous.data?.pastEvents || []) as any[]),
+                ...((status.data?.pastEvents || []) as any[]),
+              ]),
+              futureEvents: mergeEvents([
+                ...((previous.data?.futureEvents || []) as any[]),
+                ...((status.data?.futureEvents || []) as any[]),
+              ]),
+            }
+          : status.data;
+        const klineCompleted = agentType === 'kline'
+          ? ['kline_past', 'kline_future'].every(part => (mergedData?.agentParts || []).includes(part))
+          : false;
+        const nextStatus = agentType === 'kline'
+          ? (klineCompleted ? 'completed' : status.status === 'failed' ? 'failed' : 'running')
+          : status.status;
+
+        return {
+          ...prev,
+          [agentType]: {
+            ...previous,
+            ...status,
+            status: nextStatus,
+            data: mergedData,
+          },
+        };
+      }),
       onCacheHit: () => setFromCache(true),
     };
 
@@ -352,7 +464,11 @@ const HomePage: React.FC<HomePageProps> = ({
                   </p>
                 </div>
 
-                {!loading && <BaziForm onSubmit={handleFormSubmit} isLoading={loading} isLoggedIn={isLoggedIn} />}
+                {!loading && (isLoggedIn ? (
+                  <BaziForm onSubmit={handleFormSubmit} isLoading={loading} isLoggedIn={isLoggedIn} />
+                ) : (
+                  <LoginRequiredCard onLogin={() => openLoginModal?.()} onRegister={openRegisterModal} />
+                ))}
                 {loading && <ParallelAnalysisProgress agentStatuses={agentStatuses} progressMessage={progressMessage} fromCache={fromCache} onShowPartialResults={() => setShowPartialResults(true)} />}
                 {error && <div className="flex items-center gap-2 text-red-600 bg-red-50 px-4 py-3 rounded-lg border border-red-100 max-w-md"><AlertCircle className="w-5 h-5" /><p className="text-sm font-bold">{error}</p></div>}
 
@@ -366,7 +482,7 @@ const HomePage: React.FC<HomePageProps> = ({
 
             {/* 有结果：显示报告 */}
             {result && (
-              <div ref={resultRef} className="animate-fade-in space-y-6">
+              <div className="animate-fade-in space-y-6">
                 {/* 失败提示 */}
                 {(hasFailedAgents || hasEmptyKLine) && !loading && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between">
@@ -393,7 +509,7 @@ const HomePage: React.FC<HomePageProps> = ({
                     <button onClick={() => setRightPanelOpen(!rightPanelOpen)} className={`flex items-center gap-1.5 px-3 py-2 border rounded-lg text-sm font-medium transition-all ${rightPanelOpen ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                       {rightPanelOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />} 详细分析
                     </button>
-                    <SharePanel userName={userName} resultRef={resultRef} shareUrl={shareUrl} onShareSuccess={() => refreshUserInfo()} />
+                    <SharePanel userName={userName} resultRef={resultRef} captureElementId="share-report-content" shareUrl={shareUrl} onShareSuccess={() => refreshUserInfo()} />
                     <button onClick={handlePrint} className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm"><Printer className="w-4 h-4" /> PDF</button>
                     <button onClick={handleSaveHtml} className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm"><Download className="w-4 h-4" /> 网页</button>
                     <button onClick={handleNewCalculation} className="flex items-center gap-1.5 px-3 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg text-sm">← 重新排盘</button>
@@ -401,6 +517,7 @@ const HomePage: React.FC<HomePageProps> = ({
                 </div>
 
                 {/* K线图 */}
+                <div ref={resultRef} id="share-report-content" className="space-y-6">
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-1 h-6 bg-indigo-600 rounded-full"></div>
@@ -423,6 +540,7 @@ const HomePage: React.FC<HomePageProps> = ({
 
                 {/* 内联分析报告（右侧面板关闭时显示） */}
                 {!rightPanelOpen && <section id="analysis-result-container"><Suspense fallback={<LoadingFallback />}><AnalysisResult analysis={result.analysis} /></Suspense></section>}
+                </div>
               </div>
             )}
           </div>

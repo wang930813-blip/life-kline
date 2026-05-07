@@ -194,6 +194,48 @@ const getAuthedUser = (req) => {
   }
 };
 
+const requireAnalysisUser = (req, res) => {
+  const info = getAuthedUser(req);
+  if (!info) {
+    res.status(401).json({
+      error: 'LOGIN_REQUIRED',
+      message: '请先登录后再填写表单并生成分析。',
+    });
+    return null;
+  }
+  if (info.user.points < COST_PER_ANALYSIS) {
+    res.status(402).json({ error: 'INSUFFICIENT_POINTS', points: info.user.points });
+    return null;
+  }
+  return info;
+};
+
+const requireAnalysisUserSSE = (req, res) => {
+  const info = getAuthedUser(req);
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  if (!info) {
+    res.write('event: error\n');
+    res.write(`data: ${JSON.stringify({
+      error: 'LOGIN_REQUIRED',
+      message: '请先登录后再填写表单并生成分析。',
+    })}\n\n`);
+    res.end();
+    return null;
+  }
+
+  if (info.user.points < COST_PER_ANALYSIS) {
+    res.write('event: error\n');
+    res.write(`data: ${JSON.stringify({ error: 'INSUFFICIENT_POINTS', points: info.user.points })}\n\n`);
+    res.end();
+    return null;
+  }
+
+  return info;
+};
+
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 // 绔欑偣閰嶇疆 API - 杩斿洖鍓嶇鍙敤鐨勭珯鐐归厤缃?
@@ -306,23 +348,13 @@ app.get('/api/history/:id', requireAuth(JWT_SECRET), (req, res) => {
 
 // 鏂板娴佸紡鍒嗘瀽绔偣 (鍘熺増鍗曟ā鍨?
 app.post('/api/analyze-stream', async (req, res) => {
-  const body = req.body || {};
   const useCustomApi = false;
-
   let authedInfo = null;
 
   if (!useCustomApi) {
-    let info = getAuthedUser(req);
-
-    if (info) {
-      authedInfo = info;
-      if (info.user.points < COST_PER_ANALYSIS) {
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.write(`event: error\n`);
-        res.write(`data: ${JSON.stringify({ error: 'INSUFFICIENT_POINTS', points: info.user.points })}\n\n`);
-        return res.end();
-      }
-    }
+    const info = requireAnalysisUserSSE(req, res);
+    if (!info) return;
+    authedInfo = info;
   }
 
   req.__authedInfo = authedInfo;
@@ -331,23 +363,13 @@ app.post('/api/analyze-stream', async (req, res) => {
 
 // 鏂板骞惰鍒嗘瀽绔偣 (6涓狝gent骞惰 + 缂撳瓨)
 app.post('/api/analyze-parallel', async (req, res) => {
-  const body = req.body || {};
   const useCustomApi = false;
-
   let authedInfo = null;
 
   if (!useCustomApi) {
-    let info = getAuthedUser(req);
-
-    if (info) {
-      authedInfo = info;
-      if (info.user.points < COST_PER_ANALYSIS) {
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.write(`event: error\n`);
-        res.write(`data: ${JSON.stringify({ error: 'INSUFFICIENT_POINTS', points: info.user.points })}\n\n`);
-        return res.end();
-      }
-    }
+    const info = requireAnalysisUserSSE(req, res);
+    if (!info) return;
+    authedInfo = info;
   }
 
   req.__authedInfo = authedInfo;
@@ -357,23 +379,13 @@ app.post('/api/analyze-parallel', async (req, res) => {
 // 鏂板缁熶竴鍒嗘瀽绔偣 (鍗旳gent妯″紡 + 缂撳瓨)
 // 浼樺娍锛欰PI璋冪敤娆℃暟鍑忓皯83%锛?娆♀啋1娆★級锛屾垚鏈樉钁楅檷浣?
 app.post('/api/analyze-unified', async (req, res) => {
-  const body = req.body || {};
   const useCustomApi = false;
-
   let authedInfo = null;
 
   if (!useCustomApi) {
-    let info = getAuthedUser(req);
-
-    if (info) {
-      authedInfo = info;
-      if (info.user.points < COST_PER_ANALYSIS) {
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.write(`event: error\n`);
-        res.write(`data: ${JSON.stringify({ error: 'INSUFFICIENT_POINTS', points: info.user.points })}\n\n`);
-        return res.end();
-      }
-    }
+    const info = requireAnalysisUserSSE(req, res);
+    if (!info) return;
+    authedInfo = info;
   }
 
   req.__authedInfo = authedInfo;
@@ -415,17 +427,9 @@ app.post('/api/analyze', async (req, res) => {
   };
 
   if (!useCustomApi) {
-    let info = getAuthedUser(req);
-
-    // 鍏佽鏈櫥褰曠敤鎴峰厤璐逛綋楠岋紙娓稿妯″紡锛?
-    if (info) {
-      authedInfo = info;
-      // 宸茬櫥褰曠敤鎴锋鏌ョН鍒?
-      if (info.user.points < COST_PER_ANALYSIS) {
-        return res.status(402).json({ error: 'INSUFFICIENT_POINTS', points: info.user.points });
-      }
-    }
-    // 鏈櫥褰曠敤鎴峰彲浠ュ厤璐逛綋楠屼竴娆★紙娓稿妯″紡锛屼笉鎵ｇ偣锛?
+    const info = requireAnalysisUser(req, res);
+    if (!info) return;
+    authedInfo = info;
 
     apiBaseUrl = DEFAULT_API_BASE_URL;
     apiKey = DEFAULT_API_KEY;

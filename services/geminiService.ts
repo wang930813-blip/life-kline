@@ -23,6 +23,11 @@ export interface ParallelAnalysisCallbacks {
   onCacheHit?: () => void;
 }
 
+const normalizeAgentType = (agentType: string): AgentType => {
+  if (agentType === 'kline_past' || agentType === 'kline_future') return 'kline';
+  return agentType as AgentType;
+};
+
 /**
  * 使用SSE流式获取分析结果，提供实时进度反馈
  * 主要API - 支持长时间请求（通过心跳保活）
@@ -247,15 +252,16 @@ export const generateParallelAnalysis = async (
             if (event === 'progress') {
               callbacks?.onProgress?.(data.message);
             } else if (event.startsWith('agent_') && event.endsWith('_complete')) {
-              const agentType = event.replace('agent_', '').replace('_complete', '') as AgentType;
+              const rawAgentType = event.replace('agent_', '').replace('_complete', '');
+              const agentType = normalizeAgentType(rawAgentType);
               callbacks?.onAgentUpdate?.(agentType, {
                 status: 'completed',
-                data: data.data,
+                data: { ...(data.data || {}), agentPart: rawAgentType },
                 elapsed: data.elapsed,
                 model: data.model,
               });
             } else if (event.startsWith('agent_') && event.endsWith('_error')) {
-              const agentType = event.replace('agent_', '').replace('_error', '') as AgentType;
+              const agentType = normalizeAgentType(event.replace('agent_', '').replace('_error', ''));
               callbacks?.onAgentUpdate?.(agentType, {
                 status: 'failed',
                 error: data.error,

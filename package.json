@@ -22,6 +22,8 @@
     "start": "node server/index.js",
     "design:use": "node scripts/use-design-md.js",
     "verify:oriental-theme": "node scripts/verify-oriental-theme.js",
+    "verify:seed-content": "node scripts/validate-seed-content.js",
+    "seed:content": "node scripts/seed-production-content.js",
     "generate-content": "node scripts/generate-content.js",
     "import-content": "node scripts/import-content.js",
     "seed-cases": "node scripts/seed-cases.js",
