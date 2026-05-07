@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Gender } from '../types';
 import { Calendar, Clock, Zap, Sparkles, Info } from 'lucide-react';
 import LocationSelector, { LocationData } from './LocationSelector';
@@ -55,6 +55,7 @@ const SmartBaziInput: React.FC<SmartBaziInputProps> = ({ onBaziCalculated, gende
   const [calculatedBazi, setCalculatedBazi] = useState<any>(null);
   const [error, setError] = useState('');
   const [showTrueSolarInfo, setShowTrueSolarInfo] = useState(false);
+  const lastCalculatedKeyRef = useRef('');
 
   const getSelectableDaysInMonth = useCallback((year: number, month: number) => {
     if (calendarMode === 'solar' || !Lunar) {
@@ -159,8 +160,22 @@ const SmartBaziInput: React.FC<SmartBaziInputProps> = ({ onBaziCalculated, gende
         trueSolarTime,
       };
 
+      const nextCalculatedKey = JSON.stringify({
+        birthPlace: baziData.birthPlace,
+        birthYear: baziData.birthYear,
+        yearPillar: baziData.yearPillar,
+        monthPillar: baziData.monthPillar,
+        dayPillar: baziData.dayPillar,
+        hourPillar: baziData.hourPillar,
+        startAge: baziData.startAge,
+        firstDaYun: baziData.firstDaYun,
+      });
+
       setCalculatedBazi(baziData);
-      onBaziCalculated(baziData);
+      if (lastCalculatedKeyRef.current !== nextCalculatedKey) {
+        lastCalculatedKeyRef.current = nextCalculatedKey;
+        onBaziCalculated(baziData);
+      }
     } catch (err: any) {
       setError(`计算八字时出错: ${err.message}`);
       console.error(err);

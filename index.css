@@ -111,6 +111,33 @@
     bottom: 0.35rem;
   }
 
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    border-top: 1px solid var(--border-ink);
+    border-radius: 0.75rem 0.75rem 0 0;
+    background:
+      linear-gradient(90deg, rgb(168 50 42 / 0.07), transparent 14%, transparent 86%, rgb(168 50 42 / 0.07)),
+      rgb(251 247 234 / 0.96);
+    box-shadow: 0 -14px 30px rgb(45 35 22 / 0.16), inset 0 1px 0 rgb(255 250 240 / 0.7);
+    backdrop-filter: blur(12px);
+  }
+
+  .mobile-bottom-nav::before {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgb(18 60 67 / 0.18), transparent);
+    pointer-events: none;
+  }
+
   .bamboo-card {
     position: relative;
     border: 1px solid rgb(95 115 86 / 0.35);

@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { UserInput, Gender } from '../types';
 import { Loader2, Sparkles, AlertCircle, TrendingUp, Settings, Zap, Edit3 } from 'lucide-react';
 import SmartBaziInput from './SmartBaziInput';
@@ -88,7 +88,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
     }
   };
 
-  const handleBaziCalculated = (baziData: any) => {
+  const handleBaziCalculated = useCallback((baziData: any) => {
     setFormData((prev) => ({
       ...prev,
       birthPlace: baziData.birthPlace || prev.birthPlace,
@@ -100,7 +100,7 @@ const BaziForm: React.FC<BaziFormProps> = ({ onSubmit, isLoading, isLoggedIn }) 
       startAge: baziData.startAge,
       firstDaYun: baziData.firstDaYun,
     }));
-  };
+  }, []);
 
   // 自动计算大运信息（手动输入模式下）
   useEffect(() => {

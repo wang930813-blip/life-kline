@@ -9,8 +9,8 @@ interface MobileNavProps {
 const MobileNav: React.FC<MobileNavProps> = ({ isLoggedIn = false }) => {
   const location = useLocation();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 scroll-panel border-t border-[var(--border-ink)] z-50 md:hidden">
-      <div className="flex items-center justify-around px-2 py-2">
+    <nav className="mobile-bottom-nav md:hidden" aria-label="底部导航">
+      <div className="flex items-center justify-around gap-1 px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
         {/* Home */}
         <NavLink
           to="/"

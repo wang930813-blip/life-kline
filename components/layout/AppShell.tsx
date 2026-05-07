@@ -176,11 +176,11 @@ const AppShell: React.FC<AppShellProps> = ({
 
       {/* Mobile: Single column with bottom nav */}
       <div className="md:hidden scroll-unfurl">
-        <main className="pb-20">
+        <main className="pb-[calc(6rem+env(safe-area-inset-bottom))]">
           <Outlet />
         </main>
-        <MobileNav isLoggedIn={isLoggedIn} />
       </div>
+      <MobileNav isLoggedIn={isLoggedIn} />
     </div>
   );
 };

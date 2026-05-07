@@ -109,7 +109,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-[minmax(7.5rem,1.2fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2">
         <div className="relative">
           <button
             type="button"
@@ -119,21 +119,21 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
               setShowDayPicker(false);
               if (year) setYearDecade(Math.floor(year / 10) * 10);
             }}
-            className={`w-full px-3 py-2.5 border rounded-xl text-left flex items-center justify-between transition-colors ${
+            className={`w-full min-h-[4.25rem] px-3 py-2.5 border rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${
               showYearPicker ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-indigo-200 hover:border-indigo-300'
             } bg-white`}
           >
-            <div className="min-w-0">
-              <span className={year ? 'text-gray-800 font-medium' : 'text-gray-400'}>
+            <div className="min-w-0 flex flex-col gap-1">
+              <span className={`block truncate ${year ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
                 {year ? `${year}年` : '年'}
               </span>
               {yearInfo && (
-                <span className="ml-1 text-xs text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">
+                <span className="inline-flex w-fit max-w-full whitespace-nowrap text-xs text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">
                   {yearInfo.zodiac}年
                 </span>
               )}
             </div>
-            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showYearPicker ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${showYearPicker ? 'rotate-180' : ''}`} />
           </button>
 
           {showYearPicker && (
@@ -221,15 +221,15 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
               setShowYearPicker(false);
               setShowDayPicker(false);
             }}
-            className={`w-full px-3 py-2.5 border rounded-xl text-left flex items-center justify-between transition-colors ${
+            className={`w-full min-h-[4.25rem] px-3 py-2.5 border rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${
               showMonthPicker ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-indigo-200 hover:border-indigo-300'
             } bg-white ${!year ? 'opacity-60' : ''}`}
             disabled={!year}
           >
-            <span className={month ? 'text-gray-800 font-medium' : 'text-gray-400'}>
+            <span className={`truncate ${month ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
               {month ? `${month}月` : '月'}
             </span>
-            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showMonthPicker ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${showMonthPicker ? 'rotate-180' : ''}`} />
           </button>
 
           {showMonthPicker && year && (
@@ -260,15 +260,15 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
               setShowYearPicker(false);
               setShowMonthPicker(false);
             }}
-            className={`w-full px-3 py-2.5 border rounded-xl text-left flex items-center justify-between transition-colors ${
+            className={`w-full min-h-[4.25rem] px-3 py-2.5 border rounded-xl text-left flex items-center justify-between gap-2 transition-colors ${
               showDayPicker ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-indigo-200 hover:border-indigo-300'
             } bg-white ${!year || !month ? 'opacity-60' : ''}`}
             disabled={!year || !month}
           >
-            <span className={day ? 'text-gray-800 font-medium' : 'text-gray-400'}>
+            <span className={`truncate ${day ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
               {day ? `${day}日` : '日'}
             </span>
-            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showDayPicker ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${showDayPicker ? 'rotate-180' : ''}`} />
           </button>
 
           {showDayPicker && year && month && (
